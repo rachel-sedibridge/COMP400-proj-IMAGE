@@ -39,24 +39,51 @@ class Layer:
             self.vert_sounds = []
 
     def play_base(self):
-        dsc = vlc.MediaPlayer(self.base_dsc)
-        ping = vlc.MediaPlayer(self.base_ping) if self.base_ping else ''
-        dsc.play()
-        if ping:
-            ping.play()
+        instance = vlc.Instance()
+        media_list = vlc.MediaList()
+        media_list.add_media(self.base_dsc)
+        # don't add ping if not included
+        if self.base_ping:
+            media_list.add_media(self.base_ping)
+        # set up player to play
+        list_player = instance.media_list_player_new()
+        list_player.set_media_list(media_list)
+        # play any clips added, sequentially
+        list_player.play()
+
+        # dsc = vlc.MediaPlayer(self.base_dsc)
+        # ping = vlc.MediaPlayer(self.base_ping) if self.base_ping else ''
+        # dsc.play()
+        # if ping:
+        #     ping.play()
 
     def play_vertical(self):
         if self.vert_sounds:
             self.norm_vert_counter()
             mp3_tuple = self.vert_sounds[self.vert_counter]
-            dsc = vlc.MediaPlayer(mp3_tuple[0])
-            ping = vlc.MediaPlayer(mp3_tuple[1]) if mp3_tuple[1] else ''
-        else: # defaults (dsc = 'no vertical layer', no ping)
-            dsc = vlc.MediaPlayer(NO_VERTICAL)
-            ping = ''
-        dsc.play()
-        if ping:
-            ping.play()
+            instance = vlc.Instance()
+            media_list = vlc.MediaList()
+            # add description at right level, ping if applicable
+            media_list.add_media(mp3_tuple[0])
+            if mp3_tuple[1]:
+                media_list.add_media(mp3_tuple[1])
+            # set up player to play
+            list_player = instance.media_list_player_new()
+            list_player.set_media_list(media_list)
+            # play clips, sequentially if incl. ping
+            list_player.play()
+
+        # if self.vert_sounds:
+        #     self.norm_vert_counter()
+        #     mp3_tuple = self.vert_sounds[self.vert_counter]
+        #     dsc = vlc.MediaPlayer(mp3_tuple[0])
+        #     ping = vlc.MediaPlayer(mp3_tuple[1]) if mp3_tuple[1] else ''
+        # else: # defaults (dsc = 'no vertical layer', no ping)
+        #     dsc = vlc.MediaPlayer(NO_VERTICAL)
+        #     ping = ''
+        # dsc.play()
+        # if ping:
+        #     ping.play()
 
     def norm_vert_counter(self):
         if self.vert_counter >= len(self.vert_sounds):
