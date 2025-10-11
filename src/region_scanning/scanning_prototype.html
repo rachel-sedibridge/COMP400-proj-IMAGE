@@ -2,7 +2,10 @@
 <html>
 <body>
 
-<h2>Demo External JavaScript</h2>
+<h2>Demo - vertical scanning over image</h2>
+
+<img src="photos/test-nature_photography.avif"
+alt="Wildebeest jumping into river, lots of spray in the background. Photo is greyscale and very cinematic.">
 
 <p id="demo">A Paragraph.</p>
 
@@ -11,6 +14,18 @@
 
 <p>This example links to "scanning_prototype.js".</p>
 <p>(myFunction is stored in "scanning_prototype.js")</p>
+
+<!-- <form> -->
+  <input type="checkbox" id="sky" name="sky" value="Sky">
+  <label for="sky"> Sky</label><br>
+  <input type="checkbox" id="water" name="water" value="Water">
+  <label for="water"> Water</label><br>
+  <input type="checkbox" id="animal" name="animal" value="Animal">
+  <label for="animal"> Animal</label><br>
+  <input type="checkbox" id="ground" name="ground" value="Ground">
+  <label for="ground"> Ground</label><br><br>
+  <input type="submit" onclick="pressedPlay()" value="Play">
+<!-- </form> -->
 
 <script src="scanning_prototype.js"></script>
 
