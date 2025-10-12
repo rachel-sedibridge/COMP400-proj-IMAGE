@@ -24,12 +24,6 @@ function pauseAudio() {
     audio.pause()
 }
 
-function toggle(source) {
-  checkboxes = document.getElementsByName("region");
-  for(var checkbox in checkboxes)
-    checkboxes[checkbox].checked = source.checked;
-}
-
 function pressedPlay() {
     if (document.getElementById("sky").checked) 
         console.log("'sky' checked");
@@ -37,6 +31,7 @@ function pressedPlay() {
         console.log("'sky' not checked");
 }
 
+// event listeners for play/pause individual sound playback
 sky_play_pause.addEventListener("click", (e) => {
   if (sky_eg.paused || sky_eg.ended) {
     sky_eg.play();
@@ -66,6 +61,14 @@ ground_play_pause.addEventListener("click", (e) => {
   }
 });
 
+// toggle all checkboxes w/ "All"
+function toggle(source) {
+  checkboxes = document.getElementsByName("region");
+  for(var checkbox in checkboxes)
+    checkboxes[checkbox].checked = source.checked;
+}
+
+// toggle display of instructions
 function toggleText() {
   var text = document.getElementById("instructions");
   if (text.style.display === "none") {
