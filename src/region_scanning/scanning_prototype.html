@@ -14,6 +14,10 @@
 alt="Wildebeest jumping into river, lots of spray in the background. 
 Photo is greyscale and very cinematic."><br/>
 
+
+<button type="button" onclick="pressedPlay()" class="play-button">Play/Pause Sonification</button>
+<br>
+
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
 <p id='instructions' style='display: none'>
   Each of the regions in this image has an associated sound. Imagine a bar scanning 
@@ -37,6 +41,22 @@ Photo is greyscale and very cinematic."><br/>
   Click the "Hear [sound] alone" button for each region to play/pause its associated
   sound, alone and unedited.
 </p>
+
+
+<input type="checkbox" onClick="toggle(this)" checked> All<br>
+<input type="checkbox" id="sky" name="region" value="Sky" checked>
+<label for="sky"> Sky</label>
+<button type="button" id="sky-play-pause" onclick="playAudio(this)" class="solo-sound blue">Hear sky alone</button><br>
+<input type="checkbox" id="water" name="region" value="Water" checked>
+<label for="water"> Water</label>
+<button type="button" id="water-play-pause" onclick="playAudio(this)" class="solo-sound orange">Hear water alone</button><br>
+<input type="checkbox" id="animal" name="region" value="Animal" checked>
+<label for="animal"> Animal</label>
+<button type="button" id="animal-play-pause" onclick="playAudio(this)" class="solo-sound blue">Hear animal alone</button><br>
+<input type="checkbox" id="ground" name="region" value="Ground" checked>
+<label for="ground"> Ground</label>
+<button type="button" id="ground-play-pause" onclick="playAudio(this)" class="solo-sound orange">Hear ground alone</button><br>
+
 
 
 <!-- <h3>Instructions</h3>
@@ -82,22 +102,6 @@ Photo is greyscale and very cinematic."><br/>
 <label for="ground"> Ground</label><br>
 <audio controls class="sample" src="audio_tracks/scanning-example_tone-ground.mp3"></audio><br>
 <input type="button" onclick="pressedPlay()" value="Play/Pause"> -->
-
-<input type="checkbox" onClick="toggle(this)"> All<br>
-<input type="checkbox" id="sky" name="region" value="Sky">
-<label for="sky"> Sky</label>
-<button type="button" id="sky-play-pause" onclick="playAudio(this)" class="solo-sound">Hear sky alone</button><br>
-<input type="checkbox" id="water" name="region" value="Water">
-<label for="water"> Water</label>
-<button type="button" id="water-play-pause" onclick="playAudio(this)" class="solo-sound">Hear water alone</button><br>
-<input type="checkbox" id="animal" name="region" value="Animal">
-<label for="animal"> Animal</label>
-<button type="button" id="animal-play-pause" onclick="playAudio(this)" class="solo-sound">Hear animal alone</button><br>
-<input type="checkbox" id="ground" name="region" value="Ground">
-<label for="ground"> Ground</label>
-<button type="button" id="ground-play-pause" onclick="playAudio(this)" class="solo-sound">Hear ground alone</button><br>
-
-<input type="button" onclick="pressedPlay()" value="Play/Pause">
 
 
 <!-- <figure>

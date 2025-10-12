@@ -15,15 +15,31 @@
     /* text-overflow: ellipsis; */
     /* border: none; */
     cursor: pointer;
-    background-color: aqua;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
+.blue {
+    background-color: aqua;
+}
+
+.orange {
+    background-color: orange;
+}
+
 .instruction-button {
+    margin: 8px 0px 8px 24px;
+    font-size: medium;
+    text-align: center;
+    cursor: pointer;
+    border-width: 3px;
+    /* background-color: yellow; */
+}
+
+.play-button {
     margin: 16px 0px 16px 24px;
-    font-size: larger;
+    font-size: large;
     text-align: center;
     cursor: pointer;
     border-width: 3px;
