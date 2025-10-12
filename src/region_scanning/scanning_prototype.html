@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="scanning_prototype.css"/>
+  <title>Vertical scanning image sonification - demo</title>
 </head>
+<script src="scanning_prototype.js"></script>
+<link rel="stylesheet" type="text/css" href="scanning_prototype.css"/>
 
 <body>
 
@@ -11,6 +13,54 @@
 <img src="photos/test-nature_photography.avif"
 alt="Wildebeest jumping into river, lots of spray in the background. 
 Photo is greyscale and very cinematic."><br/>
+
+<button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
+<p id='instructions' style='display: none'>
+  Each of the regions in this image has an associated sound. Imagine a bar scanning 
+  over the image from bottom to top, and playing the associated sound of the regions 
+  in proportion to how much of the picture at the bar's location is taken up by that 
+  region.
+  <br>
+  <span style="margin-left: 1rem;">e.g. If the sound for "water" and the sound for 
+    "rock" are playing at equal volumes, the image at that height is about half 
+    water and half rock.
+  </span>
+  <br>
+  <span style="margin-left: 1rem;">e.g. If a sound plays for the first quarter of 
+    the total sonification and then disappears, that region is only present in the 
+    bottom quarter of the image
+  </span>
+</p>
+<p>
+  The selected regions below will appear in the sonification.
+  <br>
+  Click the "Hear [sound] alone" button for each region to play/pause its associated
+  sound, alone and unedited.
+</p>
+
+
+<!-- <h3>Instructions</h3>
+<p id="instructions">
+  Each of the regions in this image has an associated sound. Imagine a bar scanning 
+  over the image from bottom to top, and playing the associated sound of the regions 
+  in proportion to how much of the picture at the bar's location is taken up by that 
+  region.
+  <br>
+  <span style="margin-left: 1rem;">e.g. If the sound for "water" and the sound for 
+    "rock" are playing at equal volumes, the image at that height is about half 
+    water and half rock.
+  </span>
+  <br>
+  <span style="margin-left: 1rem;">e.g. If a sound plays for the first quarter of 
+    the total sonification and then disappears, that region is only present in the 
+    bottom quarter of the image
+  </span>
+  <br>
+  Click the "Hear [sound] alone" button for each region to hear 
+  the unedited sound used to represent it. Click the button again to stop playback.
+  <br>
+  The selected regions below will appear in the sonification.
+</p> -->
 
 <!-- <p id="demo">A Paragraph.</p>
 
@@ -33,31 +83,29 @@ Photo is greyscale and very cinematic."><br/>
 <audio controls class="sample" src="audio_tracks/scanning-example_tone-ground.mp3"></audio><br>
 <input type="button" onclick="pressedPlay()" value="Play/Pause"> -->
 
-<span style="padding: 20px 0px 20px;">
+<input type="checkbox" onClick="toggle(this)"> All<br>
 <input type="checkbox" id="sky" name="region" value="Sky">
 <label for="sky"> Sky</label>
-<button type="button" id="sky-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<button type="button" id="sky-play-pause" onclick="playAudio(this)" class="solo-sound">Hear sky alone</button><br>
 <input type="checkbox" id="water" name="region" value="Water">
 <label for="water"> Water</label>
-<button type="button" id="water-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<button type="button" id="water-play-pause" onclick="playAudio(this)" class="solo-sound">Hear water alone</button><br>
 <input type="checkbox" id="animal" name="region" value="Animal">
 <label for="animal"> Animal</label>
-<button type="button" id="animal-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<button type="button" id="animal-play-pause" onclick="playAudio(this)" class="solo-sound">Hear animal alone</button><br>
 <input type="checkbox" id="ground" name="region" value="Ground">
 <label for="ground"> Ground</label>
-<button type="button" id="ground-play-pause" onclick="playAudio(this)" class="play-pause" style="margin-bottom: 16px;">Hear sound alone</button><br>
-<input type="checkbox" onClick="toggle(this)" /> All<br/><br>
+<button type="button" id="ground-play-pause" onclick="playAudio(this)" class="solo-sound">Hear ground alone</button><br>
+
 <input type="button" onclick="pressedPlay()" value="Play/Pause">
-</span>
 
-<script src="scanning_prototype.js"></script>
 
-<figure>
+<!-- <figure>
   <figcaption>Listen to the full render:</figcaption>
   <audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio>
 </figure>
 
-<audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio>
+<audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio> -->
 
 </body>
 </html>

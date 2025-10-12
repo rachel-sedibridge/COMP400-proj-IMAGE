@@ -65,3 +65,12 @@ ground_play_pause.addEventListener("click", (e) => {
     ground_eg.pause();
   }
 });
+
+function toggleText() {
+  var text = document.getElementById("instructions");
+  if (text.style.display === "none") {
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}

@@ -6,17 +6,26 @@
     padding-left: 1rem;
 }
 
-.play-pause {
+.solo-sound {
     /* background-image: url("photos/play-solid-full.svg"); */
     margin: 8px 5px;
     text-align: center;
     /* overflow: hidden; */
     /* white-space: nowrap; */
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     /* border: none; */
     cursor: pointer;
-    /* background-color: transparent; */
+    background-color: aqua;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.instruction-button {
+    margin: 16px 0px 16px 24px;
+    font-size: larger;
+    text-align: center;
+    cursor: pointer;
+    border-width: 3px;
+    background-color: yellow;
 }
