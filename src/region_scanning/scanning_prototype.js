@@ -17,7 +17,7 @@ function playAudio(region) {
     // switch(region) {
     //     case "sky":
     // }
-    audio.play();
+    // sky_eg.play();
 }
 
 function pauseAudio() {
