@@ -1,0 +1,22 @@
+.sample {
+    display: block;
+    height: 1.5rem;
+    width: 15rem;
+    margin: 5px;
+    padding-left: 1rem;
+}
+
+.play-pause {
+    /* background-image: url("photos/play-solid-full.svg"); */
+    margin: 8px 5px;
+    text-align: center;
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+    /* border: none; */
+    cursor: pointer;
+    /* background-color: transparent; */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

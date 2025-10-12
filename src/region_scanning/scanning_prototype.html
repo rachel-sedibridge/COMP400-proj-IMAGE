@@ -1,38 +1,63 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" type="text/css" href="scanning_prototype.css"/>
+</head>
+
 <body>
 
 <h2>Demo - vertical scanning over image</h2>
 
 <img src="photos/test-nature_photography.avif"
-alt="Wildebeest jumping into river, lots of spray in the background. Photo is greyscale and very cinematic.">
+alt="Wildebeest jumping into river, lots of spray in the background. 
+Photo is greyscale and very cinematic."><br/>
 
-<p id="demo">A Paragraph.</p>
+<!-- <p id="demo">A Paragraph.</p>
 
 <button type="button" onclick="playAudio()">Try it</button>
-<button type="button" onclick="pauseAudio()">Stop it</button>
+<button type="button" onclick="pauseAudio()">Stop it</button> -->
 
-<p>This example links to "scanning_prototype.js".</p>
-<p>(myFunction is stored in "scanning_prototype.js")</p>
+<!-- Full audio control blocks under/indented each element-->
+<!-- <input type="checkbox" onClick="toggle(this)" /> All<br/>
+<input type="checkbox" id="sky" name="region" value="Sky">
+<label for="sky"> Sky</label>
+<audio controls class="sample" src="audio_tracks/scanning-example_tone-sky-short.mp3"></audio>
+<input type="checkbox" id="water" name="region" value="Water">
+<label for="water"> Water</label><br>
+<audio controls class="sample" src="audio_tracks/scanning-example_tone-water.mp3"></audio>
+<input type="checkbox" id="animal" name="region" value="Animal">
+<label for="animal"> Animal</label><br>
+<audio controls class="sample" src="audio_tracks/scanning-example_tone-animal-short.mp3"></audio>
+<input type="checkbox" id="ground" name="region" value="Ground">
+<label for="ground"> Ground</label><br>
+<audio controls class="sample" src="audio_tracks/scanning-example_tone-ground.mp3"></audio><br>
+<input type="button" onclick="pressedPlay()" value="Play/Pause"> -->
 
-<!-- <form> -->
-  <input type="checkbox" id="sky" name="sky" value="Sky">
-  <label for="sky"> Sky</label><br>
-  <input type="checkbox" id="water" name="water" value="Water">
-  <label for="water"> Water</label><br>
-  <input type="checkbox" id="animal" name="animal" value="Animal">
-  <label for="animal"> Animal</label><br>
-  <input type="checkbox" id="ground" name="ground" value="Ground">
-  <label for="ground"> Ground</label><br><br>
-  <input type="submit" onclick="pressedPlay()" value="Play">
-<!-- </form> -->
+<span style="padding: 20px 0px 20px;">
+<input type="checkbox" id="sky" name="region" value="Sky">
+<label for="sky"> Sky</label>
+<button type="button" id="sky-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<input type="checkbox" id="water" name="region" value="Water">
+<label for="water"> Water</label>
+<button type="button" id="water-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<input type="checkbox" id="animal" name="region" value="Animal">
+<label for="animal"> Animal</label>
+<button type="button" id="animal-play-pause" onclick="playAudio(this)" class="play-pause">Hear sound alone</button><br>
+<input type="checkbox" id="ground" name="region" value="Ground">
+<label for="ground"> Ground</label>
+<button type="button" id="ground-play-pause" onclick="playAudio(this)" class="play-pause" style="margin-bottom: 16px;">Hear sound alone</button><br>
+<input type="checkbox" onClick="toggle(this)" /> All<br/><br>
+<input type="button" onclick="pressedPlay()" value="Play/Pause">
+</span>
 
 <script src="scanning_prototype.js"></script>
 
 <figure>
   <figcaption>Listen to the full render:</figcaption>
-  <audio controls src="audio_tracks/scanning-full_render-vertical.mp3"></audio>
+  <audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio>
 </figure>
+
+<audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio>
 
 </body>
 </html>
