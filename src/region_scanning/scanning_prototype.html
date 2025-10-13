@@ -20,9 +20,9 @@ Photo is greyscale and very cinematic."><br/>
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
 <p id='instructions' style='display: none'>
   Each of the regions in this image has an associated sound. Imagine a bar scanning 
-  over the image from bottom to top, and playing the associated sound of the regions 
-  in proportion to how much of the picture at the bar's location is taken up by that 
-  region.
+  over the image from bottom to top: the sound of a region plays when that region is
+  present under that bar. The volume of the sound is proportional to how much of image
+  it takes up under that bar.
   <br>
   <span style="margin-left: 1rem;">e.g. If the sound for "water" and the sound for 
     "rock" are playing at equal volumes, the image at that height is about half 
@@ -37,8 +37,7 @@ Photo is greyscale and very cinematic."><br/>
 <p>
   The selected regions below will appear in the sonification.
   <br>
-  Click the "Hear [sound] alone" button for each region to play/pause its associated
-  sound, alone and unedited.
+  Click the "Hear [sound] alone" button for a region to play its associated sound alone.
 </p>
 
 
