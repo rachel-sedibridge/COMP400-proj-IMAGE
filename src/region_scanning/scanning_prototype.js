@@ -1,68 +1,90 @@
-const sky_vert_scan = new Audio('audio_tracks/sky-vertical_scan-w.mp3');
-const water_vert_scan = new Audio('audio_tracks/water-vertical_scan-w.mp3');
-const animal_vert_scan = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
-const ground_vert_scan = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
+const sky_real_ping = new Audio('audio_tracks/sky-vertical_scan-w.mp3');
+const water_real_ping = new Audio('audio_tracks/water-vertical_scan-w.mp3');
+const animal_real_ping = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
+const ground_real_ping = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
 
-const sky_eg = new Audio('audio_tracks/scanning-example_tone-sky-short.mp3');
-const water_eg = new Audio('audio_tracks/scanning-example_tone-water.mp3');
-const animal_eg = new Audio('audio_tracks/scanning-example_tone-animal-short.mp3');
-const ground_eg = new Audio('audio_tracks/scanning-example_tone-ground.mp3');
+const sky_eg_ping = new Audio('audio_tracks/scanning-example_tone-sky-short.mp3');
+const water_eg_ping = new Audio('audio_tracks/scanning-example_tone-water.mp3');
+const animal_eg_ping = new Audio('audio_tracks/scanning-example_tone-animal-short.mp3');
+const ground_eg_ping = new Audio('audio_tracks/scanning-example_tone-ground.mp3');
 
-const sky_play_pause = document.getElementById("sky-play-pause");
-const water_play_pause = document.getElementById("water-play-pause");
-const animal_play_pause = document.getElementById("animal-play-pause");
-const ground_play_pause = document.getElementById("ground-play-pause");
+const sky_play_button = document.getElementById("sky-play-pause");
+const water_play_button = document.getElementById("water-play-pause");
+const animal_play_button = document.getElementById("animal-play-pause");
+const ground_play_button = document.getElementById("ground-play-pause");
 
-function playAudio(region) {
-    // switch(region) {
-    //     case "sky":
-    // }
-    // sky_eg.play();
+const sky_checkbox = document.getElementById("sky-checkbox");
+const water_checkbox = document.getElementById("water-checkbox");
+const animal_checkbox = document.getElementById("animal-checkbox");
+const ground_checkbox = document.getElementById("ground-checkbox");
+
+var regions_to_play = {}
+
+
+function updateRegionsToPlay() {
+  regions_to_play = {
+    sky: [sky_real_ping, sky_checkbox.checked],
+    water: [water_real_ping, water_checkbox.checked],
+    animal: [animal_real_ping, animal_checkbox.checked],
+    ground: [ground_real_ping, ground_checkbox.checked]
+  }
 }
 
-function pauseAudio() {
-    audio.pause()
-}
-
-function pressedPlay() {
-    if (document.getElementById("sky").checked) 
-        console.log("'sky' checked");
-    else 
-        console.log("'sky' not checked");
+// play the sonification, checked elements only
+function sonify() {
+  console.log("sonifying!")
+  updateRegionsToPlay()
+  // if anything is playing, pause all
+  if (
+    (!sky_real_ping.paused && !sky_real_ping.ended)
+    || (!water_real_ping.paused && !water_real_ping.ended)
+    || (!animal_real_ping.paused && !animal_real_ping.ended)
+    || (!ground_real_ping.paused && !ground_real_ping.ended)
+  ) {
+    for (const [region, attrs] of Object.entries(regions_to_play))
+      attrs[0].pause() //AudioElement object
+  }
+  // else, play all checked
+  else {
+    for (const [region, attrs] of Object.entries(regions_to_play)) {
+      if (attrs[1]) //is checked
+        attrs[0].play() //AudioElement object
+    }
+  }
 }
 
 // event listeners for play/pause individual sound playback
-sky_play_pause.addEventListener("click", (e) => {
-  if (sky_eg.paused || sky_eg.ended) {
-    sky_eg.play();
+sky_play_button.addEventListener("click", (e) => {
+  if (sky_eg_ping.paused || sky_eg_ping.ended) {
+    sky_eg_ping.play();
   } else {
-    sky_eg.pause();
+    sky_eg_ping.pause();
   }
 });
-water_play_pause.addEventListener("click", (e) => {
-  if (water_eg.paused || water_eg.ended) {
-    water_eg.play();
+water_play_button.addEventListener("click", (e) => {
+  if (water_eg_ping.paused || water_eg_ping.ended) {
+    water_eg_ping.play();
   } else {
-    water_eg.pause();
+    water_eg_ping.pause();
   }
 });
-animal_play_pause.addEventListener("click", (e) => {
-  if (animal_eg.paused || animal_eg.ended) {
-    animal_eg.play();
+animal_play_button.addEventListener("click", (e) => {
+  if (animal_eg_ping.paused || animal_eg_ping.ended) {
+    animal_eg_ping.play();
   } else {
-    animal_eg.pause();
+    animal_eg_ping.pause();
   }
 });
-ground_play_pause.addEventListener("click", (e) => {
-  if (ground_eg.paused || ground_eg.ended) {
-    ground_eg.play();
+ground_play_button.addEventListener("click", (e) => {
+  if (ground_eg_ping.paused || ground_eg_ping.ended) {
+    ground_eg_ping.play();
   } else {
-    ground_eg.pause();
+    ground_eg_ping.pause();
   }
 });
 
 // toggle all checkboxes w/ "All"
-function toggle(source) {
+function toggleAll(source) {
   checkboxes = document.getElementsByName("region");
   for(var checkbox in checkboxes)
     checkboxes[checkbox].checked = source.checked;
