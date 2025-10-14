@@ -43,18 +43,19 @@ Photo is greyscale and very cinematic."><br/>
 </span>
 <br>
 
-<input type="checkbox" onClick="toggleAll(this)" checked> All<br>
+<input type="checkbox" id="all-checkbox" value="All" onClick="toggleAll(this)" checked>
+<label for="all-checkbox">All regions</label><br>
 <input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
-<label for="sky"> Sky</label>
+<label for="sky-checkbox">Sky</label>
 <button type="button" id="sky-play-pause" class="solo-sound blue">Hear sky alone</button><br>
 <input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
-<label for="water"> Water</label>
+<label for="water-checkbox">Water</label>
 <button type="button" id="water-play-pause" class="solo-sound orange">Hear water alone</button><br>
 <input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
-<label for="animal"> Animal</label>
+<label for="animal-checkbox">Animal</label>
 <button type="button" id="animal-play-pause" class="solo-sound blue">Hear animal alone</button><br>
 <input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
-<label for="ground"> Ground</label>
+<label for="ground-checkbox">Ground</label>
 <button type="button" id="ground-play-pause" class="solo-sound orange">Hear ground alone</button><br>
 
 
