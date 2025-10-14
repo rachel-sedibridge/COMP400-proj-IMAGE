@@ -92,10 +92,16 @@ function toggleAll(source) {
 
 // toggle display of instructions
 function toggleText() {
-  var text = document.getElementById("instructions");
-  if (text.style.display === "none") {
-    text.style.display = "block";
-  } else {
-    text.style.display = "none";
+  var all_inst = document.getElementsByName("instructions");
+  console.log(all_inst)
+  for (var all_inst[paragraph] in all_inst) {
+    console.log(all_inst[paragraph])
+    console.log(all_inst[paragraph].style)
+    console.log(all_inst[paragraph].name)
+    if (all_inst[paragraph].style.display === "none") {
+      all_inst[paragraph].style.display = "block";
+    } else {
+      all_inst[paragraph].style.display = "none";
+    }
   }
 }

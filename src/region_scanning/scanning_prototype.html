@@ -18,7 +18,7 @@ Photo is greyscale and very cinematic."><br/>
 <br>
 
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
-<p id='instructions' style='display: none'>
+<p name='instructions' style='display: none'>
   Each of the regions in this image has an associated sound. Imagine a bar scanning 
   over the image from bottom to top: the sound of a region plays when that region is
   present under that bar. The volume of the sound is proportional to how much of image
@@ -34,12 +34,12 @@ Photo is greyscale and very cinematic."><br/>
     bottom quarter of the image
   </span>
 </p>
-<p>
+<p name='instructions' style='display: none'>
   The selected regions below will appear in the sonification.
   <br>
   Click the "Hear [sound] alone" button for a region to play its associated sound alone.
 </p>
-
+<br>
 
 <input type="checkbox" onClick="toggleAll(this)" checked> All<br>
 <input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
