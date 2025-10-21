@@ -1,12 +1,19 @@
+const start_ping = new Audio('audio_tracks/start.mp3')
+const stop_ping = new Audio('audio_tracks/stop.mp3')
+
 const sky_real_ping = new Audio('audio_tracks/sky-vertical_scan-w.mp3');
 const water_real_ping = new Audio('audio_tracks/water-vertical_scan-w.mp3');
-const animal_real_ping = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
-const ground_real_ping = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
+const animal_real_ping = new Audio('audio_tracks/animal_gallop-vertical_scan-w.mp3');
+const ground_real_ping = new Audio('audio_tracks/ground_rocks-vertical_scan-w.mp3');
+// const animal_real_ping = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
+// const ground_real_ping = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
 
-const sky_eg_ping = new Audio('audio_tracks/scanning-example_tone-sky-short.mp3');
-const water_eg_ping = new Audio('audio_tracks/scanning-example_tone-water.mp3');
-const animal_eg_ping = new Audio('audio_tracks/scanning-example_tone-animal-short.mp3');
-const ground_eg_ping = new Audio('audio_tracks/scanning-example_tone-ground.mp3');
+const sky_eg_ping = new Audio('audio_tracks/example_tone-sky-short.mp3');
+const water_eg_ping = new Audio('audio_tracks/example_tone-water.mp3');
+const animal_eg_ping = new Audio('audio_tracks/example_tone-animal_gallop.mp3');
+const ground_eg_ping = new Audio('audio_tracks/example_tone-ground_rocks.mp3');
+// const animal_eg_ping = new Audio('audio_tracks/example_tone-animal-short.mp3');
+// const ground_eg_ping = new Audio('audio_tracks/example_tone-ground.mp3');
 
 const sky_play_button = document.getElementById("sky-play-pause");
 const water_play_button = document.getElementById("water-play-pause");
@@ -46,10 +53,12 @@ function sonify() {
   }
   // else, play all checked
   else {
+    // start_ping.play()
     for (const [region, attrs] of Object.entries(regions_to_play)) {
       if (attrs[1]) //is checked
         attrs[0].play() //AudioElement object
     }
+    // stop_ping.play()
   }
 }
 
