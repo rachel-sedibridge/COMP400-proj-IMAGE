@@ -25,3 +25,5 @@ Controls (repeated in instructions):
 Prototype for the idea of assigning a different sound to each region (as highlighted by IMAGE) and changing the balance of those sounds according to the balance of those elements while scanning across an image. I'm implementing this vertically, because I think that could be a good way to represent height, but it would probably take minimal change to do it horizontally instead. That could even maybe be a setting people can change!
 
 This is a single example, where the sounds are hard-coded and it only works for one image (the photo of the wildebeest and river that won a nature photography competition a few months ago).
+
+See the full audio render at `scanning/audio_tracks/scanning-full_render-vertical-updated_sounds.mp3`. Based on the photo at `scanning/photos/dramatic_crossing-a_stankiewicz.jpg`.
