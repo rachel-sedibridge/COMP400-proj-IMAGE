@@ -5,15 +5,11 @@ const sky_real_ping = new Audio('audio_tracks/sky_wind-vertical_scan-w.mp3');
 const water_real_ping = new Audio('audio_tracks/water_lake-vertical_scan-w.mp3');
 const animal_real_ping = new Audio('audio_tracks/animal_gallop-vertical_scan-w.mp3');
 const ground_real_ping = new Audio('audio_tracks/ground_rocks-vertical_scan-w.mp3');
-// const animal_real_ping = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
-// const ground_real_ping = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
 
 const sky_eg_ping = new Audio('audio_tracks/example_tone-sky_wind.mp3');
 const water_eg_ping = new Audio('audio_tracks/example_tone-water_lake.mp3');
 const animal_eg_ping = new Audio('audio_tracks/example_tone-animal_gallop.mp3');
 const ground_eg_ping = new Audio('audio_tracks/example_tone-ground_rocks.mp3');
-// const animal_eg_ping = new Audio('audio_tracks/example_tone-animal-short.mp3');
-// const ground_eg_ping = new Audio('audio_tracks/example_tone-ground.mp3');
 
 const sky_play_button = document.getElementById("sky-play-pause");
 const water_play_button = document.getElementById("water-play-pause");
@@ -53,12 +49,20 @@ function sonify() {
   }
   // else, play all checked
   else {
-    // start_ping.play()
-    for (const [region, attrs] of Object.entries(regions_to_play)) {
-      if (attrs[1]) //is checked
-        attrs[0].play() //AudioElement object
-    }
-    // stop_ping.play()
+    start_ping.addEventListener("ended", (e) => {
+      for (const [region, attrs] of Object.entries(regions_to_play)) {
+        if (attrs[1]) { //is checked
+          attrs[0].play() //AudioElement object
+          console.log(attrs[0])
+        }
+      }
+    })
+    start_ping.play()
+    // regions_entries = Object.entries(regions_to_play)
+    // any_sound = regions_entries[regions_entries.length - 1][1][0]
+    // any_sound.addEventListener("ended", (e) => {
+    //   stop_ping.play()
+    // })
   }
 }
 
