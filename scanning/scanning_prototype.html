@@ -15,8 +15,26 @@ the background. The photo, "Dramatic Crossing" by Artur Stankiewicz, is
 greyscale with strong light and dark contrast."><br/> -->
 
 
-<button type="button" id="sonification-play-button" onclick="sonify()" class="play-button">Play/Pause Sonification</button>
+<button type="button" id="sonification-play-button" onclick="sonify()" class="play-button">Play/Pause</button>
+<!-- <label for="sonification-play-button">Play/Pause sonification</label> -->
 <br>
+
+
+
+<input type="checkbox" id="all-checkbox" value="All" onClick="toggleAll(this)" checked>
+<label for="all-checkbox">All regions</label><br>
+<input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
+<label for="sky-checkbox">Sky</label>
+<button type="button" id="sky-play-pause" class="solo-sound blue">Hear sky alone (unedited)</button><br>
+<input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
+<label for="water-checkbox">Water</label>
+<button type="button" id="water-play-pause" class="solo-sound orange">Hear water alone (unedited)</button><br>
+<input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
+<label for="animal-checkbox">Animal</label>
+<button type="button" id="animal-play-pause" class="solo-sound blue">Hear animal alone (unedited)</button><br>
+<input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
+<label for="ground-checkbox">Ground</label>
+<button type="button" id="ground-play-pause" class="solo-sound orange">Hear ground alone (unedited)</button><br>
 
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
 <span id='instructions' style='display: none'>
@@ -44,53 +62,10 @@ greyscale with strong light and dark contrast."><br/> -->
 </span>
 <br>
 
-<input type="checkbox" id="all-checkbox" value="All" onClick="toggleAll(this)" checked>
-<label for="all-checkbox">All regions</label><br>
-<input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
-<label for="sky-checkbox">Sky</label>
-<button type="button" id="sky-play-pause" class="solo-sound blue">Hear sky alone (unedited)</button><br>
-<input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
-<label for="water-checkbox">Water</label>
-<button type="button" id="water-play-pause" class="solo-sound orange">Hear water alone (unedited)</button><br>
-<input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
-<label for="animal-checkbox">Animal</label>
-<button type="button" id="animal-play-pause" class="solo-sound blue">Hear animal alone (unedited)</button><br>
-<input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
-<label for="ground-checkbox">Ground</label>
-<button type="button" id="ground-play-pause" class="solo-sound orange">Hear ground alone (unedited)</button><br>
 
-
-
-<!-- <h3>Instructions</h3>
-<p id="instructions">
-  Each of the regions in this image has an associated sound. Imagine a bar scanning 
-  over the image from bottom to top, and playing the associated sound of the regions 
-  in proportion to how much of the picture at the bar's location is taken up by that 
-  region.
-  <br>
-  <span style="margin-left: 1rem;">e.g. If the sound for "water" and the sound for 
-    "rock" are playing at equal volumes, the image at that height is about half 
-    water and half rock.
-  </span>
-  <br>
-  <span style="margin-left: 1rem;">e.g. If a sound plays for the first quarter of 
-    the total sonification and then disappears, that region is only present in the 
-    bottom quarter of the image
-  </span>
-  <br>
-  Click the "Hear [sound] alone" button for each region to hear 
-  the unedited sound used to represent it. Click the button again to stop playback.
-  <br>
-  The selected regions below will appear in the sonification.
-</p> -->
-
-<!-- <p id="demo">A Paragraph.</p>
-
-<button type="button" onclick="playSonification()">Try it</button>
-<button type="button" onclick="pauseSonification()">Stop it</button> -->
-
-<!-- Full audio control blocks under/indented each element-->
-<!-- <input type="checkbox" onClick="toggleAll(this)" /> All<br/>
+<!-- Full audio control blocks under/indented each element -->
+ <!-- <br>
+<input type="checkbox" onClick="toggleAll(this)" /> All<br/>
 <input type="checkbox" id="sky" name="region" value="Sky">
 <label for="sky"> Sky</label>
 <audio controls class="sample" src="audio_tracks/example_tone-sky_wind.mp3"></audio>
@@ -104,7 +79,6 @@ greyscale with strong light and dark contrast."><br/> -->
 <label for="ground"> Ground</label><br>
 <audio controls class="sample" src="audio_tracks/example_tone-ground.mp3"></audio><br>
 <input type="button" onclick="playSonification()" value="Play/Pause"> -->
-
 
 <!-- <figure>
   <figcaption>Listen to the full render:</figcaption>
