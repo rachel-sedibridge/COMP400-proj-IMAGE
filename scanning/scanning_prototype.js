@@ -1,15 +1,15 @@
 const start_ping = new Audio('audio_tracks/start.mp3')
 const stop_ping = new Audio('audio_tracks/stop.mp3')
 
-const sky_real_ping = new Audio('audio_tracks/sky-vertical_scan-w.mp3');
-const water_real_ping = new Audio('audio_tracks/water-vertical_scan-w.mp3');
+const sky_real_ping = new Audio('audio_tracks/sky_wind-vertical_scan-w.mp3');
+const water_real_ping = new Audio('audio_tracks/water_lake-vertical_scan-w.mp3');
 const animal_real_ping = new Audio('audio_tracks/animal_gallop-vertical_scan-w.mp3');
 const ground_real_ping = new Audio('audio_tracks/ground_rocks-vertical_scan-w.mp3');
 // const animal_real_ping = new Audio('audio_tracks/animal-vertical_scan-w.mp3');
 // const ground_real_ping = new Audio('audio_tracks/ground-vertical_scan-w.mp3');
 
-const sky_eg_ping = new Audio('audio_tracks/example_tone-sky-short.mp3');
-const water_eg_ping = new Audio('audio_tracks/example_tone-water.mp3');
+const sky_eg_ping = new Audio('audio_tracks/example_tone-sky_wind.mp3');
+const water_eg_ping = new Audio('audio_tracks/example_tone-water_lake.mp3');
 const animal_eg_ping = new Audio('audio_tracks/example_tone-animal_gallop.mp3');
 const ground_eg_ping = new Audio('audio_tracks/example_tone-ground_rocks.mp3');
 // const animal_eg_ping = new Audio('audio_tracks/example_tone-animal-short.mp3');
