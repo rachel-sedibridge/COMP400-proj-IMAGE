@@ -16,11 +16,26 @@ the background. The photo, "Dramatic Crossing" by Artur Stankiewicz, is
 greyscale with strong light and dark contrast."><br/> -->
 
 
+<!--button to hear the full render-->
 <button onclick="sonify()" type="button" id="sonification-play-button" class="play-button">
   <i class="fas fa-play"></i> / <i class="fas fa-pause"></i>
 </button>
 <!-- <label for="sonification-play-button">Play/Pause sonification</label> -->
 <br>
+
+<!--button to hear individual sounds-->
+<button type="button" id="sky-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Sky
+</button><br>
+<button type="button" id="water-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Water
+</button><br>
+<button type="button" id="animal-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Animal
+</button><br>
+<button type="button" id="ground-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Ground
+</button><br>
 
 
 
@@ -28,17 +43,14 @@ greyscale with strong light and dark contrast."><br/> -->
 <label for="all-checkbox">All regions</label><br>
 <input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
 <label for="sky-checkbox">Sky</label>
-<button type="button" id="sky-play-pause" class="solo-sound blue">Hear sky alone (unedited)</button><br>
 <input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
 <label for="water-checkbox">Water</label>
-<button type="button" id="water-play-pause" class="solo-sound orange">Hear water alone (unedited)</button><br>
 <input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
 <label for="animal-checkbox">Animal</label>
-<button type="button" id="animal-play-pause" class="solo-sound blue">Hear animal alone (unedited)</button><br>
 <input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
 <label for="ground-checkbox">Ground</label>
-<button type="button" id="ground-play-pause" class="solo-sound orange">Hear ground alone (unedited)</button><br>
 
+<br>
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
 <span id='instructions' style='display: none'>
 <p>

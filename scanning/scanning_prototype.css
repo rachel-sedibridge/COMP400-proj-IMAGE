@@ -45,3 +45,7 @@
     border-width: 3px;
     background-color: yellow;
 }
+
+.small-play-icon {
+    font-size: smaller;
+}
