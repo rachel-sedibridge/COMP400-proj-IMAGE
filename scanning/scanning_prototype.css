@@ -49,3 +49,17 @@
 .small-play-icon {
     font-size: smaller;
 }
+
+.which-regions {
+    display: inline;
+}
+
+  .buttons {
+width: 200px;
+margin: 0 auto;
+display: inline;}
+
+    .action_btn {
+width: 200px;
+margin: 0 auto;
+display: inline;}
