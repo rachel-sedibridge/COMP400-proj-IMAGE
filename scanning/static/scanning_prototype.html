@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vertical scanning image sonification - demo</title>
+</head>
+<link rel="stylesheet" type="text/css" href="scanning_prototype.css"/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+
+<body>
+
+<h2>Demo - vertical scanning over image</h2>
+
+<!-- <img src="photos/dramatic_crossing-a_stankiewicz.avif"
+alt="A small herd of wildebeest leap into a river. Thick clouds of mist obscure
+the background. The photo, "Dramatic Crossing" by Artur Stankiewicz, is 
+greyscale with strong light and dark contrast."><br/> -->
+
+
+<!--button to hear the full render-->
+<button onclick="sonify()" type="button" id="sonification-play-button" class="play-button">
+  <i class="fas fa-play"></i> / <i class="fas fa-pause"></i>
+</button>
+<!-- <label for="sonification-play-button">Play/Pause sonification</label> -->
+<br>
+
+<!--button to hear individual sounds-->
+<button type="button" id="sky-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Sky
+</button><br>
+<button type="button" id="water-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Water
+</button><br>
+<button type="button" id="animal-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Animal
+</button><br>
+<button type="button" id="ground-play-pause">
+  <i class="fas fa-play small-play-icon"></i> Ground
+</button><br>
+
+<br>
+
+<button id="all-regions" value="Play all regions" class="buttons action_btn">Play all regions</button>
+<button id="all-regions" value="Selected regions" class="buttons action_btn">Selected regions</button>
+
+
+<!-- <input type="checkbox" id="all-checkbox" value="All" onClick="toggleAll(this)" checked>
+<label for="all-checkbox">All regions</label><br>
+<input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
+<label for="sky-checkbox">Sky</label>
+<input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
+<label for="water-checkbox">Water</label>
+<input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
+<label for="animal-checkbox">Animal</label>
+<input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
+<label for="ground-checkbox">Ground</label> -->
+
+<br>
+<button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
+<span id='instructions' style='display: none'>
+<p>
+  Each of the regions in this image has an associated sound. Imagine a bar scanning 
+  over the image from bottom to top: the sound of a region plays when that region is
+  present under that bar. The volume of the sound is proportional to how much of image
+  it takes up under that bar.
+  <br>
+  <span style="margin-left: 1rem;">e.g. If the sound for "water" and the sound for 
+    "rock" are playing at equal volumes, the image at that height is about half 
+    water and half rock.
+  </span>
+  <br>
+  <span style="margin-left: 1rem;">e.g. If a sound plays for the first quarter of 
+    the total sonification and then disappears, that region is only present in the 
+    bottom quarter of the image
+  </span>
+</p>
+<p>
+  The selected regions below will appear in the sonification.
+  <br>
+  Click the "Hear [sound] alone" button for a region to play its associated sound alone.
+</p>
+</span>
+<br>
+
+
+<!-- Full audio control blocks under/indented each element -->
+ <!-- <br>
+<input type="checkbox" onClick="toggleAll(this)" /> All<br/>
+<input type="checkbox" id="sky" name="region" value="Sky">
+<label for="sky"> Sky</label>
+<audio controls class="sample" src="audio_tracks/example_tone-sky_wind.mp3"></audio>
+<input type="checkbox" id="water" name="region" value="Water">
+<label for="water"> Water</label><br>
+<audio controls class="sample" src="audio_tracks/example_tone-water_lake.mp3"></audio>
+<input type="checkbox" id="animal" name="region" value="Animal">
+<label for="animal"> Animal</label><br>
+<audio controls class="sample" src="audio_tracks/example_tone-animal-short.mp3"></audio>
+<input type="checkbox" id="ground" name="region" value="Ground">
+<label for="ground"> Ground</label><br>
+<audio controls class="sample" src="audio_tracks/example_tone-ground.mp3"></audio><br>
+<input type="button" onclick="playSonification()" value="Play/Pause"> -->
+
+<!-- <figure>
+  <figcaption>Listen to the full render:</figcaption>
+  <audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio>
+</figure>
+
+<audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio> -->
+
+</body>
+
+<script src="scanning_prototype.js"></script>
+</html>

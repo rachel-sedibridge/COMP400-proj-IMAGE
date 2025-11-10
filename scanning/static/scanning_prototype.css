@@ -1,0 +1,65 @@
+.sample {
+    display: block;
+    height: 1.5rem;
+    width: 15rem;
+    margin: 5px;
+    padding-left: 1rem;
+}
+
+.solo-sound {
+    /* background-image: url("photos/play-solid-full.svg"); */
+    margin: 8px 5px;
+    text-align: center;
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis; */
+    /* border: none; */
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.blue {
+    background-color: aqua;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.instruction-button {
+    margin: 8px 0px 16px 24px;
+    font-size: medium;
+    text-align: center;
+    cursor: pointer;
+    border-width: 3px;
+    /* background-color: yellow; */
+}
+
+.play-button {
+    margin: 16px 0px 16px 24px;
+    font-size: large;
+    text-align: center;
+    cursor: pointer;
+    border-width: 3px;
+    background-color: yellow;
+}
+
+.small-play-icon {
+    font-size: smaller;
+}
+
+.which-regions {
+    display: inline;
+}
+
+  .buttons {
+width: 200px;
+margin: 0 auto;
+display: inline;}
+
+    .action_btn {
+width: 200px;
+margin: 0 auto;
+display: inline;}
