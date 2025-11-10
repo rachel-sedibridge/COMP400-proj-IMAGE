@@ -2,8 +2,6 @@
 <html>
 <head>
   <title>Vertical scanning image sonification - demo</title>
-  <script src="http://unpkg.com/tone"></script>
-  <script src="scanning_interactive.js"></script>
 </head>
 <link rel="stylesheet" type="text/css" href="scanning_interactive.css"/>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
@@ -26,17 +24,17 @@ greyscale with strong light and dark contrast."><br/> -->
 <br>
 
 <!--button to hear individual sounds-->
-<button type="button" id="sky-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Sky
+<button type="button" id="sky-play-pause" value="Sky">
+  <!-- <i class="fas fa-play small-play-icon"></i> --> Sky
 </button><br>
 <button type="button" id="water-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Water
+  <!-- <i class="fas fa-play small-play-icon"></i> --> Water
 </button><br>
 <button type="button" id="animal-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Animal
+  <!-- <i class="fas fa-play small-play-icon"></i> --> Animal
 </button><br>
 <button type="button" id="ground-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Ground
+  <!-- <i class="fas fa-play small-play-icon"></i> --> Ground
 </button><br>
 
 <br>
@@ -113,4 +111,7 @@ greyscale with strong light and dark contrast."><br/> -->
 <audio controls src="audio_tracks/full_render-vertical_scan-w.mp3"></audio> -->
 
 </body>
+
+  <script src="http://unpkg.com/tone"></script>
+  <script src="scanning_interactive.js"></script>
 </html>

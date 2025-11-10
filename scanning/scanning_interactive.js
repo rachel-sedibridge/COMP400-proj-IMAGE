@@ -112,3 +112,27 @@ function toggleText() {
     text.style.display = "none";
   }
 }
+
+
+// from https://javascript.info/keyboard-events
+
+// kinput.onkeydown = kinput.onkeyup = kinput.onkeypress = handle;
+document.addEventListener('keyup', handle);
+document.addEventListener('keydown', handle);
+// document.addEventListener('keypress', handle); //deprecated, doesn't matter
+
+let lastTime = Date.now();
+
+function handle(e) {
+  let text = e.type +
+    ' key=' + e.key +
+    ' code=' + e.code +
+    (e.shiftKey ? ' shiftKey' : '') +
+    (e.ctrlKey ? ' ctrlKey' : '') +
+    (e.altKey ? ' altKey' : '') +
+    (e.metaKey ? ' metaKey' : '') +
+    (e.repeat ? ' (repeat)' : '') +
+    "\n";
+
+  console.log(text)
+}
