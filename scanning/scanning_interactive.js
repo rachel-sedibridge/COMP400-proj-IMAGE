@@ -70,6 +70,9 @@ function updateRegionsToPlay() {
   // }
 }
 
+// ========================================================
+// OLD VERSION USING BUILTIN AUDIOELEMENT API - EXISTS FOR BACK COMPATIBILITY
+
 // play the sonification, checked elements only
 function sonify() {
   console.log("sonifying!")
@@ -139,6 +142,7 @@ function toggleAll(source) {
   for(var checkbox in checkboxes)
     checkboxes[checkbox].checked = source.checked;
 }
+// ========================================================
 
 // toggle display of instructions
 function toggleText() {
