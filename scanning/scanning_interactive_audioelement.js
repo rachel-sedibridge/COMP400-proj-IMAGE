@@ -1,5 +1,5 @@
-const triggerUp = 'UpArrow'
-const triggerDown = 'DownArrow'
+// OLD VERSION USING AUDIOELEMENT API (built in to html/js)
+// KEPT FOR NOW FOR BACK COMPATIBILITY
 
 const start_ping = new Audio('audio_tracks/start.mp3')
 const stop_ping = new Audio('audio_tracks/stop.mp3')
@@ -19,59 +19,22 @@ const water_play_button = document.getElementById("water-play-pause");
 const animal_play_button = document.getElementById("animal-play-pause");
 const ground_play_button = document.getElementById("ground-play-pause");
 
-// const sky_checkbox = document.getElementById("sky-checkbox");
-// const water_checkbox = document.getElementById("water-checkbox");
-// const animal_checkbox = document.getElementById("animal-checkbox");
-// const ground_checkbox = document.getElementById("ground-checkbox");
+const sky_checkbox = document.getElementById("sky-checkbox");
+const water_checkbox = document.getElementById("water-checkbox");
+const animal_checkbox = document.getElementById("animal-checkbox");
+const ground_checkbox = document.getElementById("ground-checkbox");
 
 var regions_to_play = {}
 
-var mainPlayer = new Tone.Players().toDestination()
-var startPlayer = new Tone.Player(start_ping).toDestination()
-var stopPlayer = new Tone.Player(stop_ping).toDestination()
-
-// called only once to init everything
-function initPlayers() {
-  updateRegionsToPlay() //also init's it
-  // region:str, attrs:list -> [ping url:str, ischecked:bool]
-  for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
-      mainPlayer.add(region, attrs[0])
-    }
-  }
-  mainPlayer.onstop = (() => stopPlayer.play())
-  // also chain this main one to the start ping player
-  startPlayer.onstop = (() => mainPlayer.play())
-}
-
-// called before playing anything, every time
-function updateMainPlayer() {
-  // region:str, attrs:list -> [ping url:str, ischecked:bool]
-  for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
-      mainPlayer.add(region, attrs[0])
-    }
-  }
-}
 
 function updateRegionsToPlay() {
-  // TODO: for now, only can play all regions -- change to accomodate the "all/selected" toggle
   regions_to_play = {
-    sky: [sky_real_ping, true],
-    water: [water_real_ping, true],
-    animal: [animal_real_ping, true],
-    ground: [ground_real_ping, true]
+    sky: [sky_real_ping, sky_checkbox.checked],
+    water: [water_real_ping, water_checkbox.checked],
+    animal: [animal_real_ping, animal_checkbox.checked],
+    ground: [ground_real_ping, ground_checkbox.checked]
   }
-  // regions_to_play = {
-  //   sky: [sky_real_ping, sky_checkbox.checked],
-  //   water: [water_real_ping, water_checkbox.checked],
-  //   animal: [animal_real_ping, animal_checkbox.checked],
-  //   ground: [ground_real_ping, ground_checkbox.checked]
-  // }
 }
-
-// ========================================================
-// OLD VERSION USING BUILTIN AUDIOELEMENT API - EXISTS FOR BACK COMPATIBILITY
 
 // play the sonification, checked elements only
 function sonify() {
@@ -142,7 +105,6 @@ function toggleAll(source) {
   for(var checkbox in checkboxes)
     checkboxes[checkbox].checked = source.checked;
 }
-// ========================================================
 
 // toggle display of instructions
 function toggleText() {
@@ -152,41 +114,4 @@ function toggleText() {
   } else {
     text.style.display = "none";
   }
-}
-
-
-// from https://javascript.info/keyboard-events
-
-// kinput.onkeydown = kinput.onkeyup = kinput.onkeypress = handle;
-document.addEventListener('keyup', handleUp);
-document.addEventListener('keydown', handleDown);
-// document.addEventListener('keypress', handle); //deprecated, doesn't matter
-
-let lastTime = Date.now();
-
-function handleDown(e) {
-  console.log('keydown')
-  if (e.key == triggerUp) {
-    if (e.repeat) {
-
-    }
-  }
-  if (e.key == triggerDown) {
-
-  }
-
-  let text = e.type +
-    ' key=' + e.key +
-    ' code=' + e.code +
-    (e.shiftKey ? ' shiftKey' : '') +
-    (e.ctrlKey ? ' ctrlKey' : '') +
-    (e.altKey ? ' altKey' : '') +
-    (e.metaKey ? ' metaKey' : '') +
-    (e.repeat ? ' (repeat)' : '') +
-    "\n";
-  console.log(text)
-}
-
-function handleUp(e) {
-  console.log('keyup')
 }
