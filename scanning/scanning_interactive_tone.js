@@ -88,6 +88,15 @@ function updateMainPlayer() {
 //   }
 // }
 
+// make checkboxes appear only when "play selected regions" is checked
+// var radios = document.forms["regions-to-play-toggle"].elements["regions-to-play"];
+// for(var i = 0, max = radios.length; i < max; i++) {
+//     radios[i].onclick = function() {
+//         alert(this.value);
+//     }
+// }
+
+
 
 // from https://javascript.info/keyboard-events
 
@@ -126,6 +135,16 @@ function handleUp(e) {
   console.log('keyup')
 }
 
+
+// toggle display of region selector checkboxes
+function toggleRegionSelect() {
+  var toToggle = document.getElementById("checkboxes");
+  if (document.getElementById("play-selected").checked) {
+    toToggle.style.display = "block";
+  } else {
+    toToggle.style.display = "none";
+  }
+}
 
 // toggle display of instructions
 function toggleText() {

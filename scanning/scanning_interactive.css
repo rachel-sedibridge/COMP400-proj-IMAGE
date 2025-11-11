@@ -29,6 +29,10 @@
     background-color: yellow;
 }
 
+.fieldset-checkboxes {
+    width: 200px;
+}
+
 .blue {
     background-color: aqua;
 }

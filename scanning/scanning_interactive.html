@@ -15,48 +15,65 @@ alt="A small herd of wildebeest leap into a river. Thick clouds of mist obscure
 the background. The photo, "Dramatic Crossing" by Artur Stankiewicz, is 
 greyscale with strong light and dark contrast."><br/> -->
 
-
-<!--button to hear the full render-->
-<button onclick="sonify()" type="button" id="sonification-play-button" class="play-button">
-  <i class="fas fa-play"></i> / <i class="fas fa-pause"></i>
-</button>
-<!-- <label for="sonification-play-button">Play/Pause sonification</label> -->
-<br>
-
-<!--button to hear individual sounds-->
-<button type="button" id="sky-play-pause" value="Sky">
-  <i class="fas fa-play small-play-icon"></i> Sky
-</button><br>
-<button type="button" id="water-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Water
-</button><br>
-<button type="button" id="animal-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Animal
-</button><br>
-<button type="button" id="ground-play-pause">
-  <i class="fas fa-play small-play-icon"></i> Ground
-</button><br>
-
-<br>
-
-<!-- <div>
-  <input type="radio" name="all-regions" value="Play all regions">Play all regions
-  <input type="radio" name="all-regions" value="Play selected regions">Play selected regions only
+<div>
+  <h5>Play sonification</h4>
+  <button onclick="sonify()" type="button" id="sonification-play-button" class="play-button">
+    <i class="fas fa-play"></i> / <i class="fas fa-pause"></i>
+  </button>
+  <!-- <label for="sonification-play-button">Play/Pause sonification</label> -->
 </div>
 
-<br> -->
+<div>
+  <h5>Play individual sounds</h5>
+  <button type="button" id="sky-play-pause" value="Sky">
+    <i class="fas fa-play small-play-icon"></i> Sky
+  </button><br>
+  <button type="button" id="water-play-pause">
+    <i class="fas fa-play small-play-icon"></i> Water
+  </button><br>
+  <button type="button" id="animal-play-pause">
+    <i class="fas fa-play small-play-icon"></i> Animal
+  </button><br>
+  <button type="button" id="ground-play-pause">
+    <i class="fas fa-play small-play-icon"></i> Ground
+  </button><br>
+</div>
+
+
+<div>
+  <h5>Select parts of sonification</h5>
+  <form id="regions-to-play-toggle">
+    <input type="radio" name="regions-to-play" id="play-all" onclick="toggleRegionSelect()" value="Play all regions">Play all regions
+    <input type="radio" name="regions-to-play" id="play-selected" onclick="toggleRegionSelect()" value="Play selected regions">Play selected regions only
+  </form>
+
+  <form id='checkboxes' style='display: none'>
+    <fieldset class="fieldset-checkboxes">
+      <input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
+      <label for="sky-checkbox">Sky</label><br>
+      <input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
+      <label for="water-checkbox">Water</label><br>
+      <input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
+      <label for="animal-checkbox">Animal</label><br>
+      <input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
+      <label for="ground-checkbox">Ground</label>
+    </fieldset>
+  </form>
+</div>
+
 
 
 <!-- <input type="checkbox" id="all-checkbox" value="All" onClick="toggleAll(this)" checked>
 <label for="all-checkbox">All regions</label><br> -->
-<input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
+
+<!-- <input type="checkbox" id="sky-checkbox" name="region" value="Sky" checked>
 <label for="sky-checkbox">Sky</label>
 <input type="checkbox" id="water-checkbox" name="region" value="Water" checked>
 <label for="water-checkbox">Water</label>
 <input type="checkbox" id="animal-checkbox" name="region" value="Animal" checked>
 <label for="animal-checkbox">Animal</label>
 <input type="checkbox" id="ground-checkbox" name="region" value="Ground" checked>
-<label for="ground-checkbox">Ground</label>
+<label for="ground-checkbox">Ground</label> -->
 
 <br>
 <button type='button' onclick="toggleText()" class="instruction-button">Show Instructions</button>
@@ -114,7 +131,7 @@ greyscale with strong light and dark contrast."><br/> -->
 
   <script src="http://unpkg.com/tone"></script>
   <!--old one, for back compatibility: -->
-  <script src="scanning_interactive_audioelement.js"></script>
+  <!-- <script src="scanning_interactive_audioelement.js"></script> -->
   <!--new one using Tone.js: -->
-  <!-- <script src="scanning_interactive_tone.js"></script> -->
+  <script src="scanning_interactive_tone.js"></script>
 </html>
