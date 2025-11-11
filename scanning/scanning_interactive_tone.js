@@ -1,7 +1,7 @@
 // NEW VERSION OF THE JS USING TONE.JS API
 
-const triggerUp = 'UpArrow'
-const triggerDown = 'DownArrow'
+const triggerUp = 'ArrowUp'
+const triggerDown = 'ArrowDown'
 
 const start_ping = new Audio('audio_tracks/start.mp3')
 const stop_ping = new Audio('audio_tracks/stop.mp3')
@@ -38,35 +38,22 @@ var mainPlayer = new Tone.Players().toDestination()
 var startPlayer = new Tone.Player(start_ping).toDestination()
 var stopPlayer = new Tone.Player(stop_ping).toDestination()
 
-// called only once to init everything
-// function initPlayers() {
-  // TODO: accomodate the "all/selected" toggle, call updateRegions (once it's updated... ha)
-  // region:str, attrs:list -> [ping url:str, ischecked:bool]
-  for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
-      var newPlayer = new Tone.Player(url = attrs[0])
-      newPlayer.name = region
-      // sync all players to start at time 1 (allow 1 sec for start_ping)
-      newPlayer.sync.start(1)
-      mainPlayer.add(newPlayer)
-      // mainPlayer.add(region, attrs[0]) //old way w/o separately creating new play
-    }
+// TODO: accomodate the "all/selected" toggle, call updateRegions (once it's updated... ha)
+// region:str, attrs:list -> [ping url:str, ischecked:bool]
+for (const [region, attrs] of Object.entries(regions_to_play)) {
+  if (attrs[1]) {
+    var newPlayer = new Tone.Player(url = attrs[0])
+    newPlayer.name = region
+    // sync all players to start at time 1 (allow 1 sec for start_ping)
+    newPlayer.sync().start(1)
+    mainPlayer.add(newPlayer)
+    // mainPlayer.add(region, attrs[0]) //old way w/o separately creating new play
   }
-  // sync all players to start at time 1 (allow 1 sec for start_ping)
-  // TODO unsure if this'll work, do I need to sync each player individually?
-  mainPlayer.sync().start(1)
-  mainPlayer.onstop = (() => stopPlayer.play())
-  // also chain this main one to the start ping player
-  startPlayer.onstop = (() => mainPlayer.play())
+}
+mainPlayer.onstop = (() => stopPlayer.play())
+// also chain this main one to the start ping player
+startPlayer.onstop = (() => mainPlayer.play())
 
-  // DEBUG
-  console.log(mainPlayer.toString())
-  for (thing in mainPlayer.players) {
-    console.log(thing.toString())
-  }
-  console.log(startPlayer.toString())
-  console.log(stopPlayer.toString())
-// }
 
 // called before playing anything, every time
 function updateMainPlayer() {
@@ -88,15 +75,6 @@ function updateMainPlayer() {
 //   }
 // }
 
-// make checkboxes appear only when "play selected regions" is checked
-// var radios = document.forms["regions-to-play-toggle"].elements["regions-to-play"];
-// for(var i = 0, max = radios.length; i < max; i++) {
-//     radios[i].onclick = function() {
-//         alert(this.value);
-//     }
-// }
-
-
 
 // from https://javascript.info/keyboard-events
 
@@ -109,17 +87,10 @@ let lastTime = Date.now();
 
 function handleDown(e) {
   console.log('keydown')
+  console.log(e.key)
+  console.log(e.key == triggerUp)
   if (e.key == triggerUp) {
-    if (e.repeat) {
-      mainPlayer.play()
-    } else {
-      mainPlayer.play
-    }
-  } else if (e.key == triggerDown) {
-
-  }
-
-  let text = e.type +
+    let text = e.type +
     ' key=' + e.key +
     ' code=' + e.code +
     (e.shiftKey ? ' shiftKey' : '') +
@@ -128,7 +99,18 @@ function handleDown(e) {
     (e.metaKey ? ' metaKey' : '') +
     (e.repeat ? ' (repeat)' : '') +
     "\n";
-  console.log(text)
+    console.log(text)
+    if (e.repeat) {
+      console.log('repeating')
+      mainPlayer.play()
+    } else {
+      mainPlayer.play()
+    }
+  } else if (e.key == triggerDown) {
+
+  }
+
+
 }
 
 function handleUp(e) {
