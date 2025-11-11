@@ -3,28 +3,28 @@
 const triggerUp = 'ArrowUp'
 const triggerDown = 'ArrowDown'
 
-const start_ping = new Audio('audio_tracks/start.mp3')
-const stop_ping = new Audio('audio_tracks/stop.mp3')
+const start_ping = 'audio_tracks/start.mp3'
+const stop_ping = 'audio_tracks/stop.mp3'
 
-const sky_real_ping = new Audio('audio_tracks/sky_wind-vertical_scan-w.mp3');
-const water_real_ping = new Audio('audio_tracks/water_lake-vertical_scan-w.mp3');
-const animal_real_ping = new Audio('audio_tracks/animal_gallop-vertical_scan-w.mp3');
-const ground_real_ping = new Audio('audio_tracks/ground_rocks-vertical_scan-w.mp3');
+const sky_real_ping = 'audio_tracks/sky_wind-vertical_scan-w.mp3'
+const water_real_ping = 'audio_tracks/water_lake-vertical_scan-w.mp3'
+const animal_real_ping = 'audio_tracks/animal_gallop-vertical_scan-w.mp3'
+const ground_real_ping = 'audio_tracks/ground_rocks-vertical_scan-w.mp3'
 
-const sky_eg_ping = new Audio('audio_tracks/example_tone-sky_wind.mp3');
-const water_eg_ping = new Audio('audio_tracks/example_tone-water_lake.mp3');
-const animal_eg_ping = new Audio('audio_tracks/example_tone-animal_gallop.mp3');
-const ground_eg_ping = new Audio('audio_tracks/example_tone-ground_rocks.mp3');
+const sky_eg_ping = 'audio_tracks/example_tone-sky_wind.mp3'
+const water_eg_ping = 'audio_tracks/example_tone-water_lake.mp3'
+const animal_eg_ping = 'audio_tracks/example_tone-animal_gallop.mp3'
+const ground_eg_ping = 'audio_tracks/example_tone-ground_rocks.mp3'
 
-const sky_play_button = document.getElementById("sky-play-pause");
-const water_play_button = document.getElementById("water-play-pause");
-const animal_play_button = document.getElementById("animal-play-pause");
-const ground_play_button = document.getElementById("ground-play-pause");
+const sky_play_button = document.getElementById("sky-play-pause")
+const water_play_button = document.getElementById("water-play-pause")
+const animal_play_button = document.getElementById("animal-play-pause")
+const ground_play_button = document.getElementById("ground-play-pause")
 
-// const sky_checkbox = document.getElementById("sky-checkbox");
-// const water_checkbox = document.getElementById("water-checkbox");
-// const animal_checkbox = document.getElementById("animal-checkbox");
-// const ground_checkbox = document.getElementById("ground-checkbox");
+// const sky_checkbox = document.getElementById("sky-checkbox")
+// const water_checkbox = document.getElementById("water-checkbox")
+// const animal_checkbox = document.getElementById("animal-checkbox")
+// const ground_checkbox = document.getElementById("ground-checkbox")
 
 // default: play all regions
 var regions_to_play = {
