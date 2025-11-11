@@ -34,7 +34,8 @@ var regions_to_play = {
   ground: [ground_real_ping, true]
 }
 
-var mainPlayer = new Tone.Players().toDestination()
+// ======================== PLAYER ========================
+var mainPlayers = new Tone.Players().toDestination()
 var startPlayer = new Tone.Player(start_ping).toDestination()
 var stopPlayer = new Tone.Player(stop_ping).toDestination()
 
@@ -46,13 +47,13 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     newPlayer.name = region
     // sync all players to start at time 1 (allow 1 sec for start_ping)
     newPlayer.sync().start(1)
-    mainPlayer.add(newPlayer)
+    mainPlayers.add(newPlayer)
     // mainPlayer.add(region, attrs[0]) //old way w/o separately creating new play
   }
 }
-mainPlayer.onstop = (() => stopPlayer.play())
+mainPlayers.onstop = (() => stopPlayer.play())
 // also chain this main one to the start ping player
-startPlayer.onstop = (() => mainPlayer.play())
+startPlayer.onstop = (() => mainPlayers.play())
 
 
 // called before playing anything, every time
@@ -60,10 +61,11 @@ function updateMainPlayer() {
   // region:str, attrs:list -> [ping url:str, ischecked:bool]
   for (const [region, attrs] of Object.entries(regions_to_play)) {
     if (attrs[1]) {
-      mainPlayer.add(region, attrs[0])
+      mainPlayers.add(region, attrs[0])
     }
   }
 }
+// ========================================================
 
 // // TODO: change to accomodate the "all/selected" toggle
 // function updateRegionsToPlay() {
@@ -76,6 +78,12 @@ function updateMainPlayer() {
 // }
 
 
+// ======================= SAMPLER ========================
+
+// ========================================================
+
+
+
 // from https://javascript.info/keyboard-events
 
 // kinput.onkeydown = kinput.onkeyup = kinput.onkeypress = handle;
@@ -86,31 +94,30 @@ document.addEventListener('keydown', handleDown);
 let lastTime = Date.now();
 
 function handleDown(e) {
-  console.log('keydown')
-  console.log(e.key)
-  console.log(e.key == triggerUp)
   if (e.key == triggerUp) {
-    let text = e.type +
-    ' key=' + e.key +
-    ' code=' + e.code +
-    (e.shiftKey ? ' shiftKey' : '') +
-    (e.ctrlKey ? ' ctrlKey' : '') +
-    (e.altKey ? ' altKey' : '') +
-    (e.metaKey ? ' metaKey' : '') +
-    (e.repeat ? ' (repeat)' : '') +
-    "\n";
-    console.log(text)
     if (e.repeat) {
-      console.log('repeating')
-      mainPlayer.play()
+      console.log('keydown up repeating')
     } else {
-      mainPlayer.play()
+      console.log('keydown up')
     }
   } else if (e.key == triggerDown) {
-
+    if (e.repeat) {
+      console.log('keydown down repeating')
+    } else {
+      console.log('keydown down')
+    }
   }
 
-
+  // let text = e.type +
+  // ' key=' + e.key +
+  // ' code=' + e.code +
+  // (e.shiftKey ? ' shiftKey' : '') +
+  // (e.ctrlKey ? ' ctrlKey' : '') +
+  // (e.altKey ? ' altKey' : '') +
+  // (e.metaKey ? ' metaKey' : '') +
+  // (e.repeat ? ' (repeat)' : '') +
+  // "\n";
+  // console.log(text)
 }
 
 function handleUp(e) {
