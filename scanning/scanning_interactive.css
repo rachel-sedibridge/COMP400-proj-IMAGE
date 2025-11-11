@@ -20,6 +20,15 @@
     background-position: center;
 }
 
+.play-button {
+    margin: 0px 0px 16px 24px;
+    font-size: large;
+    text-align: center;
+    cursor: pointer;
+    border-width: 3px;
+    background-color: yellow;
+}
+
 .blue {
     background-color: aqua;
 }
@@ -35,15 +44,6 @@
     cursor: pointer;
     border-width: 3px;
     /* background-color: yellow; */
-}
-
-.play-button {
-    margin: 16px 0px 16px 24px;
-    font-size: large;
-    text-align: center;
-    cursor: pointer;
-    border-width: 3px;
-    background-color: yellow;
 }
 
 .small-play-icon {
