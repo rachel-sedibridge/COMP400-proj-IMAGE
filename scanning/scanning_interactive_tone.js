@@ -34,10 +34,20 @@ var regions_to_play = {
   ground: [ground_real_ping, true]
 }
 
+// // create a meter on the destination node - IS THIS NECESSARY?
+// const toneMeter = new Tone.Meter({ channelCount: 2 });
+// Tone.Destination.chain(toneMeter);
+// meter({
+//   tone: toneMeter,
+//   parent: document.querySelector("#content"),
+// });
+
 var startPlayer = new Tone.Player(start_ping).toDestination()
 var stopPlayer = new Tone.Player(stop_ping).toDestination()
 
 startPlayer.sync().start(0)
+
+var players = []
 
 // TODO: accomodate the "all/selected" toggle, call updateRegions (once it's updated... ha)
 // init region players
@@ -45,10 +55,11 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
   if (attrs[1]) {
     const channel = new Tone.Channel().toDestination();
     const player = new Tone.Player({
-      url: `audio_tracks/${attrs[0]}.mp3`,
+      url: attrs[0],
       name: region,
     }).sync();
-    player.onstop = (() => stopPlayer.start())
+    players.push(player);
+    player.onstop = (() => stopPlayer.start());
     player.connect(channel);
   }
 }
@@ -80,23 +91,16 @@ document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
 // document.addEventListener('keypress', handle); //deprecated, doesn't matter
 
-let lastTime = Date.now();
-
 function handleDown(e) {
-  if (e.key == triggerUp) {
-    if (e.repeat) {
-      console.log('keydown up repeating')
-    } else {
-      startPlayer.onstop(setupForwardPlay())
-      console.log('keydown up')
-    }
-  } else if (e.key == triggerDown) {
-    if (e.repeat) {
-      console.log('keydown down repeating')
-    } else {
-      startPlayer.onstop(setupBackwardPlay())
-      console.log('keydown down')
-    }
+  if (e.repeat) {
+    console.log('repeat keydown: skipping...');
+    return;
+  } else if (e.key == triggerUp) { //initial press, scanning up
+    console.log('keydown up');
+    startPlayer.onstop(sonify(false));
+  } else if (e.key == triggerDown) { //initial press, scanning down
+    console.log('keydown down');
+    startPlayer.onstop(sonify(true));
   }
 
   // let text = e.type +
@@ -112,21 +116,21 @@ function handleDown(e) {
 }
 
 function handleUp(e) {
-  console.log('keyup')
+  console.log('keyup');
+  Tone.Transport.pause();
 }
 
-function setupForwardPlay(repeating) {
-  for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
-      mainPlayers.add(region, attrs[0])
+function sonify(isBackwards) {
+  // make sure tracks are playing in the correct direction (forwards for up, vice versa)
+  // can check one instead of all, bc either all tracks are reversed or none are.
+  // if isBackwards, all tracks should be reversed (.reverse == true), and v.v.
+  if (players[0].reverse !== isBackwards) {
+    for (i = 0; i < players.length; i++) {
+      players[0].reverse == isBackwards;
     }
   }
+  Tone.Transport.start();
 }
-
-function setupBackwardPlay(repeating) {
-  
-}
-
 
 // toggle display of region selector checkboxes
 function toggleRegionSelect() {
