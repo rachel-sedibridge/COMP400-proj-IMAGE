@@ -3,8 +3,8 @@
 const triggerUp = 'ArrowUp'
 const triggerDown = 'ArrowDown'
 
-const start_ping = 'audio_tracks/start.mp3'
-const stop_ping = 'audio_tracks/stop.mp3'
+// const start_ping = 'audio_tracks/start.mp3'
+// const stop_ping = 'audio_tracks/stop.mp3'
 
 const sky_real_ping = 'audio_tracks/sky_wind-vertical_scan-w.mp3'
 const water_real_ping = 'audio_tracks/water_lake-vertical_scan-w.mp3'
@@ -42,10 +42,10 @@ var regions_to_play = {
 //   parent: document.querySelector("#content"),
 // });
 
-var startPlayer = new Tone.Player(start_ping).toDestination()
-var stopPlayer = new Tone.Player(stop_ping).toDestination()
-
-startPlayer.sync().start(0)
+// START AND STOP - PROBABLY NOT NECESSARY IN INTERACTIVE MODE
+// var startPlayer = new Tone.Player(start_ping).toDestination()
+// var stopPlayer = new Tone.Player(stop_ping).toDestination()
+// startPlayer.sync().start(0)
 
 var players = []
 
@@ -57,9 +57,9 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     const player = new Tone.Player({
       url: attrs[0],
       name: region,
-    }).sync();
+    }).sync().start(0);
     players.push(player);
-    player.onstop = (() => stopPlayer.start());
+    // player.onstop = (() => stopPlayer.start());
     player.connect(channel);
   }
 }
@@ -97,10 +97,10 @@ function handleDown(e) {
     return;
   } else if (e.key == triggerUp) { //initial press, scanning up
     console.log('keydown up');
-    startPlayer.onstop(sonify(false));
+    sonify(false);
   } else if (e.key == triggerDown) { //initial press, scanning down
     console.log('keydown down');
-    startPlayer.onstop(sonify(true));
+    sonify(true);
   }
 
   // let text = e.type +
@@ -131,6 +131,7 @@ function sonify(isBackwards) {
   }
   Tone.Transport.start();
 }
+
 
 // toggle display of region selector checkboxes
 function toggleRegionSelect() {
