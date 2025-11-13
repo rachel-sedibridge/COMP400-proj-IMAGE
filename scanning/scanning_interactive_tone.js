@@ -1,4 +1,5 @@
-// import * as Tone from "tone";
+// import * as Tone from "tone"; //Node doesn't implement Web Audio and I THINK
+// that's why this breaks everything?? I have actually no idea.
 // NEW VERSION OF THE JS USING TONE.JS API
 
 const triggerUp = 'ArrowUp'
