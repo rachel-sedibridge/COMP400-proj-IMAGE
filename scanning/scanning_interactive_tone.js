@@ -56,23 +56,21 @@ var players = []
 for (const [region, attrs] of Object.entries(regions_to_play)) {
   if (attrs[1]) {
     const channel = new Tone.Channel().toDestination();
-    const buffer = new Tone.ToneAudioBuffer(attrs[0]);
     const player = new Tone.Player({
-      url: buffer,
-      // url: attrs[0],
+      url: attrs[0],
       // onstop: ((e) => Tone.Transport.stop()),
-      loop: true, //breaks on end if this is not set
+      loop: true, //breaks after 1 playthrough if this is not set
     }).sync().start(0);
     player.name = region;
-    console.log(player.get());
-    player.loopEnd = buffer.duration;
+    // buffer duration is 0 now before anything plays, idk why
     // player.debug = true;
     player.connect(channel);
-    // console.log(player);
-    // console.log(player.sampleTime)
     players.push(player);
   }
 }
+Tone.Transport.schedule(function(time){
+	console.log('TRANSPORT STARTING ASLDFJAHSDFHASDKJFAHSKDJFHALSKDJFHALKSJDFH')
+}, 0);
 
 // // called before playing anything, every time
 // function updateMainPlayer() {
@@ -104,7 +102,14 @@ document.addEventListener('keydown', handleDown);
 function handleDown(e) {
   if (e.repeat) {
     console.log('repeat keydown: skipping...');
-    return;
+    console.log(Tone.getTransport().state)
+    if (Tone.getTransport().state == 'stopped') {
+      handleUp(e);
+      return;
+    }
+    if (Tone.getTransport().now() >= players[0].buffer.duration) {
+      Tone.getTransport().stop();
+    }
   } else if (e.key == triggerUp) { //initial press, scanning up
     console.log('keydown up');
     sonify(false);
@@ -116,23 +121,47 @@ function handleDown(e) {
 
 function sonify(isBackwards) {
   console.log(Tone.getTransport().state)
-  // console.log(Tone.ToneAudioBuffer.toArray())
   // make sure tracks are playing in the correct direction (forwards for up, vice versa)
   // can check one instead of all, bc either all tracks are reversed or none are.
   // if isBackwards, all tracks should be reversed (.reverse == true), and v.v.
+  // entered only the first time it's played after page load!
+  if (players[0].loopEnd == 0) {
+    for (var i = 0; i < players.length; i++) {
+      players[i].loopEnd = players[i].buffer.duration;
+    }
+  }
+  // entered when changing direction from previous keypress
   if (players[0].reverse !== isBackwards) {
     for (var i = 0; i < players.length; i++) {
       players[i].reverse = isBackwards;
-      console.log(`player ${players[i].name} reversed == ${players[i].reverse}`)
     }
   }
   Tone.getTransport().start();
 }
 
 function handleUp(e) {
+  if (Tone.getTransport.state == 'stopped') {
+    return;
+  }
   if (e.key == triggerUp || e.key == triggerDown) { // lifting of important key
     console.log('keyup');
     console.log(Tone.getTransport().state)
+    // console.log(Tone.getTransport().now())
+    // // if not hit the end of the loop
+    // if (Tone.now() < players[0].loopEnd) {
+    //   for (var i = 0; i < players.length; i++) {
+    //     players[i].loopStart = Tone.getTransport().now();
+    //     console.log(players[i].get());
+    //   }
+    // }
+    // // if hit or passed the end of the loop
+    // else {
+    //   for (var i = 0; i < players.length; i++) {
+    //     players[i].loopStart = 0;
+    //     console.log(players[i].get())
+    //   }
+    //   Tone.getTransport().stop();
+    // }
     Tone.getTransport().pause();
   }
 }
@@ -158,15 +187,15 @@ function toggleText() {
   }
 }
 
-function printKeyEventDetails(e) {
-  let text = e.type +
-  ' key=' + e.key +
-  ' code=' + e.code +
-  (e.shiftKey ? ' shiftKey' : '') +
-  (e.ctrlKey ? ' ctrlKey' : '') +
-  (e.altKey ? ' altKey' : '') +
-  (e.metaKey ? ' metaKey' : '') +
-  (e.repeat ? ' (repeat)' : '') +
-  "\n";
-  console.log(text)
-}
+// function printKeyEventDetails(e) {
+//   let text = e.type +
+//   ' key=' + e.key +
+//   ' code=' + e.code +
+//   (e.shiftKey ? ' shiftKey' : '') +
+//   (e.ctrlKey ? ' ctrlKey' : '') +
+//   (e.altKey ? ' altKey' : '') +
+//   (e.metaKey ? ' metaKey' : '') +
+//   (e.repeat ? ' (repeat)' : '') +
+//   "\n";
+//   console.log(text)
+// }
