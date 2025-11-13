@@ -1,3 +1,4 @@
+// import * as Tone from "tone";
 // NEW VERSION OF THE JS USING TONE.JS API
 
 const triggerUp = 'ArrowUp'
@@ -54,25 +55,33 @@ var players = []
 for (const [region, attrs] of Object.entries(regions_to_play)) {
   if (attrs[1]) {
     const channel = new Tone.Channel().toDestination();
+    const buffer = new Tone.ToneAudioBuffer(attrs[0]);
     const player = new Tone.Player({
-      url: attrs[0],
-      name: region,
+      url: buffer,
+      // url: attrs[0],
+      // onstop: ((e) => Tone.Transport.stop()),
+      loop: true, //breaks on end if this is not set
     }).sync().start(0);
-    players.push(player);
-    // player.onstop = (() => stopPlayer.start());
+    player.name = region;
+    console.log(player.get());
+    player.loopEnd = buffer.duration;
+    // player.debug = true;
     player.connect(channel);
+    // console.log(player);
+    // console.log(player.sampleTime)
+    players.push(player);
   }
 }
 
-// called before playing anything, every time
-function updateMainPlayer() {
-  // region:str, attrs:list -> [ping url:str, ischecked:bool]
-  for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
-      mainPlayers.add(region, attrs[0])
-    }
-  }
-}
+// // called before playing anything, every time
+// function updateMainPlayer() {
+//   // region:str, attrs:list -> [ping url:str, ischecked:bool]
+//   for (const [region, attrs] of Object.entries(regions_to_play)) {
+//     if (attrs[1]) {
+//       mainPlayers.add(region, attrs[0])
+//     }
+//   }
+// }
 
 // // TODO: change to accomodate the "all/selected" toggle
 // function updateRegionsToPlay() {
@@ -102,34 +111,29 @@ function handleDown(e) {
     console.log('keydown down');
     sonify(true);
   }
-
-  // let text = e.type +
-  // ' key=' + e.key +
-  // ' code=' + e.code +
-  // (e.shiftKey ? ' shiftKey' : '') +
-  // (e.ctrlKey ? ' ctrlKey' : '') +
-  // (e.altKey ? ' altKey' : '') +
-  // (e.metaKey ? ' metaKey' : '') +
-  // (e.repeat ? ' (repeat)' : '') +
-  // "\n";
-  // console.log(text)
-}
-
-function handleUp(e) {
-  console.log('keyup');
-  Tone.Transport.pause();
 }
 
 function sonify(isBackwards) {
+  console.log(Tone.getTransport().state)
+  // console.log(Tone.ToneAudioBuffer.toArray())
   // make sure tracks are playing in the correct direction (forwards for up, vice versa)
   // can check one instead of all, bc either all tracks are reversed or none are.
   // if isBackwards, all tracks should be reversed (.reverse == true), and v.v.
   if (players[0].reverse !== isBackwards) {
-    for (i = 0; i < players.length; i++) {
-      players[0].reverse == isBackwards;
+    for (var i = 0; i < players.length; i++) {
+      players[i].reverse = isBackwards;
+      console.log(`player ${players[i].name} reversed == ${players[i].reverse}`)
     }
   }
-  Tone.Transport.start();
+  Tone.getTransport().start();
+}
+
+function handleUp(e) {
+  if (e.key == triggerUp || e.key == triggerDown) { // lifting of important key
+    console.log('keyup');
+    console.log(Tone.getTransport().state)
+    Tone.getTransport().pause();
+  }
 }
 
 
@@ -151,4 +155,17 @@ function toggleText() {
   } else {
     text.style.display = "none";
   }
+}
+
+function printKeyEventDetails(e) {
+  let text = e.type +
+  ' key=' + e.key +
+  ' code=' + e.code +
+  (e.shiftKey ? ' shiftKey' : '') +
+  (e.ctrlKey ? ' ctrlKey' : '') +
+  (e.altKey ? ' altKey' : '') +
+  (e.metaKey ? ' metaKey' : '') +
+  (e.repeat ? ' (repeat)' : '') +
+  "\n";
+  console.log(text)
 }

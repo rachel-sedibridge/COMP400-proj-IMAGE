@@ -6,7 +6,13 @@
 <link rel="shortcut icon" href="#"> <!--idk why this fixes the 'favicon.ico not found' thing but it does-->
 <link rel="stylesheet" type="text/css" href="scanning_interactive.css"/>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-
+<script type="importmap">
+  {
+    "imports": {
+      "tone": "https://cdnjs.cloudflare.com/ajax/libs/tone/15.3.5/Tone.js"
+    }
+  }
+</script>
 <body>
 
 <h2>Demo - vertical scanning over image</h2>
@@ -129,7 +135,8 @@ greyscale with strong light and dark contrast."><br/> -->
 
 </body>
 
-  <script src="http://unpkg.com/tone"></script>
+  <!-- <script src="http://unpkg.com/tone"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.3.5/Tone.js" integrity="sha512-F1myjNkIKU5XJtOs1HXRo/zOjiUsABgFEEGKLx/riwK82jRThZFebEnfF2HWo9eeC+iC1Nwwnn9Vj6OGq+r7rQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!--old one, for back compatibility: -->
   <!-- <script src="scanning_interactive_audioelement.js"></script> -->
   <!--new one using Tone.js: -->
