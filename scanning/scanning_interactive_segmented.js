@@ -11,8 +11,8 @@ const START_STOP = 'Space';
 var NUM_SEGMENTS = 4;
 
 // start, end pings - constant
-const start_ping = 'audio_tracks/start.mp3'
-const end_ping = 'audio_tracks/end.mp3'
+const START_PING = 'audio_tracks/start.mp3'
+const END_PING = 'audio_tracks/end.mp3'
 
 // region tracks (rendered and example versions) - example-specific
 const sky_real_ping = 'audio_tracks/sky-truelen-mono-w.mp3'
@@ -59,7 +59,7 @@ ASSUMPTIONS
 
 // init Player and Channel objs for region tones
 for (const [region, attrs] of Object.entries(regions_to_play)) {
-    if (attrs[1]) {
+  if (attrs[1]) {
     const channel = new Tone.Channel().toDestination();
     const player = new Tone.Player({
       url: attrs[0],
@@ -72,12 +72,13 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
   }
 }
 // init start and end tone Player objs
-const startPlayer = new Tone.Player(start_ping).toDestination().sync().start(0);
-const endPlayer = new Tone.Player(end_ping).toDestination().sync();
+// unsynced w/ TransportTime rn...
+const startPlayer = new Tone.Player(START_PING).toDestination();
+const endPlayer = new Tone.Player(END_PING).toDestination();
 
 // set up loops based on time split
 for (var i = 0; i < NUM_SEGMENTS; i++) {
-    console.log('asdf')
+  console.log('asdf')
 }
 
 
@@ -91,6 +92,7 @@ document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
 
 function handleDown(e) {
+  // if user holding down key:
   if (e.repeat) {
     if (Tone.getTransport().state == 'stopped') {
       return;
@@ -99,45 +101,35 @@ function handleDown(e) {
       Tone.getTransport().stop();
     }
   } 
-  else if (e.key == triggerUp) { //initial press, scanning up
-    sonify(false);
+  // moving up (initial keypress)
+  else if (e.key == triggerUp) {
+    sonify(segment_tracker);
+    segment_tracker += 1;
   } 
-  else if (e.key == triggerDown) { //initial press, scanning down
-    sonify(true);
+  // moving down (initial keypress)
+  else if (e.key == triggerDown) {
+    sonify(segment_tracker);
+    segment_tracker -= 1;
   }
 }
 
-function sonify(isBackwards) {
-  // make sure tracks are playing in the correct direction (forwards for up, vice versa)
-  // can check one instead of all, bc either all tracks are reversed or none are.
-  // if isBackwards, all tracks should be reversed (.reverse == true), and v.v.
-  // entered only the first time it's played after page load!
-  if (players[0].loopEnd == 0) {
-    for (var i = 0; i < players.length; i++) {
-      players[i].loopEnd = players[i].buffer.duration;
-    }
+function sonify(whichSegment) {
+  if (whichSegment < 1) { //play START
+    startPlayer.start();
   }
-  // entered when changing direction from previous keypress
-  if (players[0].reverse !== isBackwards) {
-    for (var i = 0; i < players.length; i++) {
-      players[i].reverse = isBackwards;
-    }
-    reverseEvent.start();
+  else if (whichSegment > NUM_SEGMENTS) { //play END
+    endPlayer.start();
   }
-  Tone.getTransport().start();
+  else {
+    var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
+
+    Tone.getTransport().start(whichSegment * segmentLen);
+    Tone.getTransport().start((whichSegment + 1) * segmentLen);
+  }
 }
 
 function handleUp(e) {
-  if (Tone.getTransport.state == 'stopped') {
-    return;
-  }
-  if (e.key == triggerUp || e.key == triggerDown) { // lifting of important key
-    // if hit or passed the end of the loop
-    if (Tone.TransportTime().valueOf() > players[0].buffer.duration) {
-      Tone.getTransport().stop();
-    }
-    Tone.getTransport().pause();
-  }
+  return;
 }
 
 
