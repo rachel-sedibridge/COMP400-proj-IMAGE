@@ -92,24 +92,24 @@ document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
 
 function handleDown(e) {
-  // stop the currently playing sound
-  Tone.getTransport().stop();
   // if user holding down key, do nothing w/ keypresses after first
   if (e.repeat) {
     return;
   }
   // play/pause
   else if (e.key == TOGGLE_PLAY) {
-    Tone.getTransport().toggle();
     console.log(`toggling`)
+    Tone.getTransport().toggle();
   }
+  // stop the currently playing sound
+  Tone.getTransport().stop();
   // moving up (initial keypress)
-  else if (e.key == MOVE_UP) {
-    sonify(true);
+  if (e.key == MOVE_UP) {
+    sonify(true, false);
   }
   // moving down (initial keypress)
-  else if (e.key == MOVE_DOWN) {
-    sonify(false);
+  if (e.key == MOVE_DOWN) {
+    sonify(false, false);
   }
 }
 
@@ -118,7 +118,7 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp) {
+function sonify(movingUp, repeating) {
   // START
   if (sgmt_tracker < 0) {
     startPlayer.start();
