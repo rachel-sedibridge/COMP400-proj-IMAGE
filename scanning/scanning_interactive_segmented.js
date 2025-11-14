@@ -9,11 +9,11 @@ const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
 const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
-var LOOPS = true;
+var LOOPS = false;
 
 // start, end pings - constant
-const START_PING = 'audio_tracks/start.mp3' //segment -1
-const END_PING = 'audio_tracks/end.mp3' //segment NUM_SEGMENTS
+const START_PING = 'audio_tracks/start.mp3' //segment 0
+const END_PING = 'audio_tracks/end.mp3' //segment NUM_SEGMENTS + 1
 
 // region tracks (rendered and example versions) - example-specific
 const sky_real_ping = 'audio_tracks/sky-truelen-mono-w.mp3'
@@ -37,7 +37,7 @@ var regions_to_play = {
   ground: [ground_real_ping, true]
 }
 var players = [];
-var sgmt_tracker = -1; //start at 'start' = -1
+var sgmt_tracker = 0; //start at 'start' = 0
 
 /*
 the idea of this version is to split the audio into x segments and the user can go through those.
@@ -95,7 +95,7 @@ function handleDown(e) {
     Tone.getTransport().toggle();
   }
   // stop the currently playing sound
-  Tone.getTransport().stop();
+  Tone.getTransport().cancel(0);
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
     sonify(true);
@@ -112,28 +112,30 @@ function handleUp(e) {
 
 // helper function to play START and END at appropriate times
 function sonify(movingUp) {
+  // increment before playing unless outside bounds (start/end)
+  if ((sgmt_tracker > 0 && !movingUp)
+      || (sgmt_tracker <= NUM_SEGMENTS && movingUp)) {
+    movingUp ? sgmt_tracker++ : sgmt_tracker--;
+  }
   // START PING
-  if (sgmt_tracker < 0) {
+  if (sgmt_tracker <= 0) {
     startPlayer.start();
-    movingUp ? sgmt_tracker++ : sgmt_tracker; //lower bound on sgmt tracker
   }
   // END PING
-  else if (sgmt_tracker >= NUM_SEGMENTS) {
+  else if (sgmt_tracker > NUM_SEGMENTS) {
     endPlayer.start();
-    movingUp ? sgmt_tracker : sgmt_tracker--; //upper bound on sgmt tracker
   }
   // ACTUAL SONIFICATION - "REGIONS"
   else {
     playRegions()
-    movingUp ? sgmt_tracker++ : sgmt_tracker--; //increment after playing
   }
 }
 
 function playRegions() {
   // segment length (duration) computed here bc player buffers not init'ed right away
   var duration = players[0].buffer.duration / NUM_SEGMENTS;
-  var offset = sgmt_tracker * duration; //start playing from this point in the tracks
-  
+  var offset = (sgmt_tracker - 1) * duration; //start playing from this point in the tracks
+
   for (var i = 0; i < players.length; i++) {
     if (LOOPS) {
       players[i].loopStart = offset;
