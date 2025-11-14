@@ -105,11 +105,13 @@ function handleDown(e) {
   else if (e.key == MOVE_UP) {
     sonify(segment_tracker);
     segment_tracker += 1;
+    console.log(`segment tracker = ${segment_tracker}`)
   } 
   // moving down (initial keypress)
   else if (e.key == MOVE_DOWN) {
     sonify(segment_tracker);
     segment_tracker -= 1;
+    console.log(`segment tracker = ${segment_tracker}`)
   }
 }
 
@@ -122,9 +124,12 @@ function sonify(whichSegment) {
   }
   else {
     var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
+    console.log(`segmentLen = ${segmentLen}`)
+    console.log(`starttime = ${(whichSegment - 1) * segmentLen}`)
+    console.log(`stoptime = ${whichSegment * segmentLen}`)
 
-    Tone.getTransport().start(whichSegment * segmentLen);
-    Tone.getTransport().stop((whichSegment + 1) * segmentLen);
+    Tone.getTransport().start((whichSegment - 1) * segmentLen);
+    Tone.getTransport().stop(whichSegment * segmentLen);
   }
 }
 
