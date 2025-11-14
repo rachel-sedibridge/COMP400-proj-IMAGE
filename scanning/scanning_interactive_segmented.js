@@ -4,11 +4,12 @@
 // STILL USING TONE.JS API
 
 // FILE-GLOBAL VARS
-// keybinds, number of segments
+// reference global vars: these are just defaults, and are editable
 const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
 const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
+var LOOPS = false;
 
 // start, end pings - constant
 const START_PING = 'audio_tracks/start.mp3' //segment -1
@@ -95,11 +96,11 @@ function handleDown(e) {
   Tone.getTransport().stop();
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
-    sonify(true, false);
+    sonify(true);
   }
   // moving down (initial keypress)
   if (e.key == MOVE_DOWN) {
-    sonify(false, false);
+    sonify(false);
   }
 }
 
@@ -108,7 +109,7 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp, repeating) {
+function sonify(movingUp) {
   // START PING
   if (sgmt_tracker < 0) {
     startPlayer.start();
