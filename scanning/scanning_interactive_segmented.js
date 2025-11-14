@@ -39,24 +39,6 @@ var regions_to_play = {
 var players = [];
 var sgmt_tracker = 0; //start at 'start' = 0
 
-/*
-the idea of this version is to split the audio into x segments and the user can go through those.
-- each segment loops until moved up to the next one
-- there's a start/stop key (spacebar for now)
-- the sonification starts w/ 'start' and ends w/ 'end'
-- default num segments is 4
-- loop length is player.buffer.duration / num_segments
-- when the user is going back down, the sound no longer actually reverses
-    i.e. sound is always played bottom -> top
-- track which segment the player is on. start and end pings are played when
-    tracker is at 0 and num_segments + 1 respectively
-
-ASSUMPTIONS
-- all rendered tracks are the same length
-- FOR NOW playing all regions, always
-*/
-
-
 
 // SETUP
 // init Player and Channel objs for region tones
