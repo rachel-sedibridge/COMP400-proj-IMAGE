@@ -65,7 +65,7 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
   const player = new Tone.Player({
     url: attrs[0],
     loop: true, // it breaks after 1 playthrough if this is not set
-  });
+  }).sync().start(0);
   player.name = region; //set name to region name
   player.connect(channel);
 
@@ -95,11 +95,11 @@ function handleDown(e) {
   Tone.getTransport().stop();
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
-    sonify(true, false);
+    sonify(true);
   }
   // moving down (initial keypress)
   if (e.key == MOVE_DOWN) {
-    sonify(false, false);
+    sonify(false);
   }
 }
 
@@ -108,7 +108,7 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp, repeating) {
+function sonify(movingUp) {
   // START PING
   if (sgmt_tracker < 0) {
     startPlayer.start();
@@ -132,7 +132,10 @@ function playRegions() {
   var offset = sgmt_tracker * duration; //start playing from this point in the tracks
   
   for (var i = 0; i < players.length; i++) {
-    players[i].start(0, offset, duration); //start playback as soon as indicated
+    players[i].loopStart = offset;
+    players[i].loopEnd = offset + duration;
+    console.log(players[i].get())
+    // players[i].start(0, offset, duration); //start playback as soon as indicated
   }
   Tone.getTransport().start(); //start playback
 }
