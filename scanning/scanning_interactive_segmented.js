@@ -99,7 +99,6 @@ function handleUp(e) {
 
 // helper function to play START and END at appropriate times
 function sonify(movingUp, repeating = false) {
-  toggleMute(false); //unmute, in case last key was 'play/pause'
   // increment before playing unless outside bounds (start/end)
   if (!repeating
       && ((sgmt_tracker > 0 && !movingUp)
@@ -108,14 +107,17 @@ function sonify(movingUp, repeating = false) {
   }
   // START PING
   if (sgmt_tracker <= 0) {
+    toggleMute(true);
     startPlayer.start();
   }
   // END PING
   else if (sgmt_tracker > NUM_SEGMENTS) {
+    toggleMute(true);
     endPlayer.start();
   }
   // ACTUAL SONIFICATION - "REGIONS"
   else {
+    toggleMute(false); //unmute, just in case last key was 'play/pause'
     playRegions()
   }
 }
