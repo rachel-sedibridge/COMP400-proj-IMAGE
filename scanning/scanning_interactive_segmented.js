@@ -8,7 +8,7 @@
 // keybinds, number of segments
 const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
-const START_STOP = 'Space';
+const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
 
 // start, end pings - constant
@@ -95,7 +95,12 @@ function handleDown(e) {
   // if user holding down key:
   if (e.repeat) {
     return;
-  } 
+  }
+  // play/pause
+  else if (e.key == TOGGLE_PLAY) {
+    Tone.getTransport().toggle();
+    console.log(`toggling`)
+  }
   // moving up (initial keypress)
   else if (e.key == MOVE_UP) {
     sonify(segment_tracker);
