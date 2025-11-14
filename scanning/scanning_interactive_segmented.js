@@ -102,12 +102,12 @@ function handleDown(e) {
     }
   } 
   // moving up (initial keypress)
-  else if (e.key == triggerUp) {
+  else if (e.key == MOVE_UP) {
     sonify(segment_tracker);
     segment_tracker += 1;
   } 
   // moving down (initial keypress)
-  else if (e.key == triggerDown) {
+  else if (e.key == MOVE_DOWN) {
     sonify(segment_tracker);
     segment_tracker -= 1;
   }
