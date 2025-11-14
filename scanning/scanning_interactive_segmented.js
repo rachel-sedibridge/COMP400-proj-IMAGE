@@ -39,6 +39,38 @@ var regions_to_play = {
 var players = [];
 var sgmt_tracker = -1; //start at 'start' = -1
 
+
+// const player1 = new Tone.Player("audio_tracks/water-truelen-mono-w.mp3", () => {
+//     player1.start();
+//     // seek to the offset in 1 second from now
+//     // player1.seek(3, "+1");
+//     player1.stop("+1")
+// }).toDestination();
+// const player2 = new Tone.Player("audio_tracks/ground-truelen-mono-w.mp3", () => {
+//     player2.start();
+//     // seek to the offset in 1 second from now
+//     player2.seek(3, "+2");
+//     player2.stop("+3")
+// }).toDestination();
+
+// sgmt_tracker = 0;
+
+// const event1 = new Tone.ToneEvent(eventCallback).start(0);
+
+// function eventCallback(time, value) {
+//   //play sonification segment
+//   var segmentLen = player1.buffer.duration / NUM_SEGMENTS;
+//   var starttime = sgmt_tracker * segmentLen;
+//   console.log(`starttime = ${starttime}s`)
+
+//   // player1.start(time, starttime, segmentLen);
+//   // player2.start(time, starttime, segmentLen);
+
+//   for (var i = 0; i < players.length; i++) {
+//     players[i].start(time, starttime, segmentLen);
+//   }
+// }
+
 /*
 the idea of this version is to split the audio into x segments and the user can go through those.
 - each segment loops until moved up to the next one
@@ -67,7 +99,7 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     const player = new Tone.Player({
       url: attrs[0],
       loop: true, // it breaks after 1 playthrough if this is not set
-    }).sync().start(0);
+    });
     player.name = region; //set name to region name
     player.connect(channel);
 
@@ -90,6 +122,7 @@ const endPlayer = new Tone.Player(END_PING).toDestination();
 
 document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
+// document.addEventListener('keydown', (() => Tone.getTransport().start())); //for testing
 
 function handleDown(e) {
   // if user holding down key, do nothing w/ keypresses after first
@@ -139,16 +172,15 @@ function sonify(movingUp, repeating) {
 }
 
 function playRegions() {
-  //play sonification segment
-  var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
-  // jump all players to the correct start time
+  // get segment length (computed here bc players[0].buffer not init'ed right away)
+  var duration = players[1].buffer.duration / NUM_SEGMENTS;
+  var offset = sgmt_tracker * duration;
+  
+  // play all players from 
   for (var i = 0; i < players.length; i++) {
-    console.log(`seeking to time ${sgmt_tracker * segmentLen}s`)
-    players[i].seek(sgmt_tracker * segmentLen);
+    players[i].start(0, offset, duration);
   }
-
   Tone.getTransport().start();
-  Tone.getTransport().stop(Tone.now() + segmentLen); //stop after [segmentLen] secs
 }
 
 
