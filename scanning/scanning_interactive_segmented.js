@@ -92,7 +92,9 @@ document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
 
 function handleDown(e) {
-  // if user holding down key:
+  // stop the currently playing sound
+  Tone.getTransport().stop();
+  // if user holding down key, do nothing w/ keypresses after first
   if (e.repeat) {
     return;
   }
@@ -103,31 +105,13 @@ function handleDown(e) {
   }
   // moving up (initial keypress)
   else if (e.key == MOVE_UP) {
-    sonify();
-    sgmt_tracker += 1;
-    console.log(`segment tracker = ${sgmt_tracker}`)
-  } 
+    var skipRegions = playStartEnd(true);
+    skipRegions ? null : sonify();
+  }
   // moving down (initial keypress)
   else if (e.key == MOVE_DOWN) {
-    sonify();
-    sgmt_tracker -= 1;
-    console.log(`segment tracker = ${sgmt_tracker}`)
-  }
-}
-
-function sonify() {
-  if (sgmt_tracker < 0) { //play START
-    startPlayer.start();
-  }
-  else if (sgmt_tracker >= NUM_SEGMENTS) { //play END
-    endPlayer.start();
-  }
-  else { //play sonification segment
-    var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
-    seekRegions(segmentLen);
-
-    Tone.getTransport().start();
-    Tone.getTransport().stop(Tone.now() + segmentLen); //stop after [segmentLen] secs
+    var skipRegions = playStartEnd(false);
+    skipRegions ? null : sonify();
   }
 }
 
@@ -135,15 +119,35 @@ function handleUp(e) {
   return;
 }
 
-// helper function to move the region renders to the correct time
-function seekRegions(segmentLen) {
-  console.log(`segmentLen = ${segmentLen}`)
-  console.log(`starttime = ${sgmt_tracker * segmentLen}`)
-
+function sonify() {
+  //play sonification segment
+  var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
   // jump all players to the correct start time
   for (var i = 0; i < players.length; i++) {
     players[i].seek(sgmt_tracker * segmentLen);
   }
+
+  Tone.getTransport().start();
+  Tone.getTransport().stop(Tone.now() + segmentLen); //stop after [segmentLen] secs
+}
+
+// helper function to play START and END at appropriate times
+function playStartEnd(movingUp) {
+  if (sgmt_tracker < 0) { //START segment
+    startPlayer.start();
+    // START segment is lower bound on segment tracker - move up but not down
+    movingUp ? sgmt_tracker++ : sgmt_tracker;
+    return true;
+  }
+  else if (sgmt_tracker >= NUM_SEGMENTS) { //END segment
+    endPlayer.start();
+    // END segment is upper bound on segment tracker - move down but not up
+    movingUp ? sgmt_tracker : sgmt_tracker--;
+    return true;
+  }
+  // otherwise, increment tracker as normal and return false (START/END not played)
+  movingUp ? sgmt_tracker++ : sgmt_tracker--;
+  return false;
 }
 
 
