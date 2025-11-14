@@ -9,7 +9,7 @@ const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
 const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
-var LOOPS = false;
+var LOOPS = true;
 
 // start, end pings - constant
 const START_PING = 'audio_tracks/start.mp3' //segment -1
@@ -65,7 +65,10 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
   const player = new Tone.Player({
     url: attrs[0],
     loop: true, // it breaks after 1 playthrough if this is not set
-  }).sync().start(0);
+  });
+  if (LOOPS) {
+    player.sync().start(0);
+  }
   player.name = region; //set name to region name
   player.connect(channel);
 
@@ -132,10 +135,13 @@ function playRegions() {
   var offset = sgmt_tracker * duration; //start playing from this point in the tracks
   
   for (var i = 0; i < players.length; i++) {
-    players[i].loopStart = offset;
-    players[i].loopEnd = offset + duration;
-    console.log(players[i].get())
-    // players[i].start(0, offset, duration); //start playback as soon as indicated
+    if (LOOPS) {
+      players[i].loopStart = offset;
+      players[i].loopEnd = offset + duration;
+    }
+    else {
+      players[i].start(0, offset, duration); //start playback as soon as indicated
+    }
   }
   Tone.getTransport().start(); //start playback
 }
