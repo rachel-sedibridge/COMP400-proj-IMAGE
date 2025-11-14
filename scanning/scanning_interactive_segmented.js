@@ -4,7 +4,6 @@
 // STILL USING TONE.JS API
 
 // FILE-GLOBAL VARS
-
 // keybinds, number of segments
 const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
@@ -39,38 +38,6 @@ var regions_to_play = {
 var players = [];
 var sgmt_tracker = -1; //start at 'start' = -1
 
-
-// const player1 = new Tone.Player("audio_tracks/water-truelen-mono-w.mp3", () => {
-//     player1.start();
-//     // seek to the offset in 1 second from now
-//     // player1.seek(3, "+1");
-//     player1.stop("+1")
-// }).toDestination();
-// const player2 = new Tone.Player("audio_tracks/ground-truelen-mono-w.mp3", () => {
-//     player2.start();
-//     // seek to the offset in 1 second from now
-//     player2.seek(3, "+2");
-//     player2.stop("+3")
-// }).toDestination();
-
-// sgmt_tracker = 0;
-
-// const event1 = new Tone.ToneEvent(eventCallback).start(0);
-
-// function eventCallback(time, value) {
-//   //play sonification segment
-//   var segmentLen = player1.buffer.duration / NUM_SEGMENTS;
-//   var starttime = sgmt_tracker * segmentLen;
-//   console.log(`starttime = ${starttime}s`)
-
-//   // player1.start(time, starttime, segmentLen);
-//   // player2.start(time, starttime, segmentLen);
-
-//   for (var i = 0; i < players.length; i++) {
-//     players[i].start(time, starttime, segmentLen);
-//   }
-// }
-
 /*
 the idea of this version is to split the audio into x segments and the user can go through those.
 - each segment loops until moved up to the next one
@@ -91,35 +58,25 @@ ASSUMPTIONS
 
 
 // SETUP
-
 // init Player and Channel objs for region tones
 for (const [region, attrs] of Object.entries(regions_to_play)) {
-  if (attrs[1]) {
-    const channel = new Tone.Channel().toDestination();
-    const player = new Tone.Player({
-      url: attrs[0],
-      loop: true, // it breaks after 1 playthrough if this is not set
-    });
-    player.name = region; //set name to region name
-    player.connect(channel);
+  const channel = new Tone.Channel().toDestination();
+  const player = new Tone.Player({
+    url: attrs[0],
+    loop: true, // it breaks after 1 playthrough if this is not set
+  });
+  player.name = region; //set name to region name
+  player.connect(channel);
 
-    players.push(player); //maintain list of active players
-  }
+  players.push(player); //maintain list of active players
 }
 // init start and end tone Player objs
 // unsynced w/ TransportTime rn...
 const startPlayer = new Tone.Player(START_PING).toDestination();
 const endPlayer = new Tone.Player(END_PING).toDestination();
 
-// // set up loops based on time split
-// for (var i = 0; i < NUM_SEGMENTS; i++) {
-//   console.log('asdf')
-// }
-
-
 
 // KEYBINDINGS
-
 document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
 // document.addEventListener('keydown', (() => Tone.getTransport().start())); //for testing
@@ -152,41 +109,36 @@ function handleUp(e) {
 
 // helper function to play START and END at appropriate times
 function sonify(movingUp, repeating) {
-  // START
+  // START PING
   if (sgmt_tracker < 0) {
     startPlayer.start();
-    // START segment is lower bound on segment tracker - move up but not down
-    movingUp ? sgmt_tracker++ : sgmt_tracker;
-    return;
+    movingUp ? sgmt_tracker++ : sgmt_tracker; //lower bound on sgmt tracker
   }
-  // END
+  // END PING
   else if (sgmt_tracker >= NUM_SEGMENTS) {
     endPlayer.start();
-    // END segment is upper bound on segment tracker - move down but not up
-    movingUp ? sgmt_tracker : sgmt_tracker--;
-    return;
+    movingUp ? sgmt_tracker : sgmt_tracker--; //upper bound on sgmt tracker
   }
-  // REGIONS
-  playRegions()
-  movingUp ? sgmt_tracker++ : sgmt_tracker--; //increment after playing
+  // ACTUAL SONIFICATION - "REGIONS"
+  else {
+    playRegions()
+    movingUp ? sgmt_tracker++ : sgmt_tracker--; //increment after playing
+  }
 }
 
 function playRegions() {
-  // get segment length (computed here bc players[0].buffer not init'ed right away)
-  var duration = players[1].buffer.duration / NUM_SEGMENTS;
-  var offset = sgmt_tracker * duration;
+  // segment length (duration) computed here bc player buffers not init'ed right away
+  var duration = players[0].buffer.duration / NUM_SEGMENTS;
+  var offset = sgmt_tracker * duration; //start playing from this point in the tracks
   
-  // play all players from 
   for (var i = 0; i < players.length; i++) {
-    players[i].start(0, offset, duration);
+    players[i].start(0, offset, duration); //start playback as soon as indicated
   }
-  Tone.getTransport().start();
+  Tone.getTransport().start(); //start playback
 }
 
 
-
 // HTML UTILITY
-
 // toggle display of region selector checkboxes
 function toggleRegionSelect() {
   var toToggle = document.getElementById("checkboxes");
@@ -206,16 +158,3 @@ function toggleText() {
     text.style.display = "none";
   }
 }
-
-// function printKeyEventDetails(e) {
-//   let text = e.type +
-//   ' key=' + e.key +
-//   ' code=' + e.code +
-//   (e.shiftKey ? ' shiftKey' : '') +
-//   (e.ctrlKey ? ' ctrlKey' : '') +
-//   (e.altKey ? ' altKey' : '') +
-//   (e.metaKey ? ' metaKey' : '') +
-//   (e.repeat ? ' (repeat)' : '') +
-//   "\n";
-//   console.log(text)
-// }
