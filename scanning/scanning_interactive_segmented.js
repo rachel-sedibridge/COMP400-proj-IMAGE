@@ -1,5 +1,3 @@
-// import * as Tone from "tone"; //Node doesn't implement Web Audio and I THINK
-// that's why this breaks everything?? I have actually no idea.
 // NEW VERSION OF THE JS BREAKING THE SONIFICATION UP INTO SLICES
 // STILL USING TONE.JS API
 
@@ -9,7 +7,7 @@ const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
 const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
-var LOOPS = false;
+var LOOPS = true;
 
 // start, end pings - constant
 const START_PING = 'audio_tracks/start.mp3' //segment 0
@@ -137,7 +135,10 @@ function playRegions() {
     }
   }
   Tone.getTransport().start(); //start playback
-  Tone.getTransport().stop(Tone.now() + duration);
+  // if not looping, stop player after `duration` so that play/pause works right
+  if (!LOOPS) {
+    Tone.getTransport().stop(Tone.now() + duration);
+  }
 }
 
 function toggleMute(targetSetting) {
