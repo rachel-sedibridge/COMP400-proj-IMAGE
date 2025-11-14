@@ -8,11 +8,12 @@ const triggerDown = 'ArrowDown'
 
 // const start_ping = 'audio_tracks/start.mp3'
 // const stop_ping = 'audio_tracks/stop.mp3'
+// const end_ping = 'audio_tracks/end.mp3'
 
-const sky_real_ping = 'audio_tracks/sky_wind-vertical_scan-w.mp3'
-const water_real_ping = 'audio_tracks/water_lake-vertical_scan-w.mp3'
-const animal_real_ping = 'audio_tracks/animal_gallop-vertical_scan-w.mp3'
-const ground_real_ping = 'audio_tracks/ground_rocks-vertical_scan-w.mp3'
+const sky_real_ping = 'audio_tracks/sky-truelen-mono-w.mp3'
+const water_real_ping = 'audio_tracks/water-truelen-mono-w.mp3'
+const animal_real_ping = 'audio_tracks/animal-truelen-mono-w.mp3'
+const ground_real_ping = 'audio_tracks/ground-truelen-mono-w.mp3'
 
 const sky_eg_ping = 'audio_tracks/example_tone-sky_wind.mp3'
 const water_eg_ping = 'audio_tracks/example_tone-water_lake.mp3'
