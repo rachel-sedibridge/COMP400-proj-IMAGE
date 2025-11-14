@@ -3,7 +3,8 @@
 // NEW VERSION OF THE JS BREAKING THE SONIFICATION UP INTO SLICES
 // STILL USING TONE.JS API
 
-// file-global vars
+// FILE-GLOBAL VARS
+
 // keybinds, number of segments
 const MOVE_UP = 'ArrowUp';
 const MOVE_DOWN = 'ArrowDown';
@@ -55,6 +56,8 @@ ASSUMPTIONS
 - FOR NOW playing all regions, always
 */
 
+
+
 // SETUP
 
 // init Player and Channel objs for region tones
@@ -80,9 +83,6 @@ const endPlayer = new Tone.Player(END_PING).toDestination();
 // for (var i = 0; i < NUM_SEGMENTS; i++) {
 //   console.log('asdf')
 // }
-
-
-
 
 
 
@@ -117,7 +117,7 @@ function sonify(whichSegment) {
   else if (whichSegment > NUM_SEGMENTS) { //play END
     endPlayer.start();
   }
-  else {
+  else { //play sonification segment
     var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
     console.log(`segmentLen = ${segmentLen}`)
     console.log(`starttime = ${(whichSegment - 1) * segmentLen}`)
@@ -131,6 +131,7 @@ function sonify(whichSegment) {
 function handleUp(e) {
   return;
 }
+
 
 
 // HTML UTILITY
