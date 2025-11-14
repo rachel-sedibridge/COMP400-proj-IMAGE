@@ -98,11 +98,11 @@ function handleDown(e) {
   Tone.getTransport().cancel(0);
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
-    sonify(true);
+    sonify(true, false);
   }
   // moving down (initial keypress)
   if (e.key == MOVE_DOWN) {
-    sonify(false);
+    sonify(false, false);
   }
 }
 
@@ -111,10 +111,11 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp) {
+function sonify(movingUp, repeating) {
   // increment before playing unless outside bounds (start/end)
-  if ((sgmt_tracker > 0 && !movingUp)
-      || (sgmt_tracker <= NUM_SEGMENTS && movingUp)) {
+  if (!repeating
+      && ((sgmt_tracker > 0 && !movingUp)
+          || (sgmt_tracker <= NUM_SEGMENTS && movingUp))) {
     movingUp ? sgmt_tracker++ : sgmt_tracker--;
   }
   // START PING
