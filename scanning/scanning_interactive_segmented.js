@@ -12,8 +12,8 @@ const TOGGLE_PLAY = ' '; //space
 var NUM_SEGMENTS = 4;
 
 // start, end pings - constant
-const START_PING = 'audio_tracks/start.mp3'
-const END_PING = 'audio_tracks/end.mp3'
+const START_PING = 'audio_tracks/start.mp3' //segment -1
+const END_PING = 'audio_tracks/end.mp3' //segment NUM_SEGMENTS
 
 // region tracks (rendered and example versions) - example-specific
 const sky_real_ping = 'audio_tracks/sky-truelen-mono-w.mp3'
@@ -37,7 +37,7 @@ var regions_to_play = {
   ground: [ground_real_ping, true]
 }
 var players = [];
-var segment_tracker = 0; //start at 'start'
+var sgmt_tracker = -1; //start at 'start' = -1
 
 /*
 the idea of this version is to split the audio into x segments and the user can go through those.
@@ -67,7 +67,7 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     const player = new Tone.Player({
       url: attrs[0],
       loop: true, // it breaks after 1 playthrough if this is not set
-    }).sync().start(0);
+    }).sync(); //sync but don't set start time
     player.name = region; //set name to region name
     player.connect(channel);
 
@@ -103,33 +103,34 @@ function handleDown(e) {
   }
   // moving up (initial keypress)
   else if (e.key == MOVE_UP) {
-    sonify(segment_tracker);
-    segment_tracker += 1;
-    console.log(`segment tracker = ${segment_tracker}`)
+    sonify();
+    sgmt_tracker += 1;
+    console.log(`segment tracker = ${sgmt_tracker}`)
   } 
   // moving down (initial keypress)
   else if (e.key == MOVE_DOWN) {
-    sonify(segment_tracker);
-    segment_tracker -= 1;
-    console.log(`segment tracker = ${segment_tracker}`)
+    sonify();
+    sgmt_tracker -= 1;
+    console.log(`segment tracker = ${sgmt_tracker}`)
   }
 }
 
-function sonify(whichSegment) {
-  if (whichSegment < 1) { //play START
+function sonify() {
+  if (sgmt_tracker < 0) { //play START
     startPlayer.start();
   }
-  else if (whichSegment > NUM_SEGMENTS) { //play END
+  else if (sgmt_tracker >= NUM_SEGMENTS) { //play END
     endPlayer.start();
   }
   else { //play sonification segment
     var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
-    console.log(`segmentLen = ${segmentLen}`)
-    console.log(`starttime = ${(whichSegment - 1) * segmentLen}`)
-    console.log(`stoptime = ${whichSegment * segmentLen}`)
 
-    Tone.getTransport().start((whichSegment - 1) * segmentLen);
-    Tone.getTransport().stop(whichSegment * segmentLen);
+    console.log(`segmentLen = ${segmentLen}`)
+    console.log(`starttime = ${sgmt_tracker * segmentLen}`)
+    console.log(`stoptime = ${(sgmt_tracker + 1) * segmentLen}`)
+
+    Tone.getTransport().start(sgmt_tracker * segmentLen);
+    Tone.getTransport().stop((sgmt_tracker + 1) * segmentLen);
   }
 }
 
