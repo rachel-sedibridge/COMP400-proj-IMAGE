@@ -78,9 +78,8 @@ const endPlayer = new Tone.Player(END_PING).toDestination();
 
 
 // KEYBINDINGS
-document.addEventListener('keyup', handleUp);
 document.addEventListener('keydown', handleDown);
-// document.addEventListener('keydown', (() => Tone.getTransport().start())); //for testing
+document.addEventListener('keyup', handleUp);
 
 function handleDown(e) {
   // if user holding down key, do nothing w/ keypresses after first
@@ -96,11 +95,11 @@ function handleDown(e) {
   Tone.getTransport().stop();
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
-    sonify(true);
+    sonify(true, false);
   }
   // moving down (initial keypress)
   if (e.key == MOVE_DOWN) {
-    sonify(false);
+    sonify(false, false);
   }
 }
 
@@ -109,7 +108,7 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp) {
+function sonify(movingUp, repeating) {
   // START PING
   if (sgmt_tracker < 0) {
     startPlayer.start();
