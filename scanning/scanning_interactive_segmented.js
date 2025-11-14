@@ -94,12 +94,7 @@ document.addEventListener('keydown', handleDown);
 function handleDown(e) {
   // if user holding down key:
   if (e.repeat) {
-    if (Tone.getTransport().state == 'stopped') {
-      return;
-    }
-    if (Tone.TransportTime().valueOf() >= players[0].buffer.duration) {
-      Tone.getTransport().stop();
-    }
+    return;
   } 
   // moving up (initial keypress)
   else if (e.key == MOVE_UP) {
