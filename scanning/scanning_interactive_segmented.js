@@ -91,18 +91,25 @@ function handleDown(e) {
   }
   // play/pause
   else if (e.key == TOGGLE_PLAY) {
-    console.log(`toggling`)
-    Tone.getTransport().toggle();
+    var transport = Tone.getTransport();
+    // the sounds have been queued, so the only way to stop them is to just
+    // mute playback. It's not elegant, but I did make it so it can't be unmuted
+    // by anything except stuff that overrides it, so user shouldn't notice.
+    if (transport.state == 'started') {
+      toggleMute(true);
+      Tone.getTransport().stop();
+    }
+    else if (transport.state == 'stopped') {
+      sonify(false, true); //val of movingUp doesn't matter
+    }
   }
-  // stop the currently playing sound
-  Tone.getTransport().cancel(0);
   // moving up (initial keypress)
   if (e.key == MOVE_UP) {
-    sonify(true, false);
+    sonify(true);
   }
   // moving down (initial keypress)
   if (e.key == MOVE_DOWN) {
-    sonify(false, false);
+    sonify(false);
   }
 }
 
@@ -111,7 +118,8 @@ function handleUp(e) {
 }
 
 // helper function to play START and END at appropriate times
-function sonify(movingUp, repeating) {
+function sonify(movingUp, repeating = false) {
+  toggleMute(false); //unmute, in case last key was 'play/pause'
   // increment before playing unless outside bounds (start/end)
   if (!repeating
       && ((sgmt_tracker > 0 && !movingUp)
@@ -147,6 +155,15 @@ function playRegions() {
     }
   }
   Tone.getTransport().start(); //start playback
+  Tone.getTransport().stop(Tone.now() + duration);
+}
+
+function toggleMute(targetSetting) {
+  if (players[0].mute != targetSetting) {
+    for (var i = 0; i < players.length; i++) {
+      players[i].mute = targetSetting;
+    }
+  }
 }
 
 
