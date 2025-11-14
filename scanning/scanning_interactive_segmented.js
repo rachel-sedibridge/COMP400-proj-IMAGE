@@ -105,13 +105,11 @@ function handleDown(e) {
   }
   // moving up (initial keypress)
   else if (e.key == MOVE_UP) {
-    var skipRegions = playStartEnd(true);
-    skipRegions ? null : sonify();
+    sonify(true);
   }
   // moving down (initial keypress)
   else if (e.key == MOVE_DOWN) {
-    var skipRegions = playStartEnd(false);
-    skipRegions ? null : sonify();
+    sonify(false);
   }
 }
 
@@ -119,35 +117,38 @@ function handleUp(e) {
   return;
 }
 
-function sonify() {
+// helper function to play START and END at appropriate times
+function sonify(movingUp) {
+  // START
+  if (sgmt_tracker < 0) {
+    startPlayer.start();
+    // START segment is lower bound on segment tracker - move up but not down
+    movingUp ? sgmt_tracker++ : sgmt_tracker;
+    return;
+  }
+  // END
+  else if (sgmt_tracker >= NUM_SEGMENTS) {
+    endPlayer.start();
+    // END segment is upper bound on segment tracker - move down but not up
+    movingUp ? sgmt_tracker : sgmt_tracker--;
+    return;
+  }
+  // REGIONS
+  playRegions()
+  movingUp ? sgmt_tracker++ : sgmt_tracker--; //increment after playing
+}
+
+function playRegions() {
   //play sonification segment
   var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
   // jump all players to the correct start time
   for (var i = 0; i < players.length; i++) {
+    console.log(`seeking to time ${sgmt_tracker * segmentLen}s`)
     players[i].seek(sgmt_tracker * segmentLen);
   }
 
   Tone.getTransport().start();
   Tone.getTransport().stop(Tone.now() + segmentLen); //stop after [segmentLen] secs
-}
-
-// helper function to play START and END at appropriate times
-function playStartEnd(movingUp) {
-  if (sgmt_tracker < 0) { //START segment
-    startPlayer.start();
-    // START segment is lower bound on segment tracker - move up but not down
-    movingUp ? sgmt_tracker++ : sgmt_tracker;
-    return true;
-  }
-  else if (sgmt_tracker >= NUM_SEGMENTS) { //END segment
-    endPlayer.start();
-    // END segment is upper bound on segment tracker - move down but not up
-    movingUp ? sgmt_tracker : sgmt_tracker--;
-    return true;
-  }
-  // otherwise, increment tracker as normal and return false (START/END not played)
-  movingUp ? sgmt_tracker++ : sgmt_tracker--;
-  return false;
 }
 
 
