@@ -1,6 +1,12 @@
 // NEW VERSION OF THE JS BREAKING THE SONIFICATION UP INTO SLICES
 // STILL USING TONE.JS API
 
+/*
+ASSUMPTIONS:
+- actions are done on `players` together, so can check players[0] and assume
+  that holds for all of them
+*/
+
 // FILE-GLOBAL VARS
 // reference global vars: these are just defaults, and are editable
 const MOVE_UP = 'ArrowUp';
