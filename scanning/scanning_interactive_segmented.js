@@ -76,10 +76,10 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
 const startPlayer = new Tone.Player(START_PING).toDestination();
 const endPlayer = new Tone.Player(END_PING).toDestination();
 
-// set up loops based on time split
-for (var i = 0; i < NUM_SEGMENTS; i++) {
-  console.log('asdf')
-}
+// // set up loops based on time split
+// for (var i = 0; i < NUM_SEGMENTS; i++) {
+//   console.log('asdf')
+// }
 
 
 
@@ -124,7 +124,7 @@ function sonify(whichSegment) {
     var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
 
     Tone.getTransport().start(whichSegment * segmentLen);
-    Tone.getTransport().start((whichSegment + 1) * segmentLen);
+    Tone.getTransport().stop((whichSegment + 1) * segmentLen);
   }
 }
 
