@@ -67,7 +67,7 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     const player = new Tone.Player({
       url: attrs[0],
       loop: true, // it breaks after 1 playthrough if this is not set
-    }).sync(); //sync but don't set start time
+    }).sync().start(0);
     player.name = region; //set name to region name
     player.connect(channel);
 
@@ -124,18 +124,26 @@ function sonify() {
   }
   else { //play sonification segment
     var segmentLen = players[0].buffer.duration / NUM_SEGMENTS;
+    seekRegions(segmentLen);
 
-    console.log(`segmentLen = ${segmentLen}`)
-    console.log(`starttime = ${sgmt_tracker * segmentLen}`)
-    console.log(`stoptime = ${(sgmt_tracker + 1) * segmentLen}`)
-
-    Tone.getTransport().start(sgmt_tracker * segmentLen);
-    Tone.getTransport().stop((sgmt_tracker + 1) * segmentLen);
+    Tone.getTransport().start();
+    Tone.getTransport().stop(Tone.now() + segmentLen); //stop after [segmentLen] secs
   }
 }
 
 function handleUp(e) {
   return;
+}
+
+// helper function to move the region renders to the correct time
+function seekRegions(segmentLen) {
+  console.log(`segmentLen = ${segmentLen}`)
+  console.log(`starttime = ${sgmt_tracker * segmentLen}`)
+
+  // jump all players to the correct start time
+  for (var i = 0; i < players.length; i++) {
+    players[i].seek(sgmt_tracker * segmentLen);
+  }
 }
 
 
