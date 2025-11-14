@@ -68,9 +68,15 @@ for (const [region, attrs] of Object.entries(regions_to_play)) {
     players.push(player);
   }
 }
-Tone.Transport.schedule(function(time){
-	console.log('TRANSPORT STARTING ASLDFJAHSDFHASDKJFAHSKDJFHALSKDJFHALKSJDFH')
-}, 0);
+
+// Tone.Transport.schedule(function(time){
+// 	console.log('TRANSPORT AT 1.2 SECONDS ASLDFJAHSDFHASDKJFAHSKDJFHALSKDJFHALKSJDFH')
+//   console.log(time)
+// }, 1.2);
+
+var reverseEvent = new Tone.ToneEvent(((time) => {
+  Tone.getTransport().start(players[0].buffer.duration - time)
+}), Tone.TransportTime().valueOf());
 
 // // called before playing anything, every time
 // function updateMainPlayer() {
@@ -100,21 +106,22 @@ document.addEventListener('keydown', handleDown);
 // document.addEventListener('keypress', handle); //deprecated, doesn't matter
 
 function handleDown(e) {
+  console.log(`keydown. state = ${Tone.getTransport().state}`);
+  // console.log(Tone.TransportTime().valueOf())
   if (e.repeat) {
-    console.log('repeat keydown: skipping...');
-    console.log(Tone.getTransport().state)
     if (Tone.getTransport().state == 'stopped') {
-      handleUp(e);
+      console.log('STOP - REPEAT 1')
       return;
     }
-    if (Tone.getTransport().now() >= players[0].buffer.duration) {
+    if (Tone.TransportTime().valueOf() >= players[0].buffer.duration) {
+      console.log('STOP - REPEAET @')
       Tone.getTransport().stop();
     }
-  } else if (e.key == triggerUp) { //initial press, scanning up
-    console.log('keydown up');
+  } 
+  else if (e.key == triggerUp) { //initial press, scanning up
     sonify(false);
-  } else if (e.key == triggerDown) { //initial press, scanning down
-    console.log('keydown down');
+  } 
+  else if (e.key == triggerDown) { //initial press, scanning down
     sonify(true);
   }
 }
@@ -135,6 +142,7 @@ function sonify(isBackwards) {
     for (var i = 0; i < players.length; i++) {
       players[i].reverse = isBackwards;
     }
+    reverseEvent.start();
   }
   Tone.getTransport().start();
 }
@@ -145,16 +153,13 @@ function handleUp(e) {
   }
   if (e.key == triggerUp || e.key == triggerDown) { // lifting of important key
     console.log('keyup');
-    console.log(Tone.getTransport().state)
-    // console.log(Tone.getTransport().now())
+    // console.log(Tone.getTransport().state)
+    // if hit or passed the end of the loop
+    if (Tone.TransportTime().valueOf() > players[0].buffer.duration) {
+      console.log('STOP')
+      Tone.getTransport().stop();
+    }
     // // if not hit the end of the loop
-    // if (Tone.now() < players[0].loopEnd) {
-    //   for (var i = 0; i < players.length; i++) {
-    //     players[i].loopStart = Tone.getTransport().now();
-    //     console.log(players[i].get());
-    //   }
-    // }
-    // // if hit or passed the end of the loop
     // else {
     //   for (var i = 0; i < players.length; i++) {
     //     players[i].loopStart = 0;
