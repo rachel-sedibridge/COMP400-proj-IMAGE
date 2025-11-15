@@ -12,6 +12,12 @@ ASSUMPTIONS:
 // FILE-GLOBAL VARS
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
+var INIT = true; //set to false after first key pressed
+
+var DATA;
+fetch('json_schemas/city_street.json')
+    .then((response) => response.json())
+    .then((data) => DATA = data);
 
 
 // SETUP OF TONES
@@ -26,12 +32,27 @@ const basicTone = new Tone.Sampler({
     // },
 }).toDestination();
 
+// run through DATA and create the echoes
+function initEchoes() {
+  for (const [key, value] of Object.entries(DATA)) {
+    console.log(key, value)
+  }
+}
+
+
 
 // KEYBINDINGS
 document.addEventListener('keydown', handleDown);
 document.addEventListener('keyup', handleUp);
 
 function handleDown(e) {
+  if (INIT) {
+    fetch('json_schemas/city_street.json')
+    .then((response) => response.json())
+    .then((data) => DATA = data);
+    initEchoes();
+    INIT = false;
+  }
   if (e.key != TOGGLE_PLAY) {
     return;
   }
