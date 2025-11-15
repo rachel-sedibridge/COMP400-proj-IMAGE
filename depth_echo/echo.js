@@ -14,11 +14,6 @@ ASSUMPTIONS:
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 var INIT = true; //set to false after first key pressed
 
-var DATA;
-fetch('json_schemas/city_street.json')
-    .then((response) => response.json())
-    .then((data) => DATA = data);
-
 
 // SETUP OF TONES
 const basicTone = new Tone.Sampler({
@@ -33,9 +28,9 @@ const basicTone = new Tone.Sampler({
 }).toDestination();
 
 // run through DATA and create the echoes
-function initEchoes() {
-  for (const [key, value] of Object.entries(DATA)) {
-    console.log(key, value)
+function initEchoes(data) {
+  for (const [index, obj] of Object.entries(data)) {
+    console.log(index, obj)
   }
 }
 
@@ -46,11 +41,10 @@ document.addEventListener('keydown', handleDown);
 document.addEventListener('keyup', handleUp);
 
 function handleDown(e) {
-  if (INIT) {
+  if (INIT) { //init on ANY keypress
     fetch('json_schemas/city_street.json')
     .then((response) => response.json())
-    .then((data) => DATA = data);
-    initEchoes();
+    .then((data) => initEchoes(data));
     INIT = false;
   }
   if (e.key != TOGGLE_PLAY) {
