@@ -63,31 +63,29 @@ for (var i = 0; i < 4; i++) {
 
 
 // SETUP OF TONES
-// run through DATA and create the echoes
-function initEchoes(data) {
-  for (const [index, obj] of Object.entries(data)) {
-    console.log(obj)
-    var name = `${obj.type}${obj.ID}`;
-    var x = obj.centroid[0];
-    var depth = obj.depth;
-    var newTone = new Tone.Sampler({
-      urls: {
-          D1: "clean_d_str_pick-short.mp3",
-      },
-      baseUrl: "audio_tracks/",
-      release: 0.3,
-    });
-    // pan using x coordinate
-    var panner = new Tone.Panner(normalizePanX(x)).toDestination();
-    newTone.connect(panner);
-    // add echoes in order from nearest to farthest, stopping when dictated by `depth`
-    var numEchoes = normalizeDepthToEchoes(depth);
-    for (var i = 0; i < numEchoes; i++) {
-      newTone.chain(delays[i], vols[i], Tone.Destination);
-      newTone.chain(delays[i], vols[i], reverbs[i], Tone.Destination);
-    }
-    tones.push(newTone);
+// run through DATA (from json_loader.js) and create the echoes
+for (const [index, obj] of Object.entries(DATA)) {
+  console.log(obj)
+  var name = `${obj.type}${obj.ID}`;
+  var x = obj.centroid[0];
+  var depth = obj.depth;
+  var newTone = new Tone.Sampler({
+    urls: {
+        D1: "clean_d_str_pick-short.mp3",
+    },
+    baseUrl: "audio_tracks/",
+    release: 0.3,
+  });
+  // pan using x coordinate
+  var panner = new Tone.Panner(normalizePanX(x)).toDestination();
+  newTone.connect(panner);
+  // add echoes in order from nearest to farthest, stopping when dictated by `depth`
+  var numEchoes = normalizeDepthToEchoes(depth);
+  for (var i = 0; i < numEchoes; i++) {
+    newTone.chain(delays[i], vols[i], Tone.Destination);
+    newTone.chain(delays[i], vols[i], reverbs[i], Tone.Destination);
   }
+  tones.push(newTone);
 }
 
 // // use an array of objects as long as the object has a "time" attribute
@@ -137,12 +135,6 @@ document.addEventListener('keydown', handleDown);
 document.addEventListener('keyup', handleUp);
 
 function handleDown(e) {
-  if (INIT) { //init on ANY keypress
-    fetch('json_schemas/city_street.json')
-    .then((response) => response.json())
-    .then((data) => initEchoes(data));
-    INIT = false;
-  }
   if (e.key != TOGGLE_PLAY) {
     return;
   }
