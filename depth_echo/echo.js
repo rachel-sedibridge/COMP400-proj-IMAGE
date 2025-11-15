@@ -26,14 +26,14 @@ const basicTone = new Tone.Sampler({
 const delays = [
   new Tone.Delay(0.7, 5),
   new Tone.Delay(1.45, 5),
-  new Tone.Delay(2.2, 5),
-  new Tone.Delay(2.95, 5)
+  new Tone.Delay(2.25, 5),
+  new Tone.Delay(3.1, 5)
 ];
 const vols = [
-  new Tone.Volume(-8),
-  new Tone.Volume(-14),
+  new Tone.Volume(-15),
   new Tone.Volume(-20),
-  new Tone.Volume(-25)
+  new Tone.Volume(-23),
+  new Tone.Volume(-26)
 ]
 const reverbs = [
   new Tone.Reverb({decay: 1, wet: 0.65}),
