@@ -14,7 +14,7 @@ ASSUMPTIONS:
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
 const TONE_SPACING = 5; //in seconds, shouldn't be less than max delay
-var tones = []; //popular during loading
+var tones = {}; //name:tone mapping, populate during loading
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
@@ -85,7 +85,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   for (var i = 0; i < numEchoes; i++) {
     newTone.chain(panner, delays[i], vols[i], reverbs[i], Tone.Destination);
   }
-  tones.push(newTone);
+  tones.name = newTone;
 }
 
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
@@ -130,23 +130,14 @@ function handleUp(e) {
   return;
 }
 
-// use an array of objects as long as the object has a "time" attribute
-const part = new Tone.Part(((time, value) => {
-    // the value is an object which contains both the note and the velocity
-    basicTone.triggerAttackRelease(value.note, "8n", time, value.velocity);
-}), [{ time: 0, note: "C3", velocity: 0.9 },
-    { time: "0:2", note: "C4", velocity: 0.5 }
-]).start(0);
-Tone.Transport.start();
-
 // helper to play all the tones in sequence, without narration so far
 function playAllTones() {
-  // // NOTE FOR FUTURE: uncomment this and pass eventList as events if want to
-  // // pass any additional information to the callback
-  // var eventList = {};
-  // for (var i = 0; i < tones.length; i++) {
-  //   eventList.
-  // }
+  // NOTE: edit eventList to pass additional info to the callback
+  var eventList = {};
+  for (const [name, toneObj] of Object.entries(DATA)) {
+    eventList.name = name;
+    eventList.tone = toneObj;
+  }
   var toneSequence = new Tone.Sequence({
     callback: playTone,
     events: tones,
@@ -156,11 +147,11 @@ function playAllTones() {
 }
 
 // the callback for the Tone.Part that plays all the tones
+// args MUST be (time, value) (API requirement)
 function playTone(time, value) {
-  // value = tone (events = tones)
-  // always the same note and duration
-  // time doesn't matter bc handled by the subdivision on Tone.Sequence
-  value.triggerAttackRelease("D1", 0.8, time)
+  // always the same note and duration, time comes from Sequence.subdivision
+  // value = {name, tone} -> name for the 'captioning', not implemented yet
+  value.tone.triggerAttackRelease("D1", 0.8, time);
 }
 
 // moved all the messing around from playTone() to here
