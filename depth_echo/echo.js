@@ -25,27 +25,27 @@ const basicTone = new Tone.Sampler({
 }).toDestination();
 const delays = [
   new Tone.Delay(0.7, 5),
-  new Tone.Delay(1.45, 5),
-  new Tone.Delay(2.25, 5),
-  new Tone.Delay(3.1, 5)
+  new Tone.Delay(1.4, 5),
+  new Tone.Delay(2.1, 5),
+  new Tone.Delay(2.8, 5)
 ];
 const vols = [
-  new Tone.Volume(-15),
-  new Tone.Volume(-20),
-  new Tone.Volume(-23),
-  new Tone.Volume(-26)
+  new Tone.Volume(-8),
+  new Tone.Volume(-10),
+  new Tone.Volume(-10),
+  new Tone.Volume(-11)
 ]
 const reverbs = [
-  new Tone.Reverb({decay: 1, wet: 0.65}),
-  new Tone.Reverb({decay: 1, wet: 0.75}),
-  new Tone.Reverb({decay: 1, wet: 0.85}),
-  new Tone.Reverb({decay: 1, wet: 0.95})
+  new Tone.Reverb({decay: 1.1, wet: 0.65}),
+  new Tone.Reverb({decay: 1.23, wet: 0.76}),
+  new Tone.Reverb({decay: 1.3, wet: 0.85}),
+  new Tone.Reverb({decay: 1.4, wet: 0.95})
 ]
 const lowPassFilters = [
-  new Tone.EQ3({high: -8, highFrequency: 4000}),
-  new Tone.EQ3({high: -8, highFrequency: 1600}),
-  new Tone.EQ3({high: -8, highFrequency: 1000}),
-  new Tone.EQ3({high: -8, highFrequency: 700})
+  new Tone.EQ3({high: -14, highFrequency: 4000}),
+  new Tone.EQ3({high: -15, highFrequency: 1500}),
+  new Tone.EQ3({high: -16, highFrequency: 1000}),
+  new Tone.EQ3({high: -18, highFrequency: 600})
 ]
 for (var i = 0; i < 4; i++) {
   reverbs[i].chain(lowPassFilters[i], Tone.Destination);
@@ -82,8 +82,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   // add echoes in order from nearest to farthest, stopping when dictated by `depth`
   var numEchoes = normalizeDepthToEchoes(depth);
   for (var i = 0; i < numEchoes; i++) {
-    newTone.chain(delays[i], vols[i], Tone.Destination);
-    newTone.chain(delays[i], vols[i], reverbs[i], Tone.Destination);
+    newTone.chain(panner, delays[i], vols[i], reverbs[i], Tone.Destination);
   }
   tones.push(newTone);
 }
@@ -163,5 +162,5 @@ function playTone() {
   // const vol1 = new Tone.Volume(-20).toDestination();
   // const osc = new Tone.Oscillator().connect(vol1).start(0);
   console.log(tones)
-  tones[0].triggerAttackRelease("D1", 0.8)
+  tones[1].triggerAttackRelease("D1", 0.8)
 }
