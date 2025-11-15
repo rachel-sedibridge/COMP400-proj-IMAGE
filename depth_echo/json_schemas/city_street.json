@@ -5,7 +5,8 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.02,
     "centroid": [0.5, 0.25],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.2
   },
   {
     "ID": 2,
@@ -13,7 +14,8 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.02,
     "centroid": [0.8, 0.15],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.7
   },
   {
     "ID": 3,
@@ -21,7 +23,8 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.02,
     "centroid": [0.95, 0.07],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.95
   },
   {
     "ID": 4,
@@ -29,7 +32,8 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.02,
     "centroid": [0.8, 0.3],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.5
   },
   {
     "ID": 5,
@@ -37,7 +41,8 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.01,
     "centroid": [0.16, 0.15],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.6
   },
   {
     "ID": 6,
@@ -45,6 +50,7 @@
     "dimensions": [0, 1, 1, 0],
     "area": 0.01,
     "centroid": [0.21, 0.15],
-    "confidence": 1
+    "confidence": 1,
+    "depth": 0.6
   }
 ]
