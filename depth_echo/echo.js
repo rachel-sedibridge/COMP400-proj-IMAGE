@@ -87,15 +87,6 @@ for (const [index, obj] of Object.entries(DATA)) {
   tones.push(newTone);
 }
 
-// // use an array of objects as long as the object has a "time" attribute
-// const part = new Tone.Part(((time, value) => {
-//     // the value is an object which contains both the note and the velocity
-//     basicTone.triggerAttackRelease(value.note, "8n", time, value.velocity);
-// }), [{ time: 0, note: "C3", velocity: 0.9 },
-//     { time: "0:2", note: "C4", velocity: 0.5 }
-// ]).start(0);
-// Tone.Transport.start();
-
 // callback for Tone.Part
 function buildEcho(time, obj) {
   var myTone = basicTone;
@@ -137,15 +128,38 @@ function handleDown(e) {
   if (e.key != TOGGLE_PLAY) {
     return;
   }
-  playTone();
+  tester();
 }
 
 function handleUp(e) {
   return;
 }
 
-// helper to play basic tone
-function playTone() {
+// // use an array of objects as long as the object has a "time" attribute
+// const part = new Tone.Part(((time, value) => {
+//     // the value is an object which contains both the note and the velocity
+//     basicTone.triggerAttackRelease(value.note, "8n", time, value.velocity);
+// }), [{ time: 0, note: "C3", velocity: 0.9 },
+//     { time: "0:2", note: "C4", velocity: 0.5 }
+// ]).start(0);
+// Tone.Transport.start();
+
+// helper to play all the tones in sequence, without narration so far
+function playAllTones() {
+  var tonePart = new Tone.Part()
+  for (var i = 0; i < tones.length; i++) {
+    tones[i].triggerAttackRelease("D1", 0.8) //NOPE plays them all at once - fixed in next commit (probably)
+  }
+}
+
+// the callback for the Tone.Part that plays all the tones
+function playTone(time, value) {
+  tones[1].triggerAttackRelease("D1", 0.8)
+}
+
+// moved all the messing around from playTone() to here
+// because the name `playTone()` made more sense to use elsewhere lol
+function tester() {
   // const freeverb = new Tone.Freeverb().toDestination();
   // freeverb.dampening = 1000;
   // basicTone.connect(freeverb);
