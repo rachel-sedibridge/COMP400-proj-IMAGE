@@ -3,7 +3,7 @@
     "ID": 1,
     "type": "car",
     "dimensions": [0, 1, 1, 0],
-    "area": 0.02,
+    "area": 0.01,
     "centroid": [0.5, 0.25],
     "confidence": 1,
     "depth": 0.2
@@ -12,7 +12,7 @@
     "ID": 2,
     "type": "car",
     "dimensions": [0, 1, 1, 0],
-    "area": 0.02,
+    "area": 0.01,
     "centroid": [0.8, 0.15],
     "confidence": 1,
     "depth": 0.7
@@ -21,7 +21,7 @@
     "ID": 3,
     "type": "car",
     "dimensions": [0, 1, 1, 0],
-    "area": 0.02,
+    "area": 0.01,
     "centroid": [0.95, 0.07],
     "confidence": 1,
     "depth": 0.95
@@ -30,7 +30,7 @@
     "ID": 4,
     "type": "bus",
     "dimensions": [0, 1, 1, 0],
-    "area": 0.02,
+    "area": 0.01,
     "centroid": [0.8, 0.3],
     "confidence": 1,
     "depth": 0.5
