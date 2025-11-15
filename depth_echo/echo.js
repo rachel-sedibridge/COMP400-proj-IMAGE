@@ -24,10 +24,10 @@ const basicTone = new Tone.Sampler({
   release: 0.3,
 }).toDestination();
 const delays = [
-  new Tone.Delay(0.6, 5),
-  new Tone.Delay(1.3, 5),
-  new Tone.Delay(1.3, 5),
-  new Tone.Delay(3, 5)
+  new Tone.Delay(0.7, 5),
+  new Tone.Delay(1.45, 5),
+  new Tone.Delay(2.2, 5),
+  new Tone.Delay(2.95, 5)
 ];
 const vols = [
   new Tone.Volume(-8),
