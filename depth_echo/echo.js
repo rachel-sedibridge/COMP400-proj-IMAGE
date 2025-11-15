@@ -147,13 +147,13 @@ function playAllTones() {
   // for (var i = 0; i < tones.length; i++) {
   //   eventList.
   // }
-}
   var toneSequence = new Tone.Sequence({
     callback: playTone,
     events: tones,
     subdivision: TONE_SPACING,
     loop: false, //defaults to true otherwise
   });
+}
 
 // the callback for the Tone.Part that plays all the tones
 function playTone(time, value) {
