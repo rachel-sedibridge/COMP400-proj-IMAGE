@@ -1,0 +1,50 @@
+[
+  {
+    "ID": 1,
+    "type": "car",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.02,
+    "centroid": [0.5, 0.25],
+    "confidence": 1
+  },
+  {
+    "ID": 2,
+    "type": "car",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.02,
+    "centroid": [0.8, 0.15],
+    "confidence": 1
+  },
+  {
+    "ID": 3,
+    "type": "car",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.02,
+    "centroid": [0.95, 0.07],
+    "confidence": 1
+  },
+  {
+    "ID": 4,
+    "type": "bus",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.02,
+    "centroid": [0.8, 0.3],
+    "confidence": 1
+  },
+  {
+    "ID": 5,
+    "type": "person",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.16, 0.15],
+    "confidence": 1
+  },
+  {
+    "ID": 6,
+    "type": "person",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.21, 0.15],
+    "confidence": 1
+  }
+]
