@@ -13,7 +13,7 @@ ASSUMPTIONS:
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 var INIT = true; //set to false after first key pressed
-var full_tones = []; //popular during loading
+var tones = []; //popular during loading
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
@@ -35,6 +35,23 @@ const vols = [
   new Tone.Volume(-20),
   new Tone.Volume(-25)
 ]
+const reverbs = [
+  new Tone.Reverb({decay: 1, wet: 0.65}),
+  new Tone.Reverb({decay: 1, wet: 0.75}),
+  new Tone.Reverb({decay: 1, wet: 0.85}),
+  new Tone.Reverb({decay: 1, wet: 0.95})
+]
+const lowPassFilters = [
+  new Tone.EQ3({high: -8, highFrequency: 4000}),
+  new Tone.EQ3({high: -8, highFrequency: 1600}),
+  new Tone.EQ3({high: -8, highFrequency: 1000}),
+  new Tone.EQ3({high: -8, highFrequency: 700})
+]
+for (var i = 0; i < 4; i++) {
+  reverbs[i].chain(lowPassFilters[i], Tone.Destination);
+}
+
+
 // const delay_echo1 = new Tone.Delay(0.6, 5);
 // const delay_echo2 = new Tone.Delay(1.3, 5);
 // const delay_echo3 = new Tone.Delay(1.3, 5);
@@ -49,11 +66,10 @@ const vols = [
 // run through DATA and create the echoes
 function initEchoes(data) {
   for (const [index, obj] of Object.entries(data)) {
-    console.log(index, obj)
+    console.log(obj)
     var name = `${obj.type}${obj.ID}`;
     var x = obj.centroid[0];
     var depth = obj.depth;
-    console.log(normalizeDepthToEchoes(depth))
     var newTone = new Tone.Sampler({
       urls: {
           D1: "clean_d_str_pick-short.mp3",
@@ -68,7 +84,9 @@ function initEchoes(data) {
     var numEchoes = normalizeDepthToEchoes(depth);
     for (var i = 0; i < numEchoes; i++) {
       newTone.chain(delays[i], vols[i], Tone.Destination);
+      newTone.chain(delays[i], vols[i], reverbs[i], Tone.Destination);
     }
+    tones.push(newTone);
   }
 }
 
@@ -137,19 +155,21 @@ function handleUp(e) {
 
 // helper to play basic tone
 function playTone() {
-  const freeverb = new Tone.Freeverb().toDestination();
-  freeverb.dampening = 600;
-  // routing synth through the reverb
-  // const synth = new Tone.NoiseSynth().connect(freeverb);
-  basicTone.connect(freeverb);
-  basicTone.triggerAttackRelease("D1", 0.5);
+  // const freeverb = new Tone.Freeverb().toDestination();
+  // freeverb.dampening = 1000;
+  // basicTone.connect(freeverb);
+  // basicTone.triggerAttackRelease("D1", 0.9);
 
   // connect the signal to both the delay and the destination
   // delay_echo1.chain(vol_echo1, Tone.Destination);
-  // basicTone.chain(delay_echo1, vol_echo1, Tone.Destination);
+  // basicTone.chain(delays[0], vols[0], Tone.Destination);
+  // basicTone.chain(delays[1], vols[1], Tone.Destination);
+  // basicTone.chain(delays[2], vols[2], Tone.Destination);
   // start and stop the pulse
   // basicTone.triggerAttackRelease("D1", 0.9);
 
   // const vol1 = new Tone.Volume(-20).toDestination();
   // const osc = new Tone.Oscillator().connect(vol1).start(0);
+  console.log(tones)
+  tones[0].triggerAttackRelease("D1", 0.8)
 }
