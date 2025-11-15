@@ -12,6 +12,8 @@ ASSUMPTIONS:
 // FILE-GLOBAL VARS
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
+const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
+const TONE_SPACING = 5; //in seconds, shouldn't be less than max delay
 var tones = []; //popular during loading
 
 //TEMPLATE
@@ -23,10 +25,10 @@ const basicTone = new Tone.Sampler({
   release: 0.3,
 }).toDestination();
 const delays = [
-  new Tone.Delay(0.7, 5),
-  new Tone.Delay(1.4, 5),
-  new Tone.Delay(2.1, 5),
-  new Tone.Delay(2.8, 5)
+  new Tone.Delay(0.7, MAX_DELAY),
+  new Tone.Delay(1.4, MAX_DELAY),
+  new Tone.Delay(2.1, MAX_DELAY),
+  new Tone.Delay(2.8, MAX_DELAY)
 ];
 const vols = [
   new Tone.Volume(-8),
@@ -155,7 +157,7 @@ function playAllTones() {
   var toneSequence = new Tone.Sequence({
     callback: playTone,
     events: tones,
-    subdivision: 5, //same as max delay
+    subdivision: TONE_SPACING,
     loop: false, //defaults to true otherwise
   });
 
