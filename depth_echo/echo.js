@@ -12,7 +12,6 @@ ASSUMPTIONS:
 // FILE-GLOBAL VARS
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
-var INIT = true; //set to false after first key pressed
 var tones = []; //popular during loading
 
 //TEMPLATE
