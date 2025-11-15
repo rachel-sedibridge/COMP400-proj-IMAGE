@@ -88,12 +88,6 @@ for (const [index, obj] of Object.entries(DATA)) {
   tones.push(newTone);
 }
 
-// callback for Tone.Part
-function buildEcho(time, obj) {
-  var myTone = basicTone;
-  const delay = new Tone.Delay(obj.offset).connect
-}
-
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
   return -1 + 2 * x
