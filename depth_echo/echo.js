@@ -135,26 +135,37 @@ function handleUp(e) {
   return;
 }
 
-// // use an array of objects as long as the object has a "time" attribute
-// const part = new Tone.Part(((time, value) => {
-//     // the value is an object which contains both the note and the velocity
-//     basicTone.triggerAttackRelease(value.note, "8n", time, value.velocity);
-// }), [{ time: 0, note: "C3", velocity: 0.9 },
-//     { time: "0:2", note: "C4", velocity: 0.5 }
-// ]).start(0);
-// Tone.Transport.start();
+// use an array of objects as long as the object has a "time" attribute
+const part = new Tone.Part(((time, value) => {
+    // the value is an object which contains both the note and the velocity
+    basicTone.triggerAttackRelease(value.note, "8n", time, value.velocity);
+}), [{ time: 0, note: "C3", velocity: 0.9 },
+    { time: "0:2", note: "C4", velocity: 0.5 }
+]).start(0);
+Tone.Transport.start();
 
 // helper to play all the tones in sequence, without narration so far
 function playAllTones() {
-  var tonePart = new Tone.Part()
-  for (var i = 0; i < tones.length; i++) {
-    tones[i].triggerAttackRelease("D1", 0.8) //NOPE plays them all at once - fixed in next commit (probably)
-  }
+  // // NOTE FOR FUTURE: uncomment this and pass eventList as events if want to
+  // // pass any additional information to the callback
+  // var eventList = {};
+  // for (var i = 0; i < tones.length; i++) {
+  //   eventList.
+  // }
 }
+  var toneSequence = new Tone.Sequence({
+    callback: playTone,
+    events: tones,
+    subdivision: 5, //same as max delay
+    loop: false, //defaults to true otherwise
+  });
 
 // the callback for the Tone.Part that plays all the tones
 function playTone(time, value) {
-  tones[1].triggerAttackRelease("D1", 0.8)
+  // value = tone (events = tones)
+  // always the same note and duration
+  // time doesn't matter bc handled by the subdivision on Tone.Sequence
+  value.triggerAttackRelease("D1", 0.8, time)
 }
 
 // moved all the messing around from playTone() to here
