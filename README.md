@@ -1,5 +1,5 @@
 # Description
-Prototypes for my COMP 400 project with IMAGE.
+Prototypes for my COMP 400 project with IMAGE. **THIS IS OUT OF DATE I WILL UPDATE IT LATER!!**
 
 ## Depth Layers directory
 Prototype for the **perspective navigation** idea. Definitely too high-fidelity for this stage, I was in a rush working on things this week (don't we all just love working for non-profits those *always* stay within expected work hours).
