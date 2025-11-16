@@ -123,7 +123,7 @@ function handleDown(e) {
   if (e.key != TOGGLE_PLAY) {
     return;
   }
-  tester();
+  playAllTones();
 }
 
 function handleUp(e) {
@@ -143,7 +143,9 @@ function playAllTones() {
     events: tones,
     subdivision: TONE_SPACING,
     loop: false, //defaults to true otherwise
-  });
+  }).start(0);
+  console.log(toneSequence.get())
+  Tone.getTransport().start();
 }
 
 // the callback for the Tone.Part that plays all the tones
