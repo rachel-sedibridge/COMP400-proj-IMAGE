@@ -66,7 +66,7 @@ for (var i = 0; i < 4; i++) {
 // SETUP OF TONES
 // run through DATA (from json_loader.js) and create the echoes
 for (const [index, obj] of Object.entries(DATA)) {
-  console.log(obj)
+  // console.log(obj)
   var name = `${obj.type}${obj.ID}`;
   var x = obj.centroid[0];
   var depth = obj.depth;
@@ -85,8 +85,9 @@ for (const [index, obj] of Object.entries(DATA)) {
   for (var i = 0; i < numEchoes; i++) {
     newTone.chain(panner, delays[i], vols[i], reverbs[i], Tone.Destination);
   }
-  tones.name = newTone;
+  tones[name] = newTone;
 }
+console.log(tones)
 
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
@@ -133,14 +134,17 @@ function handleUp(e) {
 // helper to play all the tones in sequence, without narration so far
 function playAllTones() {
   // NOTE: edit eventList to pass additional info to the callback
-  var eventList = {};
-  for (const [name, toneObj] of Object.entries(DATA)) {
-    eventList.name = name;
-    eventList.tone = toneObj;
+  var eventList = [];
+  for (const [name, toneObj] of Object.entries(tones)) {
+    console.log(toneObj)
+    eventList.push({
+      name: name,
+      tone: toneObj
+    });
   }
   var toneSequence = new Tone.Sequence({
     callback: playTone,
-    events: tones,
+    events: eventList,
     subdivision: TONE_SPACING,
     loop: false, //defaults to true otherwise
   }).start(0);
