@@ -95,8 +95,8 @@ function normalizePanX(x) {
 // get echo delay time in seconds, from depth num in json
 function normalizeDepthToDelay(depth) {
   // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
-  var min = 0.05 //s when depth = 0
-  var max = 4 //s when depth = 1
+  var min = 4 //s when depth = 0
+  var max = 0.05 //s when depth = 1
   return min + (max - min) * depth
 }
 
