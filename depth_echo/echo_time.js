@@ -12,6 +12,8 @@ ASSUMPTIONS:
 // FILE-GLOBAL VARS
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
+
+const D_URL = "clean_d_str_pick.mp3" //unclipped 27s sample
 const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
 const TONE_SPACING = 4; //in seconds, shouldn't be less than max delay
 var tones = {}; //name:tone mapping, populate during loading
@@ -19,7 +21,7 @@ var tones = {}; //name:tone mapping, populate during loading
 //TEMPLATE
 const basicTone = new Tone.Sampler({
   urls: {
-      D1: "clean_d_str_pick-short.mp3",
+      D1: D_URL, //I have no idea which D it is, not 1 but doesn't matter! :D
   },
   baseUrl: "audio_tracks/",
   release: 0.3,
@@ -62,7 +64,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   var depth = obj.depth;
   var newTone = new Tone.Sampler({
     urls: {
-        D1: "clean_d_str_pick-short.mp3",
+        D1: D_URL,
     },
     baseUrl: "audio_tracks/",
     release: 0.3,
