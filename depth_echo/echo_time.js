@@ -11,6 +11,10 @@ ASSUMPTIONS:
 USEFUL NOTES:
 - map interval [a,b] -> [c,d] : f(t) = c + (d-c/b-a) * (t - a)
   https://math.stackexchange.com/questions/914823/shift-numbers-into-a-different-range
+- FROM ONYX - how to make something sound far away: lowpass filter and
+  then also add reverb w/ lowpass on the reverb. Add a send to reverb,
+  have it go to main out and also to reverb, and then put a lowpass
+  filter as an insert on the reverb.
 */
 
 // FILE-GLOBAL VARS
@@ -77,11 +81,20 @@ for (const [index, obj] of Object.entries(DATA)) {
   // pan using x coordinate
   var panner = new Tone.Panner(normalizePanX(x)).toDestination();
   newTone.connect(panner);
-  // add echoes in order from nearest to farthest, stopping when dictated by `depth`
+  // create parts of the echo
   var delayTime = normalizeDepthToDelay(depth);
-  // for (var i = 0; i < delayTime; i++) {
-  //   newTone.chain(panner, delays[i], vols[i], reverbs[i], lowPassFilters[i], Tone.Destination);
-  // }
+  var delay = new Tone.Delay(delayTime, MAX_DELAY);
+  var r_decay, r_wet = normalizeDepthToReverb(depth);
+  var reverb = new Tone.Reverb({decay: r_decay, wet: r_wet});
+  var lp_high, lp_freq = normalizeDepthToLowPass(depth);
+  var lowPassFilter = new Tone.EQ3({high: lp_high, highFrequency: lp_freq});
+  // chain those parts to the tone and output
+  // two branches of the delayed signal: one directly to main w/ volume
+  // lowered, and one goes through reverb and lp filter first
+  var vol = new Tone.Volume(-15);
+  newTone.chain(panner, delay, vol, Tone.Destination);
+  newTone.chain(panner, delay, reverb, lowPassFilter, Tone.Destination);
+  // save the final tone by name
   tones[name] = newTone;
 }
 console.log(tones)
