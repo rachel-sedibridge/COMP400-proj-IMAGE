@@ -48,7 +48,7 @@ const lowPassFilters = [
   new Tone.EQ3({high: -16, highFrequency: 1000}),
   new Tone.EQ3({high: -18, highFrequency: 600})
 ]
-// THIS DIDN'T DO SHIT OOPS lol
+// OK this might have been doing something but I'm really not sure...
 // for (var i = 0; i < 4; i++) {
 //   reverbs[i].chain(lowPassFilters[i], Tone.Destination);
 // }
