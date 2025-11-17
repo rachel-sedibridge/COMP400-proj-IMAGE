@@ -34,34 +34,6 @@ const basicTone = new Tone.Sampler({
   baseUrl: "audio_tracks/",
   release: 0.3,
 }).toDestination();
-const delays = [
-  new Tone.Delay(0.7, MAX_DELAY),
-  new Tone.Delay(1.4, MAX_DELAY),
-  new Tone.Delay(2.1, MAX_DELAY),
-  new Tone.Delay(2.8, MAX_DELAY)
-];
-const vols = [
-  new Tone.Volume(-8),
-  new Tone.Volume(-10),
-  new Tone.Volume(-10),
-  new Tone.Volume(-11)
-]
-const reverbs = [
-  new Tone.Reverb({decay: 1.1, wet: 0.65}),
-  new Tone.Reverb({decay: 1.23, wet: 0.76}),
-  new Tone.Reverb({decay: 1.3, wet: 0.85}),
-  new Tone.Reverb({decay: 1.4, wet: 0.95})
-]
-const lowPassFilters = [
-  new Tone.EQ3({high: -14, highFrequency: 4000}),
-  new Tone.EQ3({high: -15, highFrequency: 1500}),
-  new Tone.EQ3({high: -16, highFrequency: 1000}),
-  new Tone.EQ3({high: -18, highFrequency: 600})
-]
-// OK this might have been doing something but I'm really not sure...
-// for (var i = 0; i < 4; i++) {
-//   reverbs[i].chain(lowPassFilters[i], Tone.Destination);
-// }
 
 
 // SETUP OF TONES
