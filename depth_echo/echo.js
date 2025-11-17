@@ -13,7 +13,7 @@ ASSUMPTIONS:
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
-const TONE_SPACING = 5; //in seconds, shouldn't be less than max delay
+const TONE_SPACING = 4; //in seconds, shouldn't be less than max delay
 var tones = {}; //name:tone mapping, populate during loading
 
 //TEMPLATE
@@ -53,16 +53,6 @@ for (var i = 0; i < 4; i++) {
 }
 
 
-// const delay_echo1 = new Tone.Delay(0.6, 5);
-// const delay_echo2 = new Tone.Delay(1.3, 5);
-// const delay_echo3 = new Tone.Delay(1.3, 5);
-// const delay_echo4 = new Tone.Delay(3, 5);
-// const vol_echo1 = new Tone.Volume(-8);
-// const vol_echo2 = new Tone.Volume(-14);
-// const vol_echo3 = new Tone.Volume(-20);
-// const vol_echo4 = new Tone.Volume(-25);
-
-
 // SETUP OF TONES
 // run through DATA (from json_loader.js) and create the echoes
 for (const [index, obj] of Object.entries(DATA)) {
@@ -82,6 +72,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   newTone.connect(panner);
   // add echoes in order from nearest to farthest, stopping when dictated by `depth`
   var numEchoes = normalizeDepthToEchoes(depth);
+  // for (var i = numEchoes - 1; i >= 0; i--) { //this doesn't seem to make any difference?
   for (var i = 0; i < numEchoes; i++) {
     newTone.chain(panner, delays[i], vols[i], reverbs[i], Tone.Destination);
   }
@@ -113,7 +104,6 @@ function normalizeDepthToEchoes(depth) {
     return 0;
   }
 }
-
 
 
 // KEYBINDINGS
