@@ -68,7 +68,7 @@ const lowPassFilters = [
 // run through DATA (from json_loader.js) and create the echoes
 for (const [index, obj] of Object.entries(DATA)) {
   // console.log(obj)
-  var name = `${obj.type}${obj.ID}`;
+  var objName = `${obj.type}${obj.ID}`;
   var x = obj.centroid[0];
   var depth = obj.depth;
   var newTone = new Tone.Sampler({
@@ -95,7 +95,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   newTone.chain(panner, delay, vol, Tone.Destination);
   newTone.chain(panner, delay, reverb, lowPassFilter, Tone.Destination);
   // save the final tone by name
-  tones[name] = newTone;
+  tones[objName] = newTone;
 }
 console.log(tones)
 
