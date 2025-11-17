@@ -89,15 +89,15 @@ console.log(tones)
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
   // function for this in the comment block at the top of the file
-  return -1 + 2 * x
+  return -1 + 2 * x;
 }
 
 // get echo delay time in seconds, from depth num in json
 function normalizeDepthToDelay(depth) {
   // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
-  var min = 4 //s when depth = 0
-  var max = 0.05 //s when depth = 1
-  return min + (max - min) * depth
+  var delay_min = 4; //s when depth = 0
+  var delay_max = 0.05; //s when depth = 1
+  return delay_min + (delay_max - delay_min) * depth;
 }
 
 
@@ -110,7 +110,7 @@ function handleDown(e) {
     return;
   }
   playAllTones();
-  // tester()
+  // tester();
 }
 
 function handleUp(e) {
