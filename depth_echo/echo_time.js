@@ -7,6 +7,10 @@ a series of fading echoes indicating distance.
 
 ASSUMPTIONS:
 - 
+
+USEFUL NOTES:
+- map interval [a,b] -> [c,d] : f(t) = c + (d-c/b-a) * (t - a)
+  https://math.stackexchange.com/questions/914823/shift-numbers-into-a-different-range
 */
 
 // FILE-GLOBAL VARS
@@ -14,7 +18,7 @@ ASSUMPTIONS:
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
 const D_URL = "clean_d_str_pick.mp3" //unclipped 27s sample
-const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
+const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
 const TONE_SPACING = 4; //in seconds, shouldn't be less than max delay
 var tones = {}; //name:tone mapping, populate during loading
 
@@ -74,38 +78,26 @@ for (const [index, obj] of Object.entries(DATA)) {
   var panner = new Tone.Panner(normalizePanX(x)).toDestination();
   newTone.connect(panner);
   // add echoes in order from nearest to farthest, stopping when dictated by `depth`
-  var numEchoes = normalizeDepthToEchoes(depth);
-  // for (var i = numEchoes - 1; i >= 0; i--) { //this doesn't seem to make any difference?
-  for (var i = 0; i < numEchoes; i++) {
-    newTone.chain(panner, delays[i], vols[i], reverbs[i], lowPassFilters[i], Tone.Destination);
-  }
+  var delayTime = normalizeDepthToDelay(depth);
+  // for (var i = 0; i < delayTime; i++) {
+  //   newTone.chain(panner, delays[i], vols[i], reverbs[i], lowPassFilters[i], Tone.Destination);
+  // }
   tones[name] = newTone;
 }
 console.log(tones)
 
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
+  // function for this in the comment block at the top of the file
   return -1 + 2 * x
 }
 
-// get the number of echoes from the depth number
-// divide into 4 "quadrants" w/ the nearest 0.05 reserved for "extreme foreground" (no echo)
-function normalizeDepthToEchoes(depth) {
-  if (depth <= 0.24) { //[0, 0.24]
-    return 4;
-  }
-  else if (depth <= 0.48) { //(0.24, 0.48]
-    return 3;
-  }
-  else if (depth <= 0.72) { //(0.48, 0.72]
-    return 2;
-  }
-  else if (depth <= 0.95) { //(0.72, 0.95]
-    return 1;
-  }
-  else { //(0.95, 1] *extreme* foreground
-    return 0;
-  }
+// get echo delay time in seconds, from depth num in json
+function normalizeDepthToDelay(depth) {
+  // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
+  var min = 0.05 //s when depth = 0
+  var max = 4 //s when depth = 1
+  return min + (max - min) * depth
 }
 
 
@@ -118,6 +110,7 @@ function handleDown(e) {
     return;
   }
   playAllTones();
+  // tester()
 }
 
 function handleUp(e) {
@@ -169,8 +162,20 @@ function tester() {
   // start and stop the pulse
   // basicTone.triggerAttackRelease("D1", 0.9);
 
+  // const delay1 = new Tone.Delay(normalizeDepthToDelay(1), MAX_DELAY)
+  // const delay2 = new Tone.Delay(normalizeDepthToDelay(0.75), MAX_DELAY)
+  // const delay3 = new Tone.Delay(normalizeDepthToDelay(0.5), MAX_DELAY)
+  // const delay4 = new Tone.Delay(normalizeDepthToDelay(0.25), MAX_DELAY)
+  // const delay5 = new Tone.Delay(normalizeDepthToDelay(0), MAX_DELAY)
+  // basicTone.chain(delay1, Tone.Destination)
+  // basicTone.chain(delay2, Tone.Destination)
+  // basicTone.chain(delay3, Tone.Destination)
+  // basicTone.chain(delay4, Tone.Destination)
+  // basicTone.chain(delay5, Tone.Destination)
+  basicTone.triggerAttackRelease("D1", 0.9);
+
   // const vol1 = new Tone.Volume(-20).toDestination();
   // const osc = new Tone.Oscillator().connect(vol1).start(0);
-  console.log(tones)
-  tones[1].triggerAttackRelease("D1", 0.8)
+  // console.log(tones)
+  // tones[1].triggerAttackRelease("D1", 0.8)
 }
