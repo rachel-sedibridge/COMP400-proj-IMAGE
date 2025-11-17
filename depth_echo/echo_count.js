@@ -48,9 +48,10 @@ const lowPassFilters = [
   new Tone.EQ3({high: -16, highFrequency: 1000}),
   new Tone.EQ3({high: -18, highFrequency: 600})
 ]
-for (var i = 0; i < 4; i++) {
-  reverbs[i].chain(lowPassFilters[i], Tone.Destination);
-}
+// THIS DIDN'T DO SHIT OOPS lol
+// for (var i = 0; i < 4; i++) {
+//   reverbs[i].chain(lowPassFilters[i], Tone.Destination);
+// }
 
 
 // SETUP OF TONES
@@ -74,7 +75,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   var numEchoes = normalizeDepthToEchoes(depth);
   // for (var i = numEchoes - 1; i >= 0; i--) { //this doesn't seem to make any difference?
   for (var i = 0; i < numEchoes; i++) {
-    newTone.chain(panner, delays[i], vols[i], reverbs[i], Tone.Destination);
+    newTone.chain(panner, delays[i], vols[i], reverbs[i], lowPassFilters[i], Tone.Destination);
   }
   tones[name] = newTone;
 }
