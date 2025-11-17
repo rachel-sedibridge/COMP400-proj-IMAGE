@@ -109,8 +109,8 @@ function handleDown(e) {
   if (e.key != TOGGLE_PLAY) {
     return;
   }
-  playAllTones();
-  // tester();
+  // playAllTones();
+  tester();
 }
 
 function handleUp(e) {
@@ -167,6 +167,11 @@ function tester() {
   // const delay3 = new Tone.Delay(normalizeDepthToDelay(0.5), MAX_DELAY)
   // const delay4 = new Tone.Delay(normalizeDepthToDelay(0.25), MAX_DELAY)
   // const delay5 = new Tone.Delay(normalizeDepthToDelay(0), MAX_DELAY)
+  // console.log(normalizeDepthToDelay(0))
+  // console.log(normalizeDepthToDelay(0.25))
+  // console.log(normalizeDepthToDelay(0.5))
+  // console.log(normalizeDepthToDelay(0.75))
+  // console.log(normalizeDepthToDelay(1))
   // basicTone.chain(delay1, Tone.Destination)
   // basicTone.chain(delay2, Tone.Destination)
   // basicTone.chain(delay3, Tone.Destination)
