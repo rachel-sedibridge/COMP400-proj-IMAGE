@@ -64,7 +64,7 @@ for (const [index, obj] of Object.entries(DATA)) {
   // two branches of the delayed signal: one directly to main w/ volume
   // lowered, and one goes through reverb and lp filter first
   var vol = new Tone.Volume(-15);
-  newTone.chain(panner, delay, vol, Tone.Destination);
+  // newTone.chain(panner, delay, vol, Tone.Destination);
   newTone.chain(panner, delay, reverb, lowPassFilter, Tone.Destination);
   // save the final tone by name
   toneEvents.push({
@@ -83,8 +83,8 @@ function normalizePanX(x) {
 // get echo delay time in seconds, from depth num in json
 function normalizeDepthToDelay(depth) {
   // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
-  var delay_min = 4; //s when depth = 0
-  var delay_max = 0.05; //s when depth = 1
+  var delay_min = 3; //s when depth = 0
+  var delay_max = 0.02; //s when depth = 1
   return delay_min + (delay_max - delay_min) * depth;
 }
 
