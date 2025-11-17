@@ -23,8 +23,8 @@ const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
 const D_URL = "clean_d_str_pick.mp3" //unclipped 27s sample
 const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
-const TONE_SPACING = 4; //in seconds, shouldn't be less than max delay
-var tones = {}; //name:tone mapping, populate during loading
+const TONE_SPACING = 8; //in seconds, shouldn't be less than max delay
+var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
@@ -37,7 +37,7 @@ const basicTone = new Tone.Sampler({
 
 
 // SETUP OF TONES
-// run through DATA (from json_loader.js) and create the echoes
+// run through DATA (from json_loader.js) and create the tone for each detected obj
 for (const [index, obj] of Object.entries(DATA)) {
   // console.log(obj)
   var objName = `${obj.type}${obj.ID}`;
@@ -67,9 +67,12 @@ for (const [index, obj] of Object.entries(DATA)) {
   newTone.chain(panner, delay, vol, Tone.Destination);
   newTone.chain(panner, delay, reverb, lowPassFilter, Tone.Destination);
   // save the final tone by name
-  tones[objName] = newTone;
+  toneEvents.push({
+    name: objName,
+    tone: newTone,
+    delay: delayTime
+  });
 }
-console.log(tones)
 
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
@@ -124,8 +127,8 @@ function handleDown(e) {
   if (e.key != TOGGLE_PLAY) {
     return;
   }
-  // playAllTones();
-  tester();
+  playAllTones();
+  // tester();
 }
 
 function handleUp(e) {
@@ -134,18 +137,9 @@ function handleUp(e) {
 
 // helper to play all the tones in sequence, without narration so far
 function playAllTones() {
-  // NOTE: edit eventList to pass additional info to the callback
-  var eventList = [];
-  for (const [name, toneObj] of Object.entries(tones)) {
-    console.log(toneObj)
-    eventList.push({
-      name: name,
-      tone: toneObj
-    });
-  }
   var toneSequence = new Tone.Sequence({
     callback: playTone,
-    events: eventList,
+    events: toneEvents,
     subdivision: TONE_SPACING,
     loop: false, //defaults to true otherwise
   }).start(0);
@@ -156,9 +150,10 @@ function playAllTones() {
 // the callback for the Tone.Part that plays all the tones
 // args MUST be (time, value) (API requirement)
 function playTone(time, value) {
-  // always the same note and duration, time comes from Sequence.subdivision
-  // value = {name, tone} -> name for the 'captioning', not implemented yet
-  value.tone.triggerAttackRelease("D1", 0.8, time);
+  // always the same note, time comes from ^Sequence.subdivision^
+  // value contains `name` for the 'captioning', not implemented yet
+  var duration = value.delay < 0.5 ? 0.5 : value.delay;
+  value.tone.triggerAttackRelease("D1", duration, time);
 }
 
 // moved all the messing around from playTone() to here

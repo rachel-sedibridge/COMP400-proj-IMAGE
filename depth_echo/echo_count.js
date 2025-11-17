@@ -14,7 +14,7 @@ ASSUMPTIONS:
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 const MAX_DELAY = 5 //in seconds, max time for delay (echoes)
 const TONE_SPACING = 4; //in seconds, shouldn't be less than max delay
-var tones = {}; //name:tone mapping, populate during loading
+var toneEvents = {}; //name:tone mapping, populate during loading
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
@@ -77,9 +77,9 @@ for (const [index, obj] of Object.entries(DATA)) {
   for (var i = 0; i < numEchoes; i++) {
     newTone.chain(panner, delays[i], vols[i], reverbs[i], lowPassFilters[i], Tone.Destination);
   }
-  tones[name] = newTone;
+  toneEvents[name] = newTone;
 }
-console.log(tones)
+console.log(toneEvents)
 
 // normalize from x in [0, 1] to Tone.Panner input in [-1, 1]
 function normalizePanX(x) {
@@ -126,7 +126,7 @@ function handleUp(e) {
 function playAllTones() {
   // NOTE: edit eventList to pass additional info to the callback
   var eventList = [];
-  for (const [name, toneObj] of Object.entries(tones)) {
+  for (const [name, toneObj] of Object.entries(toneEvents)) {
     console.log(toneObj)
     eventList.push({
       name: name,
@@ -169,6 +169,6 @@ function tester() {
 
   // const vol1 = new Tone.Volume(-20).toDestination();
   // const osc = new Tone.Oscillator().connect(vol1).start(0);
-  console.log(tones)
-  tones[1].triggerAttackRelease("D1", 0.8)
+  console.log(toneEvents)
+  toneEvents[1].triggerAttackRelease("D1", 0.8)
 }
