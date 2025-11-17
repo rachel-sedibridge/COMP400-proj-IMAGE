@@ -100,6 +100,36 @@ function normalizeDepthToDelay(depth) {
   return delay_min + (delay_max - delay_min) * depth;
 }
 
+// get the params for reverb from depth num [0,1]
+// we want: decay (s), wet (% as decimal)
+function normalizeDepthToReverb(depth) {
+  var decay_min = 1.5; //s when depth = 0
+  var decay_max = 0.5; //s when depth = 1
+  var decay = decay_min + (decay_max - decay_min) * depth;
+
+  var wet_min = 0.97; //%wet when depth = 0
+  var wet_max = 0.6; //%wet when depth = 1
+  var wet = wet_min + (wet_max - wet_min) * depth;
+
+  return decay, wet;
+}
+
+// get the params for lowpass filter from depth num [0,1]
+// we want: high (decibels) = amount high frequency range is suppressed,
+// highFrequency (Hz) = mid/high cutoff freq., i.e. where to start limiting
+function normalizeDepthToLowPass(depth) {
+  var high_min = -13; //decibels when depth = 0
+  var high_max = -8; //decibels when depth = 1
+  var high = high_min + (high_max - high_min) * depth;
+
+  // TODO: this cannot be linear frequency is not linear
+  var freq_min = 600; //Hz when depth = 0
+  var freq_max = 4000; //Hz when depth = 1
+  var freq = freq_min + (freq_max - freq_min) * depth;
+
+  return high, freq;
+}
+
 
 // KEYBINDINGS
 document.addEventListener('keydown', handleDown);
