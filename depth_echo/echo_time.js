@@ -27,7 +27,7 @@ const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
 // sonification timing parameters
 const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
-const TONE_SPACING = 2; //in seconds, shouldn't be less than max delay
+const TONE_SPACING = 1; //in seconds, shouldn't be less than max delay
 const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
 
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
