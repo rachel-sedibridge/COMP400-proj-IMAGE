@@ -20,7 +20,8 @@ USEFUL NOTES:
 // FILE-GLOBAL VARS
 // sonification generation URLs
 const D_URL = 'clean_d_str_pick.mp3';
-const schema_url = "json_schemas/city_street.json"
+// const schema_url = "json_schemas/city_street.json"
+const schema_url = "json_schemas/test.json"
 
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
@@ -122,12 +123,12 @@ function normalizeDepthToDelay(depth) {
 // get the params for reverb from depth num [0,1]
 // we want: decay (s), wet (% as decimal)
 function normalizeDepthToReverb(depth) {
-  var decay_min = 6; //s when depth = 0
+  var decay_min = 5; //s when depth = 0
   var decay_max = 0.5; //s when depth = 1
   var decay = decay_min + (decay_max - decay_min) * depth;
 
   var wet_min = 1; //%wet when depth = 0
-  var wet_max = 0.8; //%wet when depth = 1
+  var wet_max = 0.5; //%wet when depth = 1
   var wet = wet_min + (wet_max - wet_min) * depth;
 
   return decay, wet;
@@ -139,10 +140,10 @@ function normalizeDepthToReverb(depth) {
 function normalizeDepthToFilter(depth) {
   // TODO: this cannot be linear frequency is not linear
   // UPDATE: I picked a random function on desmos that looked right??
-  var freq_min = 700; //Hz when depth = 0
+  var freq_min = 900; //Hz when depth = 0
   // var freq_max = 4000; //Hz when depth = 1
   // var freq = freq_min + (freq_max - freq_min) * depth;
-  var freq = freq_min + Math.pow(Math.E, (9 * depth));
+  var freq = freq_min + Math.pow(Math.E, (8.5 * depth));
   // if (depth < 0.25) {
   //   freq = 600;
   // } else if (depth < 0.5) {
