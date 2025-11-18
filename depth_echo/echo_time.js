@@ -57,10 +57,10 @@ for (const [index, obj] of Object.entries(DATA)) {
         D1: 'audio_tracks/clean_d_str_pick.mp3',
     },
     release: 0.5, //longer release for the echo
-  }).toDestination();
+  });
   // pan using x coordinate
-  var panner = new Tone.Panner(normalizePanX(x)).toDestination();
-  newTone.connect(panner);
+  var panner = new Tone.Panner(normalizePanX(x));
+  // newTone.connect(panner);
   // create parts of the echo
   var delayTime = normalizeDepthToDelay(depth);
   var delay = new Tone.Delay(delayTime, MAX_DELAY);
@@ -173,7 +173,6 @@ function handleUp(e) {
 
 // helper to play all the tones in sequence, without narration so far
 function playAllTones() {
-  console.log('playalltones()')
   const tonePart = new Tone.Part(playTone, toneEvents).start(0);
   Tone.getTransport().start();
 }
