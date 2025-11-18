@@ -27,13 +27,16 @@ const TOGGLE_PLAY = ' '; //key to toggle play/pause
 const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
 const TONE_SPACING = 2; //in seconds, shouldn't be less than max delay
 const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
+
+const D_URL = 'clean_d_str_pick.mp3';
+
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
   urls: {
-      D1: 'clean_d_str_pick.mp3', //I have no idea which D it is, not 1 but doesn't matter! :D
+      D1: D_URL, //I have no idea which D it is, not 1 but doesn't matter! :D
   },
   baseUrl: "audio_tracks/",
   release: 0.3,
@@ -48,14 +51,16 @@ for (const [index, obj] of Object.entries(DATA)) {
   // create the main tone sampler and echo sampler
   var newTone = new Tone.Sampler({
     urls: {
-        D1: 'audio_tracks/clean_d_str_pick.mp3',
+        D1: D_URL,
     },
+    baseUrl: "audio_tracks/",
     release: 0.3,
   });
   var echo = new Tone.Sampler({
     urls: {
-        D1: 'audio_tracks/clean_d_str_pick.mp3',
+        D1: D_URL,
     },
+    baseUrl: "audio_tracks/",
     release: 0.5, //longer release for the echo
   });
   // pan using x coordinate
