@@ -6,7 +6,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.99
+    "depth": 0.01
   },
   {
     "ID": 2,
@@ -15,7 +15,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.8
+    "depth": 0.2
   },
   {
     "ID": 3,
@@ -24,7 +24,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.6
+    "depth": 0.4
   },
   {
     "ID": 4,
@@ -33,7 +33,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.4
+    "depth": 0.6
   },
   {
     "ID": 5,
@@ -42,7 +42,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.2
+    "depth": 0.8
   },
   {
     "ID": 6,
@@ -51,7 +51,7 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.01
+    "depth": 0.99
   },
   {
     "ID": 7,
