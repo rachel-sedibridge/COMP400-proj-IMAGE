@@ -29,12 +29,11 @@ const TONE_SPACING = 2; //in seconds, shouldn't be less than max delay
 const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
-const D_BUFFER = new Tone.ToneBufferSource('audio_tracks/clean_d_str_pick.mp3')
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
   urls: {
-      D1: D_BUFFER, //I have no idea which D it is, not 1 but doesn't matter! :D
+      D1: 'clean_d_str_pick.mp3', //I have no idea which D it is, not 1 but doesn't matter! :D
   },
   baseUrl: "audio_tracks/",
   release: 0.3,
@@ -59,7 +58,6 @@ for (const [index, obj] of Object.entries(DATA)) {
     },
     release: 0.5, //longer release for the echo
   }).toDestination();
-  echo.triggerAttackRelease("D1", 0.7);
   // pan using x coordinate
   var panner = new Tone.Panner(normalizePanX(x)).toDestination();
   newTone.connect(panner);
