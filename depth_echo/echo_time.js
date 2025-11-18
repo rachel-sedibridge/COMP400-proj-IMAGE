@@ -1,4 +1,3 @@
-import * as Tone from "tone";
 // JS FOR THE DEPTH-MAP ECHO IDEA
 
 /*
@@ -19,6 +18,9 @@ USEFUL NOTES:
 */
 
 // FILE-GLOBAL VARS
+const response = await fetch("json_schemas/city_street.json");
+const DATA = await response.json(); //json blob giving the object data
+
 // reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
@@ -27,7 +29,7 @@ const TONE_SPACING = 2; //in seconds, shouldn't be less than max delay
 const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
-const D_BUFFER = new Tone.ToneAudioBuffer('audio_tracks/clean_d_str_pick.mp3')
+const D_BUFFER = new Tone.ToneBufferSource('audio_tracks/clean_d_str_pick.mp3')
 
 //TEMPLATE
 const basicTone = new Tone.Sampler({
@@ -37,7 +39,6 @@ const basicTone = new Tone.Sampler({
   baseUrl: "audio_tracks/",
   release: 0.3,
 }).toDestination();
-
 
 // SETUP OF TONES
 // run through DATA (from json_loader.js) and create the tone for each detected obj
