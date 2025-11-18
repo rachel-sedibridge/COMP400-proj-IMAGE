@@ -18,17 +18,16 @@ USEFUL NOTES:
 */
 
 // FILE-GLOBAL VARS
-const response = await fetch("json_schemas/city_street.json");
-const DATA = await response.json(); //json blob giving the object data
+// sonification generation URLs
+const D_URL = 'clean_d_str_pick.mp3';
+const schema_url = "json_schemas/city_street.json"
 
-// reference global vars: these are just defaults, and are editable
 const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
+// sonification timing parameters
 const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
 const TONE_SPACING = 2; //in seconds, shouldn't be less than max delay
 const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
-
-const D_URL = 'clean_d_str_pick.mp3';
 
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
@@ -41,6 +40,12 @@ const basicTone = new Tone.Sampler({
   baseUrl: "audio_tracks/",
   release: 0.3,
 }).toDestination();
+
+
+// GET DATA ON OBJECTS (JSON)
+const response = await fetch(schema_url);
+const DATA = await response.json(); //json blob giving the object data
+
 
 // SETUP OF TONES
 // run through DATA (from json_loader.js) and create the tone for each detected obj
