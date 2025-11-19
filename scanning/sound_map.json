@@ -1,0 +1,18 @@
+{
+    "sky": {
+        "synonyms": ["clouds"],
+        "sound": "https://pixabay.com/sound-effects/wind-blowing-sfx-07-423677"
+    },
+    "water": {
+        "synonyms": ["sea", "ocean", "river", "stream", "lake", "waves", "waterfall(?)", "bath"],
+        "sound": "https://pixabay.com/sound-effects/lake-waves-1-411720"
+    },
+    "animal": {
+        "synonyms": ["[any hoofed mammal, given this specific sound]"],
+        "sound": "https://pixabay.com/sound-effects/horse-galloping-339737"
+    },
+    "ground": {
+        "synonyms": ["rocks", "gravel", "earth"],
+        "sound": "https://pixabay.com/sound-effects/rocks-falling-44890"
+    }
+}
