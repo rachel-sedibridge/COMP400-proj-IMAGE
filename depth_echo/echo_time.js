@@ -116,7 +116,7 @@ function normalizePanX(x) {
 function normalizeDepthToDelay(depth) {
   // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
   var delay_min = 3; //s when depth = 0
-  var delay_max = 0.02; //s when depth = 1
+  var delay_max = 0.01; //s when depth = 1
   return delay_min + (delay_max - delay_min) * depth;
 }
 
