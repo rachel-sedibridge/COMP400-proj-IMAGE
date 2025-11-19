@@ -9,11 +9,55 @@ Sound design prototypes for [IMAGE](https://image.a11y.mcgill.ca/).
 
 
 ## Scan
-Prototype for the idea of assigning a different sound to each region (as highlighted by IMAGE) and changing the balance of those sounds according to the balance of those elements while scanning across an image. I'm implementing this vertically, because I think that could be a good way to represent height, but it would probably take minimal change to do it horizontally instead. That could even maybe be a setting people can change!
+See README for this specific demo for the nitty gritty implementation details.
 
-This is a single example, where the sounds are hard-coded and it only works for one image (the photo of the wildebeest and river that won a nature photography competition a few months ago).
+This design plays with assigning real-life representational sounds to regions, as well as depicting height within the 2D projection of the picture. It maps the identified regions to a representational sound (e.g. waves on a lake for water-related sounds). It then "scans" up the picture from bottom to top, and the sound for each region appears, disappears, and grows lounder or quieter in the sonification where that region takes up more or less space in the picture.
 
-See the full audio render at `scanning/audio_tracks/scanning-full_render-vertical-updated_sounds.mp3`. Based on the photo at `scanning/photos/dramatic_crossing-a_stankiewicz.jpg`.
+Put another way, each of the regions detected in an image has an associated sound. Imagine a bar scanning over the image from bottom to top: the sound of a region plays when that region is present under that bar. The volume of the sound is proportional to how much of image it takes up under the bar.
+&nbsp;&nbsp;&nbsp;&nbsp;e.g. If the sound for "water" and the sound for "rock" are playing at equal volumes, the image at that height is about half water and half rock.
+&nbsp;&nbsp;&nbsp;&nbsp;e.g. If a sound plays for the first quarter of the total sonification and then disappears, that region is only present in the bottom quarter of the image.
+
+[If that made no sense, imagine taking a very small horizontal slice of the bottom of a photo. Like, the bottom 2 rows of pixels. This sonification plays the sounds for the regions present in this slice, with volume proportional to how much of the slice they take up.]: #
+
+[&nbsp;&nbsp;&nbsp;&nbsp;e.g. If that slice contains entirely water, you will hear only the sound associated to "water".]: #
+[&nbsp;&nbsp;&nbsp;&nbsp;e.g. If that slice is 67% "field" and 33% "forest", you will hear the sounds for both those regions, with "field" sounding roughly twice as loud as "forest".]: #
+
+[Then, imagine looking at the next 2 rows of pixels and playing the sonification for that, then the next, and so on up to the top of the picture.]:  #
+
+*If you've ever played the demo for sheet music online and seen the line moving across it to track the place, that's where I got the idea. [Video example](https://www.youtube.com/watch?v=NWEVKyEwi4A&list=PLhkgFCE9DX4PplwDyQrNN_XTedppjjiry&index=1).*
+
+
+### Design idea
+This design covers two things.
+
+The first was an attempt to represent height by focusing on the vertical composition of the picture. It communicates height only in the context of the 2D projection, so this would almost certainly be more useful for late-blind users who find it useful to create a 2D mental image.
+
+The second is immersion: the hope is that by using sounds representing the regions in real life, users get a richer experience of the image.
+
+### Limitations
+- (Probably!! Not tested!!) mainly useful for late-blind: not universally helpful
+- Finding sounds to represent the regions is *hard*. It's helpful that these are long tones, but it's still a pain. The `sound_map.json` file contains the beginnings of this mapping.
+- This is not an intuitive design: I did my best w/ the instructions and making the experience customizable and parse-able, but there's still some amount of learning curve.
+
+### Variations
+1. Static (OG)
+2. Interactive, continuous
+3. Interactive, sectioned (**this is the best one**)
+
+### This prototype
+This is a single "wizard of Oz" example with the photo at `scanning/photos/dramatic_crossing-a_stankiewicz.jpg`. The sound for each region was created by uploading the stock sounds into Reaper, manually editing the volume according to roughly where IMAGE split the regions, and rendering one track at a time. This is also a pretty simple picture with a few big regions, and horizontally organized.
+
+I have yet to make a version of this with a greater variety of images.
+
+### Implementation / Dependencies
+Audio editing & playback [Tone.js](https://github.com/Tonejs/Tone.js/tree/dev).
+
+Base sounds:
+- "sky": <https://pixabay.com/sound-effects/wind-blowing-sfx-07-423677/>
+- "water": <https://pixabay.com/sound-effects/lake-waves-1-411720/>
+- "animal": <https://pixabay.com/sound-effects/horse-galloping-339737/>
+- "ground": <https://pixabay.com/sound-effects/rocks-falling-44890/>
+Here's the Pixabay (stock sound site) public [collection](https://pixabay.com/accounts/collections/30321802/) of sound clips I considered using.
 
 
 ## OLD - depth layers
