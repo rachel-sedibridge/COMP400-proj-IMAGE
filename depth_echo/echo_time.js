@@ -127,7 +127,7 @@ function normalizeDepthToReverb(depth) {
   var decay_max = 0.5; //s when depth = 1
   var decay = decay_min + (decay_max - decay_min) * depth;
 
-  var wet_min = 0.1; //%wet when depth = 0
+  var wet_min = 0.96; //%wet when depth = 0
   var wet_max = 0.5; //%wet when depth = 1
   var wet = wet_min + (wet_max - wet_min) * depth;
 
