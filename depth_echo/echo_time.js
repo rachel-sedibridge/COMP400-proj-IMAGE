@@ -19,6 +19,10 @@ USEFUL NOTES:
 LIMITATIONS:
 - not configurable from the web page (need to edit code)
 - no narration/labelling of tones
+
+DEPENDENCIES:
+- Tone.js v15.1.22 (any v15 would work)
+- https://github.com/Shared-Reality-Lab/IMAGE-server/blob/2945b52da77bf74b1307e7e2286c6297ebef6157/preprocessors/object-detection.schema.json
 */
 
 // FILE-GLOBAL VARS
