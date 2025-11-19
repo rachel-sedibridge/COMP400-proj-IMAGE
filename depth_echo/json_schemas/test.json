@@ -51,24 +51,78 @@
     "area": 0.01,
     "centroid": [0.5, 0.5],
     "confidence": 1,
-    "depth": 0.99
+    "depth": 0.94
   },
   {
     "ID": 7,
-    "type": "seagull",
+    "type": "whale",
     "dimensions": [0, 1, 1, 0],
     "area": 0.01,
-    "centroid": [0.1, 0.5],
+    "centroid": [0.5, 0.5],
+    "confidence": 1,
+    "depth": 0.96
+  },
+  {
+    "ID": 8,
+    "type": "whale",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.5, 0.5],
+    "confidence": 1,
+    "depth": 0.99
+  },
+  {
+    "ID": 9,
+    "type": "prettySimilarSeagull",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.25, 0.5],
+    "confidence": 1,
+    "depth": 0.7
+  },
+  {
+    "ID": 10,
+    "type": "prettySimilarSeagull",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.7, 0.5],
     "confidence": 1,
     "depth": 0.75
   },
   {
-    "ID": 8,
-    "type": "seagull",
+    "ID": 11,
+    "type": "prettySimilarSeagull",
     "dimensions": [0, 1, 1, 0],
     "area": 0.01,
-    "centroid": [0.9, 0.5],
+    "centroid": [0.3, 0.5],
+    "confidence": 1,
+    "depth": 0.6
+  },
+  {
+    "ID": 12,
+    "type": "prettySimilarSeagull",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.45, 0.5],
+    "confidence": 1,
+    "depth": 0.85
+  },
+  {
+    "ID": 13,
+    "type": "prettySimilarSeagull",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.8, 0.5],
     "confidence": 1,
     "depth": 0.75
+  },
+  {
+    "ID": 14,
+    "type": "prettySimilarSeagull",
+    "dimensions": [0, 1, 1, 0],
+    "area": 0.01,
+    "centroid": [0.23, 0.5],
+    "confidence": 1,
+    "depth": 0.7
   }
 ]
