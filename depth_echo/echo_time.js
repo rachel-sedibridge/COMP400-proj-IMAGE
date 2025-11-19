@@ -9,6 +9,7 @@ greater the depth of the object.
 USEFUL NOTES:
 - map interval [a,b] -> [c,d] : f(t) = c + (d-c/b-a) * (t - a)
   https://math.stackexchange.com/questions/914823/shift-numbers-into-a-different-range
+- depth is normalized to [0,1] where 0 is closest and 1 is farthest
 */
 
 // FILE-GLOBAL VARS
@@ -100,19 +101,19 @@ function normalizePanX(x) {
 // get echo delay time in seconds, from obj depth num [0,1]
 function normalizeDepthToDelay(depth) {
   // [0,1] -> [c,d] : f(t) = c + (d-c/1-0) * (t - 0)
-  var delay_min = 3; //seconds when depth = 0
-  var delay_max = 0.01; //seconds when depth = 1
+  var delay_min = 0.01; //seconds when depth = 0
+  var delay_max = 3; //seconds when depth = 1
   return delay_min + (delay_max - delay_min) * depth;
 }
 
 // get the params for reverb (`decay`, `wet`) from obj depth num [0,1]
 function normalizeDepthToReverb(depth) {
-  var decay_min = 5; //seconds, when depth = 0
-  var decay_max = 0.5; //seconds, when depth = 1
+  var decay_min = 0.5; //seconds, when depth = 0
+  var decay_max = 5; //seconds, when depth = 1
   var decay = decay_min + (decay_max - decay_min) * depth;
 
-  var wet_min = 0.96; //wet-dry balance when depth = 0
-  var wet_max = 0.5; //wet-dry balance when depth = 1
+  var wet_min = 0.5; //wet-dry balance when depth = 0
+  var wet_max = 0.96; //wet-dry balance when depth = 1
   var wet = wet_min + (wet_max - wet_min) * depth;
 
   return decay, wet;
@@ -122,7 +123,7 @@ function normalizeDepthToReverb(depth) {
 function normalizeDepthToFilter(depth) {
   // I went on desmos until I got a func that looked the right shape... see docs
   var freq_min = 950; //Hz when depth = 0
-  var freq = freq_min + Math.pow((9 * depth + 0.5), 3.5);
+  var freq = freq_min + Math.pow((-9 * depth + 9.5), 3.5);
   // ^sets max cutoff ~3600, but want no discernible EQ on extremely close objs
   if (depth > 0.95) {
     freq = 6000
