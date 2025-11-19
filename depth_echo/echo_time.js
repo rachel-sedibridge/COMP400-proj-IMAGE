@@ -9,7 +9,16 @@ greater the depth of the object.
 USEFUL NOTES:
 - map interval [a,b] -> [c,d] : f(t) = c + (d-c/b-a) * (t - a)
   https://math.stackexchange.com/questions/914823/shift-numbers-into-a-different-range
-- depth is normalized to [0,1] where 0 is closest and 1 is farthest
+- depth is normalized to [0,1] where 0 is closest and 1 is farthest!
+- if you open the console while running this, you'll see a bajillion
+  of the following warning:
+    "An AudioContext was prevented from starting automatically. It must
+     be created or resumed after a user gesture on the page."
+  This just means that the sounds don't autoplay on load. It's on purpose!
+
+LIMITATIONS:
+- not configurable from the web page (need to edit code)
+- no narration/labelling of tones
 */
 
 // FILE-GLOBAL VARS
@@ -28,68 +37,66 @@ const ECHO_DURATION = 0.7; //in seconds, how long the echoes last
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
 
-// GET DATA ON OBJECTS (JSON)
+// SETUP -- GET OBJECT DATA AND GENERATE TONES
+// ==== invoked at build ====
 const response = await fetch(schema_url);
-const DATA = await response.json(); //json blob giving the object data
+const jsonData = await response.json(); //json blob from object detection
+
+generateTonesFromObjects(jsonData);
+setStartTimes();
+// ==========================
 
 
-// SETUP OF TONES
+// TONE SETUP FUNCTIONS
 // run through object data and create the tone + echo for each one
-for (const [index, obj] of Object.entries(DATA)) {
-  var objName = `${obj.type}${obj.ID}`;
-  var x = obj.centroid[0];
-  var depth = obj.depth;
-  // create the main tone and echo samplers: diff objs bc diff effects on them
-  // NOTE: the main tone is identical for all: unique objs bc different panning
-  var newTone = new Tone.Sampler({
-    urls: {
-        D1: D_URL, //not actually octave 1 but doesn't matter for this
-    },
-    baseUrl: "audio_tracks/",
-    release: 0.3,
-  });
-  var echo = new Tone.Sampler({
-    urls: {
-        D1: D_URL,
-    },
-    baseUrl: "audio_tracks/",
-    release: 0.5, //longer release for the echo
-  });
-  // set 2D pan using x coordinate of centroid
-  var panner = new Tone.Panner(normalizePanX(x));
-  // find the time between the intial tone and the echo
-  var delayTime = normalizeDepthToDelay(depth)
-  // create effects for the echo
-  var r_decay, r_wet = normalizeDepthToReverb(depth);
-  var reverb = new Tone.Reverb({
-    decay: r_decay,
-    wet: r_wet
-  });
-  var lowPassFilter = new Tone.Filter({
-    type: "lowpass",
-     frequency: normalizeDepthToFilter(depth)
-  });
-  // apply those effects to the echo, and the panning to both
-  newTone.chain(panner, Tone.Destination);
-  echo.chain(reverb, lowPassFilter, panner, Tone.Destination)
+function generateTonesFromObjects(data) {
+  for (const [index, obj] of Object.entries(data)) {
+    var objName = `${obj.type}${obj.ID}`;
+    var x = obj.centroid[0];
+    var depth = obj.depth;
+    // create the main tone and echo samplers: diff objs bc diff effects on them
+    // NOTE: the main tone is identical for all: unique objs bc different panning
+    var newTone = new Tone.Sampler({
+      urls: {
+          D1: D_URL, //not actually octave 1 but doesn't matter for this
+      },
+      baseUrl: "audio_tracks/",
+      release: 0.3,
+    });
+    var echo = new Tone.Sampler({
+      urls: {
+          D1: D_URL,
+      },
+      baseUrl: "audio_tracks/",
+      release: 0.5, //longer release for the echo
+    });
+    // set 2D pan using x coordinate of centroid
+    var panner = new Tone.Panner(normalizePanX(x));
+    // find the time between the intial tone and the echo
+    var delayTime = normalizeDepthToDelay(depth)
+    // create effects for the echo
+    var r_decay, r_wet = normalizeDepthToReverb(depth);
+    var reverb = new Tone.Reverb({
+      decay: r_decay,
+      wet: r_wet
+    });
+    var lowPassFilter = new Tone.Filter({
+      type: "lowpass",
+      frequency: normalizeDepthToFilter(depth)
+    });
+    // apply those effects to the echo, and the panning to both
+    newTone.chain(panner, Tone.Destination);
+    echo.chain(reverb, lowPassFilter, panner, Tone.Destination)
 
-  // save essential info in an event array that can be passed to Part or Sequence
-  toneEvents.push({
-    name: objName,
-    tone: newTone,
-    echo: echo,
-    echoDelay: delayTime,
-    time: 0 //set later! as in, literally the next thing...
-  });
-}
-
-// set the start times for each tone in the toneEvents array
-// increase next start time by...
-//    this tone's start time + its length + echo duration + spacing
-var curTime = 0;
-for (var i = 0; i < toneEvents.length; i++) {
-  toneEvents[i].time = curTime;
-  curTime = curTime + toneEvents[i].echoDelay + ECHO_DURATION + TONE_SPACING;
+    // save essential info in an event array that can be passed to Part or Sequence
+    toneEvents.push({
+      name: objName,
+      tone: newTone,
+      echo: echo,
+      echoDelay: delayTime,
+      time: 0 //set later! as in, literally the next thing...
+    });
+  }
 }
 
 // normalize from centroid x coord on [0, 1] to Tone.Panner input on [-1, 1]
@@ -131,10 +138,20 @@ function normalizeDepthToFilter(depth) {
   return freq;
 }
 
+// set the start times for each tone in the toneEvents array
+// increase next start time by (this one + its length + echo duration + spacing)
+function setStartTimes() {
+  var curTime = 0;
+  for (var i = 0; i < toneEvents.length; i++) {
+    toneEvents[i].time = curTime;
+    curTime = curTime + toneEvents[i].echoDelay + ECHO_DURATION + TONE_SPACING;
+  }
+}
 
-// KEYBINDINGS
+
+// KEYBINDING
 document.addEventListener('keydown', handleDown);
-document.addEventListener('keyup', handleUp);
+// no listener for keyup, since only working w/ single keypresses
 
 function handleDown(e) {
   if (e.key != TOGGLE_PLAY) {
@@ -148,15 +165,11 @@ function handleDown(e) {
   }
   else {
     playAllTones();
-    // tester();
+    // playbackTester();
   }
 }
 
-function handleUp(e) {
-  return;
-}
-
-// helper to play all the tones in sequence, without narration so far
+// play all the tones in sequence, without narration so far
 function playAllTones() {
   const tonePart = new Tone.Part(playTone, toneEvents).start(0);
   Tone.getTransport().start();
@@ -172,8 +185,9 @@ function playTone(time, value) {
 }
 
 
-// holds my experimental messing around, you may disregard :)
-function tester() {
+// TEST/MISC
+// this holds my experimental messing around, you may disregard :)
+function playbackTester() {
   const basicTone = new Tone.Sampler({
     urls: {
         D1: D_URL,
