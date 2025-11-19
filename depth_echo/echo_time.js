@@ -27,8 +27,8 @@ const TOGGLE_PLAY = ' '; //key to toggle play/pause
 
 // sonification timing parameters
 const MAX_DELAY = 5 //in seconds, parameter for Tone.Delay objs, >delays norm to this
-const TONE_SPACING = 1; //in seconds, shouldn't be less than max delay
-const ECHO_DURATION = 0.8; //in seconds, how long the echoes last
+const TONE_SPACING = 0.6; //in seconds, shouldn't be less than max delay
+const ECHO_DURATION = 0.7; //in seconds, how long the echoes last
 
 var toneEvents = []; //list of tone event objs used in playback, populate during loading
 
@@ -127,7 +127,7 @@ function normalizeDepthToReverb(depth) {
   var decay_max = 0.5; //s when depth = 1
   var decay = decay_min + (decay_max - decay_min) * depth;
 
-  var wet_min = 1; //%wet when depth = 0
+  var wet_min = 0.1; //%wet when depth = 0
   var wet_max = 0.5; //%wet when depth = 1
   var wet = wet_min + (wet_max - wet_min) * depth;
 
@@ -138,24 +138,13 @@ function normalizeDepthToReverb(depth) {
 // we want: high (decibels) = amount high frequency range is suppressed,
 // highFrequency (Hz) = mid/high cutoff freq., i.e. where to start limiting
 function normalizeDepthToFilter(depth) {
-  // TODO: this cannot be linear frequency is not linear
-  // UPDATE: I picked a random function on desmos that looked right??
-  var freq_min = 900; //Hz when depth = 0
-  // var freq_max = 4000; //Hz when depth = 1
-  // var freq = freq_min + (freq_max - freq_min) * depth;
-  var freq = freq_min + Math.pow(Math.E, (8.5 * depth));
-  // if (depth < 0.25) {
-  //   freq = 600;
-  // } else if (depth < 0.5) {
-  //   freq = 1000;
-  // } else if (depth < 0.75) {
-  //   freq = 1700;
-  // } else if (depth < 0.9) {
-  //   freq = 2800;
-  // } else {
-  //   freq = 4000;
-  // }
-
+  // I went on desmos until I got a func that looked the right shape... see docs
+  var freq_min = 950; //Hz when depth = 0
+  var freq = freq_min + Math.pow((9 * depth + 0.5), 3.7);
+  // puts max cutoff at ~5100, want no discernible EQ on extremely close objs
+  if (depth > 0.95) {
+    freq = 6000
+  }
   return freq;
 }
 
@@ -193,7 +182,7 @@ function playAllTones() {
 function playTone(time, value) {
   // always the same note, time comes from ^Sequence.subdivision^
   // value contains `name` for the 'captioning', not implemented yet
-  var duration = value.echoDelay < 0.5 ? 0.5 : value.echoDelay;
+  var duration = value.echoDelay < 0.4 ? 0.4 : value.echoDelay;
   console.log(duration)
   value.tone.triggerAttackRelease("D1", duration, time);
   value.echo.triggerAttackRelease("D1", ECHO_DURATION, time + value.echoDelay);
