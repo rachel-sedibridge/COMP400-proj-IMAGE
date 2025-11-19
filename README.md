@@ -60,6 +60,8 @@ Here's the Pixabay (stock sound site) public [collection](https://pixabay.com/ac
 
 
 ## OLD - depth layers
+This prototype does not have more detailed documentation in the `documentation` folder because it's not very good so I didn't think it was worth it...
+
 This was the first prototype I made at the very beginning of this project. It was too good a prototype for that point in the project: I'd done no testing and not enough brainstorming. **I do not recommend this for integration with IMAGE**. I'm just leaving it in for the sake of completeness. Who knows, maybe it'll be useful at some point.
 
 This idea divides an image (a very easily-split landscape was used for demonstration purposes) into "layers" of perspective, from closest to farthest. Users can navigate forwards and backwards within these layers to gain a more immersive impression of the photo. Additional navigation is available for moving vertically within a "layer".
