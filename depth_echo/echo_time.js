@@ -122,8 +122,8 @@ function normalizeDepthToReverb(depth) {
 function normalizeDepthToFilter(depth) {
   // I went on desmos until I got a func that looked the right shape... see docs
   var freq_min = 950; //Hz when depth = 0
-  var freq = freq_min + Math.pow((9 * depth + 0.5), 3.7);
-  // ^sets max cutoff ~5100, but want no discernible EQ on extremely close objs
+  var freq = freq_min + Math.pow((9 * depth + 0.5), 3.5);
+  // ^sets max cutoff ~3600, but want no discernible EQ on extremely close objs
   if (depth > 0.95) {
     freq = 6000
   }
