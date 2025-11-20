@@ -10,6 +10,8 @@ More detailed documentation for all of these can be found in the `documentation`
 
 
 ## Scan
+This design is meant to go alongside an alt-text description, like the spatialized audio in IMAGE as it exists at time of writing.
+
 This design plays with assigning real-life representational sounds to regions, as well as depicting height within the 2D projection of the picture. It maps the identified regions to a representational sound (e.g. waves on a lake for water-related sounds). It then "scans" up the picture from bottom to top, and the sound for each region appears, disappears, and grows lounder or quieter in the sonification where that region takes up more or less space in the picture.
 
 Put another way, each of the regions detected in an image has an associated sound. Imagine a bar scanning over the image from bottom to top: the sound of a region plays when that region is present under that bar. The volume of the sound is proportional to how much of image it takes up under the bar.
@@ -67,6 +69,10 @@ This was the first prototype I made at the very beginning of this project. It wa
 This idea divides an image (a very easily-split landscape was used for demonstration purposes) into "layers" of perspective, from closest to farthest. Users can navigate forwards and backwards within these layers to gain a more immersive impression of the photo. Additional navigation is available for moving vertically within a "layer".
 
 The idea was to apply the depth mapping, since I'd been told that was very useful especially for early-blind individuals.
+
+This idea also aimed to replace the alt-text description by integrating it with an interactive experience.
+
+**Actually, the controls from this prototype may still be a useful idea even if the sonification strategies aren't**.
 
 ### Features used:
 - Pitch to outline the shape of a region (*this one has been lovingly nicknamed the "slide whistle" prototype...*)
